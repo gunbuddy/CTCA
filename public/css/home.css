@@ -1,0 +1,51 @@
+body {
+	color: #7d838b;
+	font-size: 14px;
+	font-family: "Lato", "Helvetica Neue", sans-serif;
+	background: #E6474D;
+}
+
+header {
+	margin-top: 10em;
+}
+
+header h2 {
+	color: white;
+	font-weight: 300;
+	font-family: inherit;
+	background: #F39C12;
+	text-align: center;
+	padding: 1em 0;
+}
+
+#logo {
+	padding: 1em 0;
+}
+
+
+nav {
+	margin-top: 2em;
+}
+
+nav a {
+	display: block;
+	color: white;
+	font-family: inherit;
+	font-size: 2em;
+	font-weight: 100;
+	margin-top: 0.5em;
+	-webkit-transition: all 0.25s;
+	-moz-transition: all 0.25s;
+	-o-transition: all 0.25s;
+	-ms-transition: all 0.25s;
+	transition: all 0.25s;
+}
+
+nav a strong {
+	color: #FBD517;
+}
+
+nav a:hover {
+	margin-left: 15px;
+	color: white;
+}
