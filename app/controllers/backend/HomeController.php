@@ -14,7 +14,7 @@ class HomeController extends \BaseController {
 	{ 
 		$response = \Response::make(View::make('backend.login'));
 
-		$response->header('Cache-Control', 'public, max-age=31536000');
+		$response->header('Cache-Control', 'public, max-age=31536000', 304);
 
 		return $response;
 	}
