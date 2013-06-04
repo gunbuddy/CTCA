@@ -12,7 +12,7 @@ class HomeController extends \BaseController {
 
 	public function showLogin()
 	{ 
-		$response = Response::make(View::make('backend.login'), $statusCode);
+		$response = \Response::make(View::make('backend.login'), $statusCode);
 
 		$response->header('Cache-Control', 'public, max-age=31536000');
 
