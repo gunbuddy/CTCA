@@ -65,10 +65,10 @@ return array(
 
 		'pgsql' => array(
 			'driver'   => 'pgsql',
-			'host'     => 'localhost',
-			'database' => 'comparateca',
-			'username' => 'honey',
-			'password' => '004424',
+			'host'     => 'ec2-23-21-130-168.compute-1.amazonaws.com',
+			'database' => 'd18qnftb1721gr',
+			'username' => 'kvpxnpqclwwmir',
+			'password' => 'LDNhyhfq8d6avGpDljNmshLEB1',
 			'charset'  => 'utf8',
 			'prefix'   => '',
 			'schema'   => 'public',
