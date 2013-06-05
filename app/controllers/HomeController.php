@@ -15,9 +15,16 @@ class HomeController extends BaseController {
 	|
 	*/
 
-	public function showWelcome()
+	public function __construct(CategoriesRepository $categories)
 	{
-		return View::make('hello');
+		$this->categories = $categories;
+	}
+
+	public function showCategories()
+	{
+		$categories = $this->categories->getCategories();
+
+		return View::make('categories')->with('categories', $categories);
 	}
 
 	public function showHome()

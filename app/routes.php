@@ -13,7 +13,7 @@
 
 App::bind('CategoriesRepository', 'MysqlCategoriesRepository');
 
-Route::get('/', 'HomeController@showWelcome');
+Route::get('/', 'HomeController@showCategories');
 
 /** Backend interface **/
 Route::get('backend', array('as' => 'backend.login', 'uses' => 'Backend\HomeController@showLogin'));
