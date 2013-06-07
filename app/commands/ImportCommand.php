@@ -61,14 +61,25 @@ class ImportCommand extends Command {
 		$entityReflection  = new ReflectionClass($entity);
 		$entityProperties  = $entityReflection->getProperties();
 		$entityCoordinates = array();
+		$entityCoordinatesSets = array();
 
 		foreach ($entityProperties as $entityProperty)
 		{	
 			// Ask for the coordinate
 			$entityCoordinates[$entityProperty->getName()] = $this->ask('Coordinate for "' . $entityProperty->getName() . '" (row)');
+
+			if (! is_numeric($entityCoordinates[$entityProperty->getName()]))
+			{
+				if ($entityCoordinates[$entityProperty->getName()] == 'setdefault')
+				{
+					$entityCoordinatesSets[$entityProperty->getName()] = $this->ask('Default value for "' . $entityProperty->getName() . '" (row)');
+
+					unset($entityCoordinates[$entityProperty->getName()]);
+				}
+			}
 		}
 
-		
+
 	}
 
 	/**
