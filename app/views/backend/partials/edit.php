@@ -35,7 +35,7 @@
 						<div class="large-12 columns step">
 							<div class="stepNumber">1</div>
 
-							<h4>La información del contrato es importante para clasificar el plan telefonico</h4>
+							<h4>Información acerca del contrato</h4>
 
 							<div class="white-margin"></div>
 
@@ -61,6 +61,11 @@
 									<named-selector in="type">
 										<ne value="prepaid" selected>Prepago</ne>
 										<ne value="postpaid">Postpago</ne>
+									</named-selector>
+
+									<named-selector in="invoice_period">
+										<ne value="monthly" selected>Mensual</ne>
+										<ne value="weekly">Semanal</ne>
 									</named-selector>
 								</div>
 								<div class="large-4 columns">
@@ -253,17 +258,17 @@
 							<div class="row" ng-hide="type!='prepaid'">
 								<div class="large-4 columns" align="center">
 									<div class="graph-input-show" ng-bind="minutes"></div>
-									<input type="text" value="{{ minutes }}" data-displayInput="false" name="minutes" id="minutes" data-min="1" data-max="3000" class="dial" data-width="180" data-bgColor="#ECF0F1" data-fgColor="#419CD7">
+									<input type="text" value="{{ minutes }}" data-displayInput="false" name="minutes" id="minutes" data-min="1" data-readonly="true" data-max="3000" class="dial" data-width="180" data-bgColor="#ECF0F1" data-fgColor="#419CD7">
 								</div>
 					
 								<div class="large-4 columns" align="center">
 									<div class="graph-input-show" ng-bind="messages"></div>
-									<input type="text" data-displayInput="false" name="messages" id="messages" data-min="1" data-max="4000" class="dial" data-width="180" data-bgColor="#ECF0F1" data-fgColor="#419CD7">
+									<input type="text" data-displayInput="false" name="messages" id="messages" data-min="1" data-max="4000" data-readonly="true" class="dial" data-width="180" data-bgColor="#ECF0F1" data-fgColor="#419CD7">
 								</div>
 
 								<div class="large-4 columns" align="center">
 									<div class="graph-input-show">{{ internet }}</div>
-									<input type="text" data-displayInput="false" name="internet" id="internet" data-min="1" data-max="2000" class="dial" data-width="180" data-bgColor="#ECF0F1" data-fgColor="#419CD7">
+									<input type="text" data-displayInput="false" name="internet" id="internet" data-min="1" data-max="2000" data-readonly="true" class="dial" data-width="180" data-bgColor="#ECF0F1" data-fgColor="#419CD7">
 								</div>
 							</div>
 
@@ -274,9 +279,73 @@
 						
 					<div class="white-margin"></div>
 
+					<div class="row">
+						<div class="large-12 columns step">
+							<div class="stepNumber">3</div>
+
+							<h4>Costos adicionales e información adicional</h4>
+
+							<div class="white-margin"></div>
+
+							<div class="row">
+								<div class="large-4 columns">
+									<div ng-show="payment=='minute'">
+										<h5>Minuto adicional</h5>
+
+										<div class="row">
+											<div class="large-8 columns">
+												<div class="semi-white-margin"></div>
+												Minuto todo destino
+											</div>
+											<div class="large-4 columns">
+												<input type="text" ng-model="additional.minute.unlimited" />
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="large-8 columns">
+												<div class="semi-white-margin"></div>
+												Minuto misma compañia
+											</div>
+											<div class="large-4 columns">
+												<input type="text" ng-model="additional.minute.unlimited" />
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="large-8 columns">
+												<div class="semi-white-margin"></div>
+												Minuto otra compañia
+											</div>
+											<div class="large-4 columns">
+												<input type="text" ng-model="additional.minute.unlimited" />
+											</div>
+										</div>
+									</div>
+									<div ng-show="payment=='second'">
+										<h5>Segundo adicional</h5>
+									</div>
+								</div>
+								<div class="large-4 columns" align="left">
+									<h5>Información adicional</h5>
+
+									<textarea style="height:150px;background: #F7F9FA;border:0;color:#BDC3C7;font-size:16px;font-weight:300"></textarea>
+								</div>
+								<div class="large-4 columns">
+									<h5>&nbsp;</h5>
+								</div>
+							</div>	
+						</div>
+					</div>
+
+					<div class="white-margin"></div>
+					<div class="white-margin"></div>
+						
+					<div class="white-margin"></div>
+
 					<div class="row" ng-hide="type!='prepaid'">
 						<div class="large-4 columns" align="left">
-							<h4>Costo minuto adicional</h4>
+							
 						</div>
 			
 						<div class="large-4 columns">

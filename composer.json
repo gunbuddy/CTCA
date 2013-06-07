@@ -1,6 +1,8 @@
 {
 	"require": {
-		"laravel/framework": "4.0.*"
+		"laravel/framework": "4.0.*",
+		 "phpexcel/phpexcel": "1.7.6",
+		 "cartalyst/sentry": "2.0.*" 
 	},
 	"autoload": {
 		"classmap": [
