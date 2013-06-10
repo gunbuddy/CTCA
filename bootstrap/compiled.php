@@ -290,7 +290,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirect;
 class Application extends Container implements HttpKernelInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.0.0';
+    const VERSION = '4.0.3';
     protected $booted = false;
     protected $bootingCallbacks = array();
     protected $bootedCallbacks = array();
@@ -334,7 +334,7 @@ class Application extends Container implements HttpKernelInterface, ResponsePrep
     }
     public static function getBootstrapFile()
     {
-        return '/Applications/MAMP/htdocs/comparison/new/vendor/laravel/framework/src/Illuminate/Foundation' . '/start.php';
+        return '/Users/fernandez14/Documents/comparateca repository/comparateca-heroku/vendor/laravel/framework/src/Illuminate/Foundation' . '/start.php';
     }
     public function startExceptionHandling()
     {
@@ -552,6 +552,10 @@ class Application extends Container implements HttpKernelInterface, ResponsePrep
     public function error(Closure $callback)
     {
         $this['exception']->error($callback);
+    }
+    public function pushError(Closure $callback)
+    {
+        $this['exception']->pushError($callback);
     }
     public function fatal(Closure $callback)
     {
@@ -3062,7 +3066,7 @@ abstract class ServiceProvider
     }
     protected function getClassChain(ReflectionClass $reflect)
     {
-        $lastName = null;
+        $classes = array();
         while ($reflect !== false) {
             $classes[] = $reflect;
             $reflect = $reflect->getParentClass();
@@ -3148,9 +3152,9 @@ class ExceptionServiceProvider extends ServiceProvider
     protected function registerWhoopsHandler()
     {
         if ($this->shouldReturnJson()) {
-            $this->app['whoops.handler'] = function () {
+            $this->app['whoops.handler'] = $this->app->share(function () {
                 return new JsonResponseHandler();
-            };
+            });
         } else {
             $this->registerPrettyWhoopsHandler();
         }
@@ -3163,13 +3167,13 @@ class ExceptionServiceProvider extends ServiceProvider
     protected function registerPrettyWhoopsHandler()
     {
         $me = $this;
-        $this->app['whoops.handler'] = function () use($me) {
+        $this->app['whoops.handler'] = $this->app->share(function () use($me) {
             with($handler = new PrettyPageHandler())->setEditor('sublime');
             if (!is_null($path = $me->resourcePath())) {
                 $handler->setResourcesPath($path);
             }
             return $handler;
-        };
+        });
     }
     public function resourcePath()
     {
@@ -3359,8 +3363,9 @@ class Str
         if ($pattern == $value) {
             return true;
         }
+        $pattern = preg_quote($pattern, '#');
         if ($pattern !== '/') {
-            $pattern = str_replace('*', '(.*)', $pattern) . '\\z';
+            $pattern = str_replace('\\*', '.*', $pattern) . '\\z';
         } else {
             $pattern = '/$';
         }
@@ -3463,6 +3468,7 @@ class Str
 namespace Symfony\Component\Debug;
 
 use Symfony\Component\Debug\Exception\FatalErrorException;
+use Symfony\Component\Debug\Exception\ContextErrorException;
 use Psr\Log\LoggerInterface;
 class ErrorHandler
 {
@@ -3495,7 +3501,7 @@ class ErrorHandler
     {
         self::$loggers[$channel] = $logger;
     }
-    public function handle($level, $message, $file, $line, $context)
+    public function handle($level, $message, $file = 'unknown', $line = 0, $context = array())
     {
         if (0 === $this->level) {
             return false;
@@ -3515,7 +3521,7 @@ class ErrorHandler
             return true;
         }
         if ($this->displayErrors && error_reporting() & $level && $this->level & $level) {
-            throw new \ErrorException(sprintf('%s: %s in %s line %d', isset($this->levels[$level]) ? $this->levels[$level] : $level, $message, $file, $line), 0, $level, $file, $line);
+            throw new ContextErrorException(sprintf('%s: %s in %s line %d', isset($this->levels[$level]) ? $this->levels[$level] : $level, $message, $file, $line), 0, $level, $file, $line, $context);
         }
         return false;
     }
@@ -4279,7 +4285,7 @@ class SessionServiceProvider extends ServiceProvider
     {
         $config = $this->app['config']['session'];
         $expire = $this->getExpireTime($config);
-        setcookie($config['cookie'], session_id(), $expire, $config['path'], $config['domain']);
+        setcookie($config['cookie'], session_id(), $expire, $config['path'], $config['domain'], false, true);
     }
     protected function getExpireTime($config)
     {
@@ -5369,7 +5375,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
         $model->save();
         return $model;
     }
-    public static function on($connection)
+    public static function on($connection = null)
     {
         $instance = new static();
         $instance->setConnection($connection);
@@ -5519,7 +5525,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
     {
         $query = $this->newQuery()->where($this->getKeyName(), $this->getKey());
         if ($this->softDelete) {
-            $query->update(array(static::DELETED_AT => new DateTime()));
+            $query->update(array(static::DELETED_AT => $this->freshTimestamp()));
         } else {
             $query->delete();
         }
@@ -5945,10 +5951,11 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
     }
     protected function getAccessibleAttributes()
     {
+        $attributes = array_merge(array_fill_keys($this->getMutatedAttributes(), null), $this->attributes);
         if (count($this->visible) > 0) {
-            return array_intersect_key($this->attributes, array_flip($this->visible));
+            return array_intersect_key($attributes, array_flip($this->visible));
         }
-        return array_diff_key($this->attributes, array_flip($this->hidden));
+        return array_diff_key($attributes, array_flip($this->hidden));
     }
     public function relationsToArray()
     {
@@ -6696,8 +6703,7 @@ class Encrypter
     {
         $iv = mcrypt_create_iv($this->getIvSize(), $this->getRandomizer());
         $value = base64_encode($this->padAndMcrypt($value, $iv));
-        $iv = base64_encode($iv);
-        $mac = $this->hash($value);
+        $mac = $this->hash($iv = base64_encode($iv), $value);
         return base64_encode(json_encode(compact('iv', 'value', 'mac')));
     }
     protected function padAndMcrypt($value, $iv)
@@ -6720,16 +6726,16 @@ class Encrypter
     {
         $payload = json_decode(base64_decode($payload), true);
         if (!$payload or $this->invalidPayload($payload)) {
-            throw new DecryptException('Invalid data passed to encrypter.');
+            throw new DecryptException('Invalid data.');
         }
-        if ($payload['mac'] != $this->hash($payload['value'])) {
-            throw new DecryptException('MAC for payload is invalid.');
+        if ($payload['mac'] !== $this->hash($payload['iv'], $payload['value'])) {
+            throw new DecryptException('MAC is invalid.');
         }
         return $payload;
     }
-    protected function hash($value)
+    protected function hash($iv, $value)
     {
-        return hash_hmac('sha256', $value, $this->key);
+        return hash_hmac('sha256', $iv . $value, $this->key);
     }
     protected function addPadding($value)
     {
@@ -7512,6 +7518,10 @@ class Handler
     public function error(Closure $callback)
     {
         array_unshift($this->handlers, $callback);
+    }
+    public function pushError(Closure $callback)
+    {
+        $this->handlers[] = $callback;
     }
     protected function prepareResponse($response)
     {
@@ -8356,7 +8366,7 @@ class MessageBag implements ArrayableInterface, Countable, JsonableInterface, Me
     }
     public function first($key = null, $format = null)
     {
-        $messages = $this->get($key, $format);
+        $messages = is_null($key) ? $this->all($format) : $this->get($key, $format);
         return count($messages) > 0 ? $messages[0] : '';
     }
     public function get($key, $format = null)
@@ -9926,7 +9936,7 @@ class PrettyPageHandler extends Handler
             return Handler::DONE;
         }
         if (!($resources = $this->getResourcesPath())) {
-            $resources = '/Applications/MAMP/htdocs/comparison/new/vendor/filp/whoops/src/Whoops/Handler' . '/../Resources';
+            $resources = '/Users/fernandez14/Documents/comparateca repository/comparateca-heroku/vendor/filp/whoops/src/Whoops/Handler' . '/../Resources';
         }
         $templateFile = "{$resources}/pretty-template.php";
         $cssFile = "{$resources}/pretty-page.css";

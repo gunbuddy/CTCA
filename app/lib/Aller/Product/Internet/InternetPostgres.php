@@ -40,4 +40,9 @@ class InternetPostgres implements ProductInterface, InternetInterface {
 	{
 		return Internet::remember(30)->count();
 	}
+
+	public function createOne($repository)
+	{
+		
+	}
 } 

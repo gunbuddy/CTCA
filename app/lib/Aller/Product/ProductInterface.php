@@ -8,4 +8,6 @@ interface ProductInterface {
 	public function getOne($id);
 	public function findOne($id);
 	public function getCount();
+
+	public function createOne($repository);
 }
