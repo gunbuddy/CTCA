@@ -27,6 +27,7 @@ return array(
     'PHPExcel' => array($vendorDir . '/phpexcel/phpexcel/Classes'),
     'Normalizer' => array($vendorDir . '/patchwork/utf8/class'),
     'Monolog' => array($vendorDir . '/monolog/monolog/src'),
+    'LaravelBook\\Laravel4Powerpack' => array($vendorDir . '/laravelbook/laravel4-powerpack/src'),
     'Illuminate' => array($vendorDir . '/laravel/framework/src'),
     'Doctrine\\DBAL' => array($vendorDir . '/doctrine/dbal/lib'),
     'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),

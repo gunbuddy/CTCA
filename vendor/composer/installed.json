@@ -304,12 +304,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/cache.git",
-            "reference": "45123145f70dd79618963a72a5271b4f389712e4"
+            "reference": "89493d2c6e1362f581f9de1c1871cc52eb29c030"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/cache/zipball/45123145f70dd79618963a72a5271b4f389712e4",
-            "reference": "45123145f70dd79618963a72a5271b4f389712e4",
+            "url": "https://api.github.com/repos/doctrine/cache/zipball/89493d2c6e1362f581f9de1c1871cc52eb29c030",
+            "reference": "89493d2c6e1362f581f9de1c1871cc52eb29c030",
             "shasum": ""
         },
         "require": {
@@ -318,7 +318,7 @@
         "conflict": {
             "doctrine/common": ">2.2,<2.4"
         },
-        "time": "2013-05-13 02:51:07",
+        "time": "2013-06-07 14:54:47",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -357,7 +357,7 @@
             {
                 "name": "Johannes Schmitt",
                 "email": "schmittjoh@gmail.com",
-                "homepage": "http://jmsyst.com",
+                "homepage": "https://github.com/schmittjoh",
                 "role": "Developer of wrapped JMSSerializerBundle"
             }
         ],
@@ -445,12 +445,12 @@
         "source": {
             "type": "git",
             "url": "https://github.com/doctrine/common.git",
-            "reference": "2169b0ce1d253d448c60b7d40bbe4e4b5afe22fe"
+            "reference": "d658ec7a03f6475eff0dd1eb940bdedd862e4b96"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/doctrine/common/zipball/2169b0ce1d253d448c60b7d40bbe4e4b5afe22fe",
-            "reference": "2169b0ce1d253d448c60b7d40bbe4e4b5afe22fe",
+            "url": "https://api.github.com/repos/doctrine/common/zipball/d658ec7a03f6475eff0dd1eb940bdedd862e4b96",
+            "reference": "d658ec7a03f6475eff0dd1eb940bdedd862e4b96",
             "shasum": ""
         },
         "require": {
@@ -461,7 +461,7 @@
             "doctrine/lexer": "1.*",
             "php": ">=5.3.2"
         },
-        "time": "2013-05-27 19:11:46",
+        "time": "2013-06-10 18:20:01",
         "type": "library",
         "extra": {
             "branch-alias": {
@@ -1727,118 +1727,6 @@
         ]
     },
     {
-        "name": "laravel/framework",
-        "version": "4.0.x-dev",
-        "version_normalized": "4.0.9999999.9999999-dev",
-        "source": {
-            "type": "git",
-            "url": "https://github.com/laravel/framework.git",
-            "reference": "0be3b48fca432aabacf5c0a28606fd9004ea3b53"
-        },
-        "dist": {
-            "type": "zip",
-            "url": "https://api.github.com/repos/laravel/framework/zipball/0be3b48fca432aabacf5c0a28606fd9004ea3b53",
-            "reference": "0be3b48fca432aabacf5c0a28606fd9004ea3b53",
-            "shasum": ""
-        },
-        "require": {
-            "classpreloader/classpreloader": "1.0.*",
-            "doctrine/dbal": "2.3.x",
-            "filp/whoops": "1.0.6",
-            "ircmaxell/password-compat": "1.0.*",
-            "monolog/monolog": "1.5.*",
-            "nesbot/carbon": "1.*",
-            "patchwork/utf8": "1.1.*",
-            "php": ">=5.3.0",
-            "predis/predis": "0.8.*",
-            "swiftmailer/swiftmailer": "5.0.*",
-            "symfony/browser-kit": "2.3.*",
-            "symfony/console": "2.3.*",
-            "symfony/css-selector": "2.3.*",
-            "symfony/debug": "2.3.*",
-            "symfony/dom-crawler": "2.3.*",
-            "symfony/event-dispatcher": "2.3.*",
-            "symfony/finder": "2.3.*",
-            "symfony/http-foundation": "2.3.*",
-            "symfony/http-kernel": "2.3.*",
-            "symfony/process": "2.3.*",
-            "symfony/routing": "2.3.*",
-            "symfony/translation": "2.3.*"
-        },
-        "replace": {
-            "illuminate/auth": "self.version",
-            "illuminate/cache": "self.version",
-            "illuminate/config": "self.version",
-            "illuminate/console": "self.version",
-            "illuminate/container": "self.version",
-            "illuminate/cookie": "self.version",
-            "illuminate/database": "self.version",
-            "illuminate/encryption": "self.version",
-            "illuminate/events": "self.version",
-            "illuminate/exception": "self.version",
-            "illuminate/filesystem": "self.version",
-            "illuminate/foundation": "self.version",
-            "illuminate/hashing": "self.version",
-            "illuminate/html": "self.version",
-            "illuminate/http": "self.version",
-            "illuminate/log": "self.version",
-            "illuminate/mail": "self.version",
-            "illuminate/pagination": "self.version",
-            "illuminate/queue": "self.version",
-            "illuminate/redis": "self.version",
-            "illuminate/routing": "self.version",
-            "illuminate/session": "self.version",
-            "illuminate/support": "self.version",
-            "illuminate/translation": "self.version",
-            "illuminate/validation": "self.version",
-            "illuminate/view": "self.version",
-            "illuminate/workbench": "self.version"
-        },
-        "require-dev": {
-            "aws/aws-sdk-php": "2.2.*",
-            "iron-io/iron_mq": "1.4.4",
-            "mockery/mockery": "0.7.2",
-            "pda/pheanstalk": "2.0.*",
-            "phpunit/phpunit": "3.7.*"
-        },
-        "time": "2013-06-07 01:15:37",
-        "type": "library",
-        "extra": {
-            "branch-alias": {
-                "dev-master": "4.0-dev"
-            }
-        },
-        "installation-source": "dist",
-        "autoload": {
-            "classmap": [
-                [
-                    "src/Illuminate/Queue/IlluminateQueueClosure.php"
-                ]
-            ],
-            "files": [
-                "src/Illuminate/Support/helpers.php"
-            ],
-            "psr-0": {
-                "Illuminate": "src/"
-            }
-        },
-        "notification-url": "https://packagist.org/downloads/",
-        "license": [
-            "MIT"
-        ],
-        "authors": [
-            {
-                "name": "Taylor Otwell",
-                "email": "taylorotwell@gmail.com"
-            }
-        ],
-        "description": "The Laravel Framework.",
-        "keywords": [
-            "framework",
-            "laravel"
-        ]
-    },
-    {
         "name": "cartalyst/sentry",
         "version": "dev-master",
         "version_normalized": "9999999-dev",
@@ -1934,6 +1822,218 @@
             "fuelphp",
             "laravel",
             "security"
+        ]
+    },
+    {
+        "name": "raveren/kint",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/raveren/kint.git",
+            "reference": "bcd082f6d63140f4a921b111e53f03db3ec2f158"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/raveren/kint/zipball/bcd082f6d63140f4a921b111e53f03db3ec2f158",
+            "reference": "bcd082f6d63140f4a921b111e53f03db3ec2f158",
+            "shasum": ""
+        },
+        "require": {
+            "php": ">=5.2.0"
+        },
+        "time": "2013-06-03 09:43:05",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "files": [
+                "Kint.class.php"
+            ]
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Rokas Šleinius",
+                "homepage": "https://github.com/raveren"
+            },
+            {
+                "name": "Contributors",
+                "homepage": "https://github.com/raveren/kint/contributors"
+            }
+        ],
+        "description": "Kint - debugging helper for PHP developers",
+        "homepage": "https://github.com/raveren/kint",
+        "keywords": [
+            "debug",
+            "kint",
+            "php"
+        ]
+    },
+    {
+        "name": "laravelbook/laravel4-powerpack",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/laravelbook/laravel4-powerpack.git",
+            "reference": "0e0bd6c53424c9643814a03677a5ef6670f2334a"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/laravelbook/laravel4-powerpack/zipball/0e0bd6c53424c9643814a03677a5ef6670f2334a",
+            "reference": "0e0bd6c53424c9643814a03677a5ef6670f2334a",
+            "shasum": ""
+        },
+        "require": {
+            "illuminate/routing": "4.0.x",
+            "illuminate/support": "4.0.x",
+            "php": ">=5.3.0",
+            "raveren/kint": "dev-master"
+        },
+        "time": "2013-04-01 05:07:42",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-0": {
+                "LaravelBook\\Laravel4Powerpack": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "BSD-3-Clause"
+        ],
+        "authors": [
+            {
+                "name": "Max Ehsan",
+                "email": "contact@laravelbook.com",
+                "homepage": "http://laravelbook.com/",
+                "role": "Maintainer"
+            }
+        ],
+        "description": "Port of Laravel 3's HTML, Form and Str classes",
+        "homepage": "http://laravelbook.com/",
+        "keywords": [
+            "form",
+            "framework",
+            "html",
+            "laravel",
+            "string",
+            "support"
+        ]
+    },
+    {
+        "name": "laravel/framework",
+        "version": "4.0.x-dev",
+        "version_normalized": "4.0.9999999.9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/laravel/framework.git",
+            "reference": "582e64fc32340a50e8e7b4522a9d89e94ab112cf"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/laravel/framework/zipball/582e64fc32340a50e8e7b4522a9d89e94ab112cf",
+            "reference": "582e64fc32340a50e8e7b4522a9d89e94ab112cf",
+            "shasum": ""
+        },
+        "require": {
+            "classpreloader/classpreloader": "1.0.*",
+            "doctrine/dbal": "2.3.x",
+            "filp/whoops": "1.0.6",
+            "ircmaxell/password-compat": "1.0.*",
+            "monolog/monolog": "1.5.*",
+            "nesbot/carbon": "1.*",
+            "patchwork/utf8": "1.1.*",
+            "php": ">=5.3.0",
+            "predis/predis": "0.8.*",
+            "swiftmailer/swiftmailer": "5.0.*",
+            "symfony/browser-kit": "2.3.*",
+            "symfony/console": "2.3.*",
+            "symfony/css-selector": "2.3.*",
+            "symfony/debug": "2.3.*",
+            "symfony/dom-crawler": "2.3.*",
+            "symfony/event-dispatcher": "2.3.*",
+            "symfony/finder": "2.3.*",
+            "symfony/http-foundation": "2.3.*",
+            "symfony/http-kernel": "2.3.*",
+            "symfony/process": "2.3.*",
+            "symfony/routing": "2.3.*",
+            "symfony/translation": "2.3.*"
+        },
+        "replace": {
+            "illuminate/auth": "self.version",
+            "illuminate/cache": "self.version",
+            "illuminate/config": "self.version",
+            "illuminate/console": "self.version",
+            "illuminate/container": "self.version",
+            "illuminate/cookie": "self.version",
+            "illuminate/database": "self.version",
+            "illuminate/encryption": "self.version",
+            "illuminate/events": "self.version",
+            "illuminate/exception": "self.version",
+            "illuminate/filesystem": "self.version",
+            "illuminate/foundation": "self.version",
+            "illuminate/hashing": "self.version",
+            "illuminate/html": "self.version",
+            "illuminate/http": "self.version",
+            "illuminate/log": "self.version",
+            "illuminate/mail": "self.version",
+            "illuminate/pagination": "self.version",
+            "illuminate/queue": "self.version",
+            "illuminate/redis": "self.version",
+            "illuminate/routing": "self.version",
+            "illuminate/session": "self.version",
+            "illuminate/support": "self.version",
+            "illuminate/translation": "self.version",
+            "illuminate/validation": "self.version",
+            "illuminate/view": "self.version",
+            "illuminate/workbench": "self.version"
+        },
+        "require-dev": {
+            "aws/aws-sdk-php": "2.2.*",
+            "iron-io/iron_mq": "1.4.4",
+            "mockery/mockery": "0.7.2",
+            "pda/pheanstalk": "2.0.*",
+            "phpunit/phpunit": "3.7.*"
+        },
+        "time": "2013-06-11 01:27:24",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "4.0-dev"
+            }
+        },
+        "installation-source": "dist",
+        "autoload": {
+            "classmap": [
+                [
+                    "src/Illuminate/Queue/IlluminateQueueClosure.php"
+                ]
+            ],
+            "files": [
+                "src/Illuminate/Support/helpers.php"
+            ],
+            "psr-0": {
+                "Illuminate": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Taylor Otwell",
+                "email": "taylorotwell@gmail.com"
+            }
+        ],
+        "description": "The Laravel Framework.",
+        "keywords": [
+            "framework",
+            "laravel"
         ]
     }
 ]

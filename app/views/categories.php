@@ -61,7 +61,9 @@
 
 				<nav>
 					<?php foreach($categories as $category): ?>
-					<a href="#"><?php echo $category->name; ?></a>
+					<?php foreach($category->subcategories as $subcategory): ?>
+					<?php echo link_to_action('HomeController@showCategory', $subcategory->name, array('category' => Str::slug($subcategory->name))); ?>
+					<?php endforeach; ?>
 					<?php endforeach; ?>
 				</nav>
 			</header>

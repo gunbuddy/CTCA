@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "073cb4450a35f6ecaffce0323429bbed",
+    "hash": "2558e3a9fa4f792cd25ce101ce16c77c",
     "packages": [
         {
             "name": "cartalyst/sentry",
@@ -225,12 +225,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/cache.git",
-                "reference": "45123145f70dd79618963a72a5271b4f389712e4"
+                "reference": "89493d2c6e1362f581f9de1c1871cc52eb29c030"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/cache/zipball/45123145f70dd79618963a72a5271b4f389712e4",
-                "reference": "45123145f70dd79618963a72a5271b4f389712e4",
+                "url": "https://api.github.com/repos/doctrine/cache/zipball/89493d2c6e1362f581f9de1c1871cc52eb29c030",
+                "reference": "89493d2c6e1362f581f9de1c1871cc52eb29c030",
                 "shasum": ""
             },
             "require": {
@@ -276,7 +276,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -286,7 +286,7 @@
                 "cache",
                 "caching"
             ],
-            "time": "2013-05-13 02:51:07"
+            "time": "2013-06-07 14:54:47"
         },
         {
             "name": "doctrine/collections",
@@ -361,12 +361,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/common.git",
-                "reference": "2169b0ce1d253d448c60b7d40bbe4e4b5afe22fe"
+                "reference": "d658ec7a03f6475eff0dd1eb940bdedd862e4b96"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/doctrine/common/zipball/2169b0ce1d253d448c60b7d40bbe4e4b5afe22fe",
-                "reference": "2169b0ce1d253d448c60b7d40bbe4e4b5afe22fe",
+                "url": "https://api.github.com/repos/doctrine/common/zipball/d658ec7a03f6475eff0dd1eb940bdedd862e4b96",
+                "reference": "d658ec7a03f6475eff0dd1eb940bdedd862e4b96",
                 "shasum": ""
             },
             "require": {
@@ -427,7 +427,7 @@
                 "persistence",
                 "spl"
             ],
-            "time": "2013-05-27 19:11:46"
+            "time": "2013-06-10 18:20:01"
         },
         {
             "name": "doctrine/dbal",
@@ -713,12 +713,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "0be3b48fca432aabacf5c0a28606fd9004ea3b53"
+                "reference": "582e64fc32340a50e8e7b4522a9d89e94ab112cf"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/0be3b48fca432aabacf5c0a28606fd9004ea3b53",
-                "reference": "0be3b48fca432aabacf5c0a28606fd9004ea3b53",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/582e64fc32340a50e8e7b4522a9d89e94ab112cf",
+                "reference": "582e64fc32340a50e8e7b4522a9d89e94ab112cf",
                 "shasum": ""
             },
             "require": {
@@ -815,7 +815,57 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2013-06-07 01:15:37"
+            "time": "2013-06-11 01:27:24"
+        },
+        {
+            "name": "laravelbook/laravel4-powerpack",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravelbook/laravel4-powerpack.git",
+                "reference": "0e0bd6c53424c9643814a03677a5ef6670f2334a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravelbook/laravel4-powerpack/zipball/0e0bd6c53424c9643814a03677a5ef6670f2334a",
+                "reference": "0e0bd6c53424c9643814a03677a5ef6670f2334a",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/routing": "4.0.x",
+                "illuminate/support": "4.0.x",
+                "php": ">=5.3.0",
+                "raveren/kint": "dev-master"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "LaravelBook\\Laravel4Powerpack": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Max Ehsan",
+                    "email": "contact@laravelbook.com",
+                    "homepage": "http://laravelbook.com/",
+                    "role": "Maintainer"
+                }
+            ],
+            "description": "Port of Laravel 3's HTML, Form and Str classes",
+            "homepage": "http://laravelbook.com/",
+            "keywords": [
+                "form",
+                "framework",
+                "html",
+                "laravel",
+                "string",
+                "support"
+            ],
+            "time": "2013-04-01 05:07:42"
         },
         {
             "name": "monolog/monolog",
@@ -1130,6 +1180,52 @@
                 "psr-3"
             ],
             "time": "2012-12-21 11:40:51"
+        },
+        {
+            "name": "raveren/kint",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/raveren/kint.git",
+                "reference": "bcd082f6d63140f4a921b111e53f03db3ec2f158"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/raveren/kint/zipball/bcd082f6d63140f4a921b111e53f03db3ec2f158",
+                "reference": "bcd082f6d63140f4a921b111e53f03db3ec2f158",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "Kint.class.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rokas Šleinius",
+                    "homepage": "https://github.com/raveren"
+                },
+                {
+                    "name": "Contributors",
+                    "homepage": "https://github.com/raveren/kint/contributors"
+                }
+            ],
+            "description": "Kint - debugging helper for PHP developers",
+            "homepage": "https://github.com/raveren/kint",
+            "keywords": [
+                "debug",
+                "kint",
+                "php"
+            ],
+            "time": "2013-06-03 09:43:05"
         },
         {
             "name": "swiftmailer/swiftmailer",
@@ -1884,9 +1980,9 @@
 
     ],
     "minimum-stability": "dev",
-    "stability-flags": [
-
-    ],
+    "stability-flags": {
+        "laravelbook/laravel4-powerpack": 20
+    },
     "platform": [
 
     ],
