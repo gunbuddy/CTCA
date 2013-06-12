@@ -124,7 +124,6 @@
 	{
 		$http.post('/tunnel/products/<?php echo $subcategory->aller; ?>', {take: 10, skip:0}).success(function(data)
 		{
-			alert("done");
 			$scope.products = data;
 		});
 
