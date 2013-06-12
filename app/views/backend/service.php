@@ -79,7 +79,7 @@
 	<?php print HTML::script("js/brain-controllers.js") ?>
 	<?php print HTML::script("js/brain.js") ?>
 
-	<script type="text/ng-template" id="list-cellplan.html">
+<script type="text/ng-template" id="list-cellplan.html">
 	<div class="large-5 columns">{{ product.name | lowercase | ucfirst }}</div>
 	<div class="large-2 columns" align="center"><span class="label {{ product.company.label }}">{{ product.company.name | lowercase }}</span></div>
 	<div class="large-3 columns">$ {{ product.fee | number:2 }} </div>

@@ -29,7 +29,21 @@ class HomeController extends BaseController {
 
 	public function showCategory($category)
 	{
-		return $category;
+		$categories = $this->categories->getCategories();
+
+		foreach ($categories as $cat)
+		{
+			foreach ($cat->subcategories as $subcat)
+			{
+				if (Str::slug($subcat->name) == $category)
+				{
+					$subcategory = $subcat;
+					return View::make('subcategory')->with('subcategory', $subcategory);
+				}
+			}
+		}
+
+		App::abort(404, 'Page not found');
 	}
 
 	public function showHome()

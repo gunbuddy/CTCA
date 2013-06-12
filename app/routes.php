@@ -14,7 +14,8 @@
 App::bind('CategoriesRepository', 'MysqlCategoriesRepository');
 
 Route::get('/', 'HomeController@showCategories');
-Route::get('/comparar/{category}', 'HomeController@showCategory');
+Route::get('/comparar/{category}/!', 'HomeController@showCategory');
+Route::post('/tunnel/products/{category}', 'ProductsController@showProducts');
 
 /** Backend interface **/
 Route::get('backend', array('as' => 'backend.login', 'uses' => 'Backend\HomeController@showLogin'));
