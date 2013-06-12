@@ -122,8 +122,9 @@
 	<script type="text/javascript">
 	FirstSetupCtrl = function($scope, $http)
 	{
-		$http.post('/tunnel/products/<?php echo $subcategory->aller; ?>', {take: 10, skip:0}, function(data)
+		$http.post('/tunnel/products/<?php echo $subcategory->aller; ?>', {take: 10, skip:0}).success(function(data)
 		{
+			alert("done");
 			$scope.products = data;
 		});
 
