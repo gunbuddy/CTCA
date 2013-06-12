@@ -26,12 +26,12 @@
 
 		body h1 {
 			color: #FFF;
-			font: 28px "Adelle";
+			font: 28px "Lato";
 		}
 
 		body h2 {
 			color: #FFF;
-			font: 24px "Adelle";
+			font: 24px "Lato";
 		}
 
 		header {
@@ -111,9 +111,7 @@
 		}
 	</style>
 
-	<script type="text/javascript" src="//use.typekit.net/zmb0eru.js"></script>
-	<script type="text/javascript">try{Typekit.load();}catch(e){}</script>
-
+	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
 	<?php print HTML::script("https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"); ?>
 	<?php print HTML::script("js/vendor/jquery.js") ?>
 	<?php print HTML::script("js/jquery.chosen.js") ?>
@@ -249,19 +247,19 @@
 
 			<div class="large-12 columns" ng-repeat="product in products">
 				<div class="large-4 columns">
-				Plan y compañia
+				{{ product.name }} <br /> <strong>{{ product.company.name }}</strong>
 				</div>
 				<div class="large-2 columns">
-				Clasificacion
+				not yet
 				</div>
 				<div class="large-2 columns">
-				Costo mensual
+				$ {{ product.fee }}
 				</div>
 				<div class="large-2 columns">
-				Minutos
+				{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}
 				</div>
 				<div class="large-2 columns">
-				Mensajes
+				{{ product.messages }}
 				</div>
 			</div>
 		</div>
