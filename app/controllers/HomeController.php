@@ -15,9 +15,10 @@ class HomeController extends BaseController {
 	|
 	*/
 
-	public function __construct(CategoriesRepository $categories)
+	public function __construct(CategoriesRepository $categories, SubcategoriesRepository $subcategories)
 	{
 		$this->categories = $categories;
+		$this->subcategories = $subcategories;
 	}
 
 	public function showCategories()
@@ -44,6 +45,61 @@ class HomeController extends BaseController {
 		}
 
 		App::abort(404, 'Page not found');
+	}
+
+	public function showComparison($category, $slug)
+	{
+
+		// Check the category before checking products slug
+		$category_treatment = strtolower($category);
+		$get_subcategory    = $this->subcategories->getByAller($category_treatment);
+
+		if (!$get_subcategory)
+		{
+			// Subcategory with that aller not found
+			App::abort(404, 'Page not found');
+		}
+
+		// Get the aller class
+		$className = ucfirst($category_treatment);
+		$aller = App::make("Aller\Product\\{$className}\\{$className}Interface");
+
+		$split = explode('-vs-', $slug);
+
+		if (isset($split[1]) == false)
+		{
+			// Incorrect slug typing
+			App::abort(404, 'Page not found');
+		}
+
+		$products = count($split);
+		$list = array();
+		$product = array();
+
+		// Lets get the product's id
+		foreach ($split as $product_slug)
+		{
+			if (!preg_match("/^[0-9]+\\-([a-zA-Z0-9\\-]+)$/u", $product_slug))
+			{
+				// Incorrect slug typing
+				App::abort(404, 'Page not found');
+			}
+
+			$product_slug_split = explode('-', $product_slug);
+			$list[] = (int)$product_slug_split[0];
+		}
+
+
+		// Get the products from the list of ids
+		$product = $aller->getList($list);
+
+		if ($product->count() < $products)
+		{
+			// There's a wrong product id
+			App::abort(404, 'Page not found');
+		}
+
+		return $product;
 	}
 
 	public function showHome()

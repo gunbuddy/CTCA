@@ -16,6 +16,13 @@ class InternetPostgres implements ProductInterface, InternetInterface {
 
 	}
 
+	public function getList($list)
+	{
+		if (!is_array($list)) return false;
+
+		return Internet::whereIn('id', $list)->get();
+	}
+
 	public function getPaged($take, $skip, $order)
 	{
 		// Some query mysql fancy stuff

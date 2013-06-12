@@ -1,6 +1,6 @@
 <?php
 
-class MysqlCategoriesRepository implements CategoriesRepository {
+class PostgresCategoriesRepository implements CategoriesRepository {
 	
 	public function getCategories()
 	{

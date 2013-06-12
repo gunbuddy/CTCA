@@ -2,6 +2,10 @@
 
 class ProductsController extends BaseController {
 	
+	public function __construct()
+	{
+	}
+
 	public function showProducts($category)
 	{
 		$aller = App::make('Aller\Product\\' . ucfirst($category) .'\\' . ucfirst($category) . 'Interface');

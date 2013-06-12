@@ -11,14 +11,16 @@
 |
 */
 
-App::bind('CategoriesRepository', 'MysqlCategoriesRepository');
+App::bind('CategoriesRepository', 'PostgresCategoriesRepository');
+App::bind('SubcategoriesRepository', 'PostgresSubcategoriesRepository');
+App::bind('Aller\Stat\StatInterface', 'Aller\Stat\StatPostgres');
 
 Route::get('/', 'HomeController@showCategories');
-Route::get('/comparar/{category}', 'HomeController@showCategory');
+Route::get('/show/{category}', 'HomeController@showCategory');
+Route::get('/show-comparison/{category}/{slug}', 'HomeController@showComparison');
+
+// Front-end API
 Route::post('/tunnel/products/{category}', 'ProductsController@showProducts');
-Route::get('/compara/productos', function() {
-	return 'oki';
-});
 
 /** Backend interface **/
 Route::get('backend', array('as' => 'backend.login', 'uses' => 'Backend\HomeController@showLogin'));

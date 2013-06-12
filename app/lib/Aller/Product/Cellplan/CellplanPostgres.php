@@ -17,6 +17,13 @@ class CellplanPostgres implements ProductInterface, CellplanInterface {
 
 	}
 
+	public function getList($list)
+	{
+		if (!is_array($list)) return false;
+
+		return Cellplan::whereIn('id', $list)->get();
+	}
+
 	public function getPaged($take, $skip, $order)
 	{
 		// Some query mysql fancy stuff
