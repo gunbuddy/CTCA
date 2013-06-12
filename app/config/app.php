@@ -26,7 +26,7 @@ return array(
 	|
 	*/
 
-	'url' => 'http://compare:8888',
+	'url' => 'http://comparateca.herokuapps.com/',
 
 	/*
 	|--------------------------------------------------------------------------

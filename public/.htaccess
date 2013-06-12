@@ -1,15 +1,6 @@
 <IfModule mod_rewrite.c>
 	Options -MultiViews
 	RewriteEngine On
-	# Don't fix direct file links
 	RewriteCond %{REQUEST_FILENAME} !-f
-
-	RewriteCond %{REQUEST_URI} !(.*)/$
-	RewriteRule ^(.*)$ $1/ [L,R=301]
-
-	# Finally, forward everything to your front-controller
-
-	RewriteCond %{REQUEST_FILENAME} !-f
-	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule .* index.php [QSA,L]
+	RewriteRule ^ index.php [L]
 </IfModule>

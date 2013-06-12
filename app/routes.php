@@ -16,7 +16,7 @@ App::bind('CategoriesRepository', 'MysqlCategoriesRepository');
 Route::get('/', 'HomeController@showCategories');
 Route::get('/comparar/{category}', 'HomeController@showCategory');
 Route::post('/tunnel/products/{category}', 'ProductsController@showProducts');
-Route::get('/comparando/productos', function() {
+Route::get('/compara/productos', function() {
 	return 'oki';
 });
 

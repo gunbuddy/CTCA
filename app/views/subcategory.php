@@ -132,12 +132,13 @@
 	};
 
 	app = angular.module("Comparison", [])
-	.config(['$routeProvider', function($routeProvider, $interpolateProvider) {
-		
+	.config(function($routeProvider, $interpolateProvider, $locationProvider) {
+
+		$locationProvider.hashPrefix('!');
 		$routeProvider.
 			when('/setup', {templateUrl: 'setup.html', controller: FirstSetupCtrl}).
 			otherwise({redirectTo: '/setup'});
-	}]);
+	});
 
 
 	app.run(function($rootScope) { 
