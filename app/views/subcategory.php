@@ -118,14 +118,25 @@
 
 
 	<script type="text/javascript">
-	FirstSetupCtrl = function($scope, $http)
+	FirstSetupCtrl = function($scope, $http, $routeParams)
 	{
-		$http.post('/tunnel/products/<?php echo $subcategory->aller; ?>', {take: 10, skip:0}).success(function(data)
+		if ($routeParams.filters)
+		{
+			filtrate = $routeParams.filters;
+		}
+		else
+		{
+			filtrate = null;
+		}
+
+		$http.post('/tunnel/products/<?php echo $subcategory->aller; ?>', {take: 10, skip:0, filter: filtrate}).success(function(data)
 		{
 			$scope.products = data;
 		});
 
 		$(function() {
+
+			console.log(filtrate);
 
 			$("#filters").chosen({no_results_text:'Uups, ningun filtro llamado '});
 		});
@@ -136,8 +147,8 @@
 
 		$locationProvider.hashPrefix('!');
 		$routeProvider.
-			when('/setup', {templateUrl: 'setup.html', controller: FirstSetupCtrl}).
-			otherwise({redirectTo: '/setup'});
+			when('/', {templateUrl: 'setup.html', controller: FirstSetupCtrl}).
+			otherwise({redirectTo: '/'});
 	});
 
 

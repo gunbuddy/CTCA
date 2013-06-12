@@ -6,7 +6,7 @@ class ProductsController extends BaseController {
 	{
 		$this->subcategories = $subcategories;
 	}
-	
+
 	public function showProducts($category)
 	{
 		// Check the category before checking products slug
@@ -20,14 +20,38 @@ class ProductsController extends BaseController {
 		}
 
 		$aller = App::make('Aller\Product\\' . ucfirst($category_treatment) .'\\' . ucfirst($category_treatment) . 'Interface');
-
+ 
 		if ($aller)
 		{
-			$products = $aller->getPaged(10, 0, false);
+			$take   = Input::get('take', 10);
+			$skip   = Input::get('skip', 0);
+			$filter = Input::get('filter', '');
+			$filters= array();
+
+			if (preg_match("/([a-zA-z_]+@(([0-9]+:[0-9]+;?)))/u", $filter))
+			{
+				// Lets divide the filters
+				$split = explode(';', $filter);
+
+				foreach ($split as $filter_item)
+				{
+					$split_name_and_type = explode('@', $filter_item);
+
+					$filters[$split_name_and_type[0]] = array();
+
+					// Range matching
+					if (preg_match("/([0-9]+:[0-9]+)/u", $split_name_and_type[1]))
+					{
+						$temp_split = explode(':', $split_name_and_type[1]);
+
+						$filters[$split_name_and_type[0]] = array('range', array('from' => (float)$temp_split[0], 'to' => (float)$temp_split[1]));
+					}
+				}
+			}
+
+			$products = $aller->getPaged($take, $skip, $filters);
 
 			return $products;
 		}
 	}
-
-
 }

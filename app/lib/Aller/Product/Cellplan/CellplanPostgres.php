@@ -24,12 +24,22 @@ class CellplanPostgres implements ProductInterface, CellplanInterface {
 		return Cellplan::whereIn('id', $list)->get();
 	}
 
-	public function getPaged($take, $skip, $order)
+	public function getPaged($take, $skip, $filters)
 	{
 		// Some query mysql fancy stuff
-		$query = Cellplan::with('company')->skip($skip)->take($take)->remember(60)->get()->toArray();
+		$query = Cellplan::with('company')->skip($skip)->take($take);
 
-		return $query;
+		// Filters
+		foreach ($filters as $filter_id => $filter)
+		{
+			if ($filter[0] == 'range')
+			{
+				$query->where($filter_id, '>=', $filter[1]['from']);
+				$query->where($filter_id, '<=', $filter[1]['to']);
+			}
+		}
+
+		return $query->remember(60)->get()->toArray();
 	}
 
 	public function getOne($id)
