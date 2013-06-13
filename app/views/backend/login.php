@@ -16,6 +16,10 @@
 	
 	
 	<style type="text/css" media="screen">
+		html, body {
+			height: 100%;
+		}
+		
 		body {
 			background: #E6474D;
 			font-family: "Lato", "Helvetica Neue", sans-serif;

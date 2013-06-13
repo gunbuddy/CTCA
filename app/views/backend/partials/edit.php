@@ -329,7 +329,7 @@
 								<div class="large-4 columns" align="left">
 									<h5>Información adicional</h5>
 
-									<textarea style="height:150px;background: #F7F9FA;border:0;color:#BDC3C7;font-size:16px;font-weight:300"></textarea>
+									<textarea ng-model="additional_information" style="height:150px;background: #F7F9FA;border:0;color:#BDC3C7;font-size:16px;font-weight:300"></textarea>
 								</div>
 								<div class="large-4 columns">
 									<h5>&nbsp;</h5>

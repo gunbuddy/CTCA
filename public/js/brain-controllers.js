@@ -184,7 +184,7 @@ function ContentCtrl($scope, $http, $filter) {
 
 		$scope.pages = [];
 
-		for (var i = 8; i <= 16; i++) {
+		for (var i = 9; i <= 16; i++) {
 			
 			$scope.pages.push({selected: false, n: i});
 		};

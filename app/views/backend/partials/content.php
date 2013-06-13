@@ -113,7 +113,7 @@
 									{{ page.n }}
 								</a>
 							</span>
-							<span><span title="<a href='' ng-click='setPageSet(0)' class='toollink'>1-8</a><br><a href='' ng-click='setPageSet(1)' class='toollink'>8-16</a>" class="more tp">&#9652;</span></span>
+							<span id="pag"><span class="more"><div class="pages-nav"><a href='' ng-click='setPageSet(0)'>1-8</a><a href='' ng-click='setPageSet(1)'>9-16</a></div>&#9652;</span></span>
 							<span class="pictogram">&#59230;</span>
 						</section>
 						<div class="white-margin"></div>
