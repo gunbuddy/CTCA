@@ -1,8 +1,8 @@
 <div class="row">
 	<div class="large-12 columns">
 		<nav class="product-breadcumb">
-			<a href="<?php echo route("backend.service"); ?>" title="general">Backend <span class="pictogram">&#9656;</span></a> 
-			<a href="<?php echo route("backend.service"); ?>" title="escritorio">Contenido <span class="pictogram">&#9656;</span></a>
+			<a href="#/dashboard" title="general">Backend <span class="pictogram">&#9656;</span></a> 
+			<a href="#/content/view" title="escritorio">Contenido <span class="pictogram">&#9656;</span></a>
 		</nav>
 	</div>
 </div>

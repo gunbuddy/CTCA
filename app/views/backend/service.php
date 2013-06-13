@@ -7,8 +7,8 @@
 	<meta name="viewport" content="width=device-width" />
 	<title>Comparateca Backend | Escritorio</title>
 	
-	<?php print HTML::style("css/normalize.css") ?>
-	<?php print HTML::style("css/foundation.css") ?>
+	<?php print HTML::style("css/backend/normalize.css") ?>
+	<?php print HTML::style("css/backend/foundation.css") ?>
 	<?php print HTML::style("css/mfglabs_iconset.css") ?>
 	<?php print HTML::style("css/brain.css") ?>
 	<?php print HTML::script("js/vendor/custom.modernizr.js") ?>
@@ -16,6 +16,7 @@
 	<?php print HTML::script("js/angular/angular.js") ?>
 	<?php print HTML::script("js/vendor/jquery.js") ?>
 	<?php print HTML::script("js/jquery.knob.js") ?>
+	<?php print HTML::script("js/chart.js") ?>
 </head>
 <body ng-app="backend" ng-dblclick="menuShow=false">
 	<header>
@@ -83,13 +84,16 @@
 	<div class="large-5 columns">{{ product.name | lowercase | ucfirst }}</div>
 	<div class="large-2 columns" align="center"><span class="label {{ product.company.label }}">{{ product.company.name | lowercase }}</span></div>
 	<div class="large-3 columns">$ {{ product.fee | number:2 }} </div>
-	<div class="large-2 columns"><a href="#/content/edit/{{ token }}/{{ product.id }}">editar</a></div>
+	<div class="large-2 columns">
+		<a href="#/content/edit/{{ token }}/{{ product.id }}"><span class="call-to-action">&#9998;</span></a>
+		<a href="#/content/edit/{{ token }}/{{ product.id }}"><span class="call-to-action gray">&#10060;</span></a>
+	</div>
 </script>
 
 <script type="text/ng-template" id="header-cellplan.html">
 	<div class="large-5 columns">Nombre del plan</div>
 	<div class="large-2 columns" align="center">Compañia</div>
-	<div class="large-3 columns">Caracteristicas</div>
+	<div class="large-3 columns">Costo & tarifa</div>
 	<div class="large-2 columns">&nbsp;</div>
 </script>
 

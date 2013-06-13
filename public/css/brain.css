@@ -240,11 +240,29 @@ nav.product-breadcumb a {
 	color: #C3C8CB;
 	font-size: 15px;
 	display: inline-block;
+	-webkit-transition: all 0.25s ease-in-out;
+	-moz-transition: all 0.25s ease-in-out;
+	-o-transition: all 0.25s ease-in-out;
+	transition: all 0.25s ease-in-out;
+}
+
+nav.product-breadcumb a:hover {
+	background: #25BC9D;
+	color: #FFF;
+	text-decoration: none;
+}
+
+nav.product-breadcumb a:hover span {
+	color: #FFF;
 }
 
 nav.product-breadcumb a span {
 	color: #C3C8CB;
+	display: inline-block;
 	font-size: 32px;
+	position: relative;
+	top: 4px;
+	left: 5px;
 }
 
 section.product-creation h3 {
@@ -520,6 +538,29 @@ section.general-title h3 {
 	padding: 0 0 0.5em 1em;
 }
 
+.categories-widget .product-list .call-to-action {
+	display: inline-block;
+	background: #25BC9D;
+	font: 25px "Entypo";
+	color: #FFF;
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	border-radius: 10px;
+	text-align: center;
+	-webkit-transition: all 0.25s ease;
+	-moz-transition: all 0.25s ease;
+	-o-transition: all 0.25s ease;
+	transition: all 0.25s ease;
+}
+
+.categories-widget .product-list .call-to-action:hover {
+	background: #1FA086;
+}
+
+.categories-widget .product-list .call-to-action.gray { background: #BDC3C7; }
+.categories-widget .product-list .call-to-action.gray:hover { background: #7F8C8D; }
+
 .categories-widget .product-pagination {
 	margin-top: 1em;
 }
@@ -588,6 +629,20 @@ section.general-title h3 {
 	margin: 0;
 }
 
+.categories-widget .product-pagination span span.more {
+	font-size: 23px;
+	font-family: "Entypo";
+	width: 20px;
+	height: 20px;
+	line-height: 20px;
+	text-align: center;
+	display: block;
+	background: #25BC9D;
+	border-radius: 10px;
+	padding: 0;
+	color: #FFF;
+	margin: 0 5px;
+}
 .categories-widget .navigation-search {
 	background: #2D3E4F;
 	border-radius: 4px;

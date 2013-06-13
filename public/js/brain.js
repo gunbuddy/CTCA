@@ -116,7 +116,8 @@ app.directive('categories', function() {
 						'<div class="white-margin"></div>' +
 						'<div class="row">' +
 							'<div class="large-12 columns">' +
-								// stats and shit
+								'<h3>Comparaciones en Telecomunicaciones</h3>' +
+								'<canvas id="categoryStat" height="450" width="500"></canvas>' +
 							'</div>' +
 						'</div>' +
 					'</div>' +
@@ -133,13 +134,14 @@ app.directive('categories', function() {
 							'</article>' +
 						'</section>' +
 
-						'<section class="product-pagination" ng-show="pages.length<=1">' +
+						'<section class="product-pagination" ng-show="pages.length>1">' +
 							'<span class="pictogram">&#59229;</span>'+
 							'<span ng-repeat="page in pages">' +
 								'<a href="" ng-class="{active:page.selected}" ng-click="goTo(page)">' +
 									'{{ page.n }} ' +
 								'</a>' +
 							'</span>' +
+							'<span><span class="more">&#9652;</span></span>' +
 							'<span class="pictogram">&#59230;</span>'+
 						'</section>' +
 						'<div class="white-margin"></div>' +
@@ -210,7 +212,7 @@ app.directive('categories', function() {
 				var count = cat.count;
 				var divider = 10;
 
-				var pages_number = Math.floor(count / divider) + 1;
+				var pages_number = 8;
 				
 				$scope.pages = [];
 
