@@ -23,13 +23,14 @@ function ContentCtrl($scope, $http, $filter) {
 		template: "",
 		list: []
 	};
-
+	$scope.token = '';
 
 	$scope.currentCategory = {};
 	$scope.currentSubcategory = {};
 
 	// Pagination for the subcategory
 	$scope.pages = [];
+	$scope.wholePagesSet = [];
 
 	// Current page
 	$scope.page = [];
@@ -96,9 +97,23 @@ function ContentCtrl($scope, $http, $filter) {
 		var count = subcategory.count;
 		var divider = 10;
 
-		var pages_number = 8;
+		var pages_number = Math.floor(count / divider);
 		
 		$scope.pages = [];
+
+		if (pages_number >= 8)
+		{
+			sets = Math.ceil(pages_number / 8);
+
+			$scope.wholePagesSet = [];
+
+			for (var i = sets; i <= sets; i++) {
+				
+				$scope.wholePagesSet.push(i);
+			};
+
+			pages_number = 8;
+		}
 
 		for (var i = 1; i <= pages_number; i++) {
 			
@@ -112,7 +127,7 @@ function ContentCtrl($scope, $http, $filter) {
 		$scope.currentSubcategory = subcategory;
 
 		$scope.currentSubcategory.selected = true;
-
+		$scope.token = $scope.currentSubcategory.aller;
 
 		$http.post('../backend/api/v1/product/show/' + $scope.currentSubcategory.aller, {}).success(function(data) {
 
@@ -165,7 +180,21 @@ function ContentCtrl($scope, $http, $filter) {
 		page.selected = true;
 	};
 
+	$scope.setPageSet = function(n) {
+
+		$scope.pages = [];
+
+		for (var i = 8; i <= 16; i++) {
+			
+			$scope.pages.push({selected: false, n: i});
+		};
+	}
+
 	$scope.load_categories();
+
+	$(function(){
+		$('.tp').tooltipster({interactive: true});
+	});
 }
 
 function EditCtrl($scope, $http, $routeParams) {

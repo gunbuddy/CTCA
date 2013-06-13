@@ -11,12 +11,15 @@
 	<?php print HTML::style("css/backend/foundation.css") ?>
 	<?php print HTML::style("css/mfglabs_iconset.css") ?>
 	<?php print HTML::style("css/brain.css") ?>
+	<?php print HTML::style("css/tooltipster.css") ?>
 	<?php print HTML::script("js/vendor/custom.modernizr.js") ?>
 
 	<?php print HTML::script("js/angular/angular.js") ?>
 	<?php print HTML::script("js/vendor/jquery.js") ?>
 	<?php print HTML::script("js/jquery.knob.js") ?>
 	<?php print HTML::script("js/chart.js") ?>
+	<?php print HTML::script("js/jquery.tooltipster.min.js"); ?>
+
 </head>
 <body ng-app="backend" ng-dblclick="menuShow=false">
 	<header>
