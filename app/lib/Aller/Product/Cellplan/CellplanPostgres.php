@@ -14,7 +14,7 @@ class CellplanPostgres implements ProductInterface, CellplanInterface {
 
 	public function getAll() 
 	{
-
+		return Cellplan::with('company')->get()->toArray();
 	}
 
 	public function getList($list)

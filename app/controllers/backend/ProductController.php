@@ -33,16 +33,13 @@ class ProductController extends \BaseController {
 
 	public function postShow($category)
 	{
-		$take = Input::get('take');
-		$skip = Input::get('skip');
-
 		if (preg_match("/^[a-z]+$/u", $category))
 		{
 			$class   = ucfirst($category);
 			$product = App::make('Aller\Product\\'.$class.'\\'.$class.'Interface');
 
 			// Get the products from the data storage
-			$products = $product->getPaged($take, $skip, array('name', 'desc'));
+			$products = $product->getAll();
 
 			return array('list' => $products, 'header' => $product->headers, 'template' => $product->template);
 		}

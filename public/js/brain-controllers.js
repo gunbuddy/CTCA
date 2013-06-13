@@ -11,13 +11,31 @@ function DashboardCtrl($scope) {
 	$scope.name = "dash";
 }
 
-function ContentCtrl($scope, $http) {
+function ContentCtrl($scope, $http, $filter) {
 
 	// Menu for...
 	$scope.$emit('menuChange', ['&#128213;']);
 
 	// Categories 
 	$scope.categories = [];
+	$scope.products = {
+		headers: "",
+		template: "",
+		list: []
+	};
+
+
+	$scope.currentCategory = {};
+	$scope.currentSubcategory = {};
+
+	// Pagination for the subcategory
+	$scope.pages = [];
+
+	// Current page
+	$scope.page = [];
+
+	// First category initilization
+	var init = false;
 
 	// Get full categories
 	$scope.load_categories = function() {
@@ -28,6 +46,25 @@ function ContentCtrl($scope, $http) {
 		{	
 			$scope.categories = data;
 
+			angular.forEach($scope.categories, function(category) {
+
+				category.selected = false;
+
+				if (category.subcategories.length > 0) {
+
+					angular.forEach(category.subcategories, function(subcategory) {
+
+						subcategory.selected = false;
+					});
+				}
+
+				if (init == false) {
+
+					$scope.showCategory(category);
+
+					init = true;
+				}
+			});
 		}).
 		error(function(data) {
 				
@@ -37,35 +74,98 @@ function ContentCtrl($scope, $http) {
 		});
 	};
 
-	$scope.load_categories();
-
-	$scope.showCategory = function (category)
+	// Show a category
+	$scope.showCategory = function(category)
 	{
+		angular.forEach($scope.categories, function(category) {
+			category.selected = false;
+		});
+
+		category.selected = true;
+
 		$scope.currentCategory = category;
-	}
 
-	
-	$(function()
+		if ($scope.currentCategory.subcategories.length > 0)
+		{
+			$scope.showSubcategory($scope.currentCategory.subcategories[0]);
+		}		
+	};
+
+	$scope.showSubcategory = function(subcategory)
 	{
-		var barChartData = {
-			labels : ["January","February","March","April","May","June","July"],
-			datasets : [
-				{
-					fillColor : "rgba(229,73,65,0.5)",
-					strokeColor : "rgba(229,73,65,1)",
-					data : [65,59,90,81,56,55,40]
-				},
-				{
-					fillColor : "rgba(58,154,216,0.5)",
-					strokeColor : "rgba(58,154,216,1)",
-					data : [28,48,40,19,96,27,100]
-				}
-			]
+		var count = subcategory.count;
+		var divider = 10;
 
+		var pages_number = 8;
+		
+		$scope.pages = [];
+
+		for (var i = 1; i <= pages_number; i++) {
+			
+			$scope.pages.push({selected: false, n: i});
 		};
 
-		var myLine = new Chart(document.getElementById("categoryStat").getContext("2d")).Bar(barChartData);
-	});
+		angular.forEach($scope.currentCategory.subcategories, function(category) {
+			category.selected = false;
+		});
+
+		$scope.currentSubcategory = subcategory;
+
+		$scope.currentSubcategory.selected = true;
+
+
+		$http.post('../backend/api/v1/product/show/' + $scope.currentSubcategory.aller, {}).success(function(data) {
+
+			$scope.products = data;		
+			$scope.showPage($scope.pages[0]);	
+
+			$scope.$watch('searchText', function() {
+				
+				angular.forEach($scope.pages, function(p) {
+					
+					if (p.selected == true)
+					{
+						$scope.showPage(p);
+					}
+				});
+			});	
+		})
+		.error(function() {
+			
+		});
+	};
+
+
+	$scope.showPage = function(page)
+	{
+		skip = (parseInt(page.n) - 1) * 10;
+		take = 10;
+
+		$scope.page = [];
+
+		count = 0;
+
+		filtered = $filter('filter')($scope.products.list, $scope.searchText);
+
+		for (var i = 0; i < filtered.length; i++) {
+			
+			if (i >= skip)
+			{
+				if (i < (skip+10))
+				{
+					$scope.page.push(filtered[i]);
+				}
+			}
+		};
+
+		angular.forEach($scope.pages, function(p) {
+			p.selected = false;
+		});
+
+		page.selected = true;
+	};
+
+	$scope.load_categories();
 }
 
 function EditCtrl($scope, $http, $routeParams) {

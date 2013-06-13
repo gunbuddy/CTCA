@@ -13,7 +13,7 @@ class InternetPostgres implements ProductInterface, InternetInterface {
 
 	public function getAll() 
 	{
-
+		return Internet::all();
 	}
 
 	public function getList($list)
