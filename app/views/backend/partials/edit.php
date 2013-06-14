@@ -86,7 +86,7 @@
 										</div>
 										<div class="large-4 columns" align="center">
 											<div class="radio-select">
-												<input name="company" ng-model="company.id" value="3" type="radio" id="iusacell" />
+												<input name="company" ng-model="company.id" value="4" type="radio" id="iusacell" />
 												<label for="iusacell"></label>
 											</div>
 											Iusacell
@@ -96,7 +96,7 @@
 									<div class="row">
 										<div class="large-3 columns large-offset-3" align="center">
 											<div class="radio-select">
-												<input name="company" ng-model="company.id" value="4" type="radio" id="nextel" />
+												<input name="company" ng-model="company.id" value="3" type="radio" id="nextel" />
 												<label for="nextel"></label>
 											</div>
 											Nextel
@@ -158,6 +158,15 @@
 										</div>
 										<div class="large-4 columns">
 											<input type="text" ng-model="minutes_toother" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="large-8 columns">
+											<div class="semi-white-margin"></div>
+											Minutos locales
+										</div>
+										<div class="large-4 columns">
+											<input type="text" ng-model="minutes_tolocal" />
 										</div>
 									</div>
 								</div>
