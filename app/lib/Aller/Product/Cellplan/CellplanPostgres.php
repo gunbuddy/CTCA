@@ -42,6 +42,11 @@ class CellplanPostgres implements ProductInterface, CellplanInterface {
 		return $query->remember(60)->get()->toArray();
 	}
 
+	public function updateById($id, $fields)
+	{
+
+	}
+	
 	public function getOne($id)
 	{
 		$query = Cellplan::with('company')->find($id);

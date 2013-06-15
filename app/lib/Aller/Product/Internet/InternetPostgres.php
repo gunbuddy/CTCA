@@ -31,6 +31,11 @@ class InternetPostgres implements ProductInterface, InternetInterface {
 		return $query;
 	}
 
+	public function updateById($id, $fields)
+	{
+
+	}
+	
 	public function getOne($id)
 	{
 		$query = Internet::with('company')->find($id);
