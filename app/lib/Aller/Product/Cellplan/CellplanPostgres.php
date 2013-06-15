@@ -2,10 +2,10 @@
 
 namespace Aller\Product\Cellplan;
 
-use Aller\Product\ProductInterface;
-use Aller\Product\Cellplan\CellplanInterface;
-use Aller\Product\Cellplan\CellplanEntity;
-use Aller\Api\Resource\Eloquent\Resource;
+use \Aller\Product\ProductInterface;
+use \Aller\Product\Cellplan\CellplanInterface;
+use \Aller\Product\Cellplan\CellplanEntity;
+use \Aller\Api\Resource\Eloquent\Resource;
 
 class CellplanPostgres extends Resource implements ProductInterface, CellplanInterface {
 	
