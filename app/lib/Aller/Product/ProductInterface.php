@@ -10,5 +10,6 @@ interface ProductInterface {
 	public function getCount();
 	public function getList($list);
 
+	public function updateById($id, $fields);
 	public function createOne($repository);
 }

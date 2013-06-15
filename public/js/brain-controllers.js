@@ -212,8 +212,25 @@ function EditCtrl($scope, $http, $routeParams) {
 			$scope[key] = value;
 		});
 
+		if ($scope.minutes_toany == -1) { $scope.minutes_toany = 'Ilimitado'; }
+		if ($scope.minutes_tolocal == -1) { $scope.minutes_tolocal = 'Ilimitado'; }
+		if ($scope.minutes_toother == -1) { $scope.minutes_toother = 'Ilimitado'; }
+		if ($scope.minutes_tosame == -1) { $scope.minutes_tosame = 'Ilimitado'; }
+
+		if ($scope.minutes_toany == -1)
+		{
+			$scope.minutes_val = 3000;
+			$("#minutes_show").html('∞');
+		}
+		else
+		{
+			$scope.minutes_val = $scope.minutes_toany;
+			$("#minutes_show").html($scope.minutes_toany);
+		}
+
+
 		$(function() {
-			$("#minutes").val($scope.minutes).trigger("change");
+			$("#minutes").val($scope.minutes_val).trigger("change");
 			$("#messages").val($scope.messages).trigger("change");
 			$("#internet").val($scope.internet).trigger("change");
 		});
@@ -221,45 +238,28 @@ function EditCtrl($scope, $http, $routeParams) {
 
 	// jQuery context
 	$(function() {
-		$("#internet").knob({
-			change: function(value) {
+		$("#internet").knob();
 
-				$scope.internet = value;
-				$scope.$apply();
+		$("#messages").knob();
+
+		$("#minutes").knob();
+
+		$("#minutes_toany, #minutes_toother, #minutes_tolocal, #minutes_tosame").focus(function()
+		{
+			var value = $(this).val();
+
+			if (value == 'Ilimitado')
+			{
+				$scope.minutes_val = 3000;
+				$("#minutes_show").html('∞');
 			}
-		});
-
-		$("#messages").knob({
-			change: function(value) {
-
-				$scope.messages = value;
-				$scope.$apply();
+			else
+			{
+				$scope.minutes_val = value;
+				$("#minutes_show").html(value);
 			}
+
+			$("#minutes").val($scope.minutes_val).trigger("change");
 		});
-
-		$("#minutes").knob({
-			change: function(value) {
-
-				$scope.minutes = parseInt(value);
-				$scope.minutes_toany = $scope.minutes - $scope.minutes_tosame - $scope.minutes_toother;
-
-				if ($scope.minutes_toany < 0)
-				{
-					$scope.minutes_toany = 0;
-					$scope.minutes_tosame = $scope.minutes - $scope.minutes_toother;
-				}
-
-				if ($scope.minutes_tosame < 0)
-				{
-					$scope.minutes_tosame = 0;
-					$scope.minutes_toother = $scope.minutes;
-				}
-				$scope.$apply();
-			}
-		});
-
-		update_minutes = function(value) {
-			
-		}
 	});
 }

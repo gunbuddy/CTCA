@@ -137,7 +137,7 @@
 											Minutos todo destino
 										</div>
 										<div class="large-4 columns">
-											<input type="text" ng-model="minutes_toany" />
+											<input type="text" id="minutes_toany" ng-model="minutes_toany" />
 										</div>
 									</div>
 
@@ -147,7 +147,7 @@
 											Minutos misma compañia
 										</div>
 										<div class="large-4 columns">
-											<input type="text" ng-model="minutes_tosame" />
+											<input type="text" id="minutes_tosame" ng-model="minutes_tosame" />
 										</div>
 									</div>
 
@@ -157,7 +157,7 @@
 											Minutos otras compañias
 										</div>
 										<div class="large-4 columns">
-											<input type="text" ng-model="minutes_toother" />
+											<input type="text" id="minutes_toother" ng-model="minutes_toother" />
 										</div>
 									</div>
 									<div class="row">
@@ -166,7 +166,7 @@
 											Minutos locales
 										</div>
 										<div class="large-4 columns">
-											<input type="text" ng-model="minutes_tolocal" />
+											<input type="text" id="minutes_tolocal" ng-model="minutes_tolocal" />
 										</div>
 									</div>
 								</div>
@@ -224,7 +224,7 @@
 									<div class="row">
 										<div class="large-2 columns" align="left">
 											<div class="check-select">
-												<input name="net3g" ng-model="networks.3g" type="checkbox" id="net3g" />
+												<input name="net3g" ng-model="networks.network_3g" type="checkbox" id="net3g" />
 												<label for="net3g"></label>
 											</div>
 										</div>
@@ -237,7 +237,7 @@
 									<div class="row">
 										<div class="large-2 columns" align="left">
 											<div class="check-select">
-												<input name="net4g" ng-model="networks.4g" type="checkbox" id="net4g" />
+												<input name="net4g" ng-model="networks.network_4g" type="checkbox" id="net4g" />
 												<label for="net4g"></label>
 											</div>
 										</div>
@@ -250,7 +250,7 @@
 									<div class="row">
 										<div class="large-2 columns" align="left">
 											<div class="check-select">
-												<input name="net2g" ng-model="networks.2g" type="checkbox" id="net2g" />
+												<input name="net2g" ng-model="networks.network_2g" type="checkbox" id="net2g" />
 												<label for="net2g"></label>
 											</div>
 										</div>
@@ -266,7 +266,7 @@
 
 							<div class="row" ng-hide="type!='prepaid'">
 								<div class="large-4 columns" align="center">
-									<div class="graph-input-show" ng-bind="minutes"></div>
+									<div class="graph-input-show" id="minutes_show"></div>
 									<input type="text" value="{{ minutes }}" data-displayInput="false" name="minutes" id="minutes" data-min="1" data-readonly="true" data-max="3000" class="dial" data-width="180" data-bgColor="#ECF0F1" data-fgColor="#419CD7">
 								</div>
 					
@@ -304,10 +304,20 @@
 										<div class="row">
 											<div class="large-8 columns">
 												<div class="semi-white-margin"></div>
-												Minuto todo destino
+												Minuto todo destino nacional
 											</div>
 											<div class="large-4 columns">
-												<input type="text" ng-model="additional.minute.unlimited" />
+												<input type="text" ng-model="additional_minute_any_national" />
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="large-8 columns">
+												<div class="semi-white-margin"></div>
+												Minuto todo destino local
+											</div>
+											<div class="large-4 columns">
+												<input type="text" ng-model="additional_minute_any_local" />
 											</div>
 										</div>
 
@@ -317,9 +327,10 @@
 												Minuto misma compañia
 											</div>
 											<div class="large-4 columns">
-												<input type="text" ng-model="additional.minute.unlimited" />
+												<input type="text" ng-model="additional_minute_tosame" />
 											</div>
 										</div>
+
 
 										<div class="row">
 											<div class="large-8 columns">
@@ -327,7 +338,17 @@
 												Minuto otra compañia
 											</div>
 											<div class="large-4 columns">
-												<input type="text" ng-model="additional.minute.unlimited" />
+												<input type="text" ng-model="additional_minute_toother" />
+											</div>
+										</div>
+
+										<div class="row">
+											<div class="large-8 columns">
+												<div class="semi-white-margin"></div>
+												Minuto local
+											</div>
+											<div class="large-4 columns">
+												<input type="text" ng-model="additional_minute_tolocal" />
 											</div>
 										</div>
 									</div>
