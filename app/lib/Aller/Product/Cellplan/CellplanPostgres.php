@@ -5,16 +5,17 @@ namespace Aller\Product\Cellplan;
 use Aller\Product\ProductInterface;
 use Aller\Product\Cellplan\CellplanInterface;
 use Aller\Product\Cellplan\CellplanEntity;
-use \Cellplan;
+use Aller\Api\Resource\Eloquent\Resource;
 
-class CellplanPostgres implements ProductInterface, CellplanInterface {
+class CellplanPostgres extends Resource implements ProductInterface, CellplanInterface {
 	
+	public $table = 'cellplans';
 	public $template = 'list-cellplan.html';
 	public $headers  = 'header-cellplan.html';
 
 	public function getAll() 
 	{
-		return Cellplan::with('company')->get()->toArray();
+		return self::with('company')->get();
 	}
 
 	public function getList($list)
@@ -46,7 +47,7 @@ class CellplanPostgres implements ProductInterface, CellplanInterface {
 	{
 
 	}
-	
+
 	public function getOne($id)
 	{
 		$query = Cellplan::with('company')->find($id);
@@ -63,7 +64,7 @@ class CellplanPostgres implements ProductInterface, CellplanInterface {
 
 	public function getCount()
 	{
-		return Cellplan::remember(30)->count();
+		return self::remember(30)->count();
 	}
 
 	public function createOne($repository)
@@ -125,5 +126,10 @@ class CellplanPostgres implements ProductInterface, CellplanInterface {
 		$make->save();
 
 		return true;
+	}
+
+	public function company()
+	{
+		return $this->belongsTo('Company');
 	}
 } 

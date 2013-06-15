@@ -129,7 +129,7 @@ function ContentCtrl($scope, $http, $filter) {
 		$scope.currentSubcategory.selected = true;
 		$scope.token = $scope.currentSubcategory.aller;
 
-		$http.post('../backend/api/v1/product/show/' + $scope.currentSubcategory.aller, {}).success(function(data) {
+		$http.get('../backend/api/v1/product/show/' + $scope.currentSubcategory.aller).success(function(data) {
 
 			$scope.products = data;		
 			$scope.showPage($scope.pages[0]);	
