@@ -1,5 +1,5 @@
 <?php
-namespace Aller\Api\Facades;
+namespace Aller\API\Facades;
 
 class Response extends \Illuminate\Support\Facades\Response {
 

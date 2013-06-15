@@ -1,7 +1,7 @@
-<?php namespace Aller\Api\Resource\Eloquent;
+<?php namespace Aller\API\Resource\Eloquent;
 
 use Illuminate\Database\Eloquent\Collection as BaseCollection;
-use Aller\Api\Resource\CollectionInterface;
+use Aller\API\Resource\CollectionInterface;
 
 class Collection extends BaseCollection implements CollectionInterface {
 

@@ -1,4 +1,4 @@
-<?php namespace Aller\Api\Resource;
+<?php namespace Aller\API\Resource;
 
 interface CollectionInterface {
 

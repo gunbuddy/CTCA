@@ -1,8 +1,8 @@
-<?php namespace Aller\Api\Resource\Eloquent;
+<?php namespace Aller\API\Resource\Eloquent;
 
 use Illuminate\Database\Eloquent\Model;
-use Aller\Api\Resource\Eloquent\Collection;
-use Aller\Api\Resource\ResourceInterface;
+use Aller\API\Resource\Eloquent\Collection;
+use Aller\API\Resource\ResourceInterface;
 
 class Resource extends Model implements ResourceInterface  {
 
