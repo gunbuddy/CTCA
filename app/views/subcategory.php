@@ -95,8 +95,8 @@
 			.filters h2 { color: #FFF; }
 
 			.filters a.settings {
-				background: #446CB3;
-				color: rgba(255,255,255,0.7);
+				background: #FFF;
+				color: #4D77C2;
 				display: block;
 				font-size: 40px;
 				text-align: center;
