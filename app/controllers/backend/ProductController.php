@@ -38,7 +38,7 @@ class ProductController extends \BaseController {
 			$product = \Aller\Product\Earth::getProvider($category);
 
 			// Get the products from the data storage
-			$product = $interface->getOne($product_id);
+			$product = $product->getOne($product_id);
 
 			return $product;
 		}

@@ -22,13 +22,13 @@ class CellplanPostgres extends Resource implements ProductInterface, CellplanInt
 	{
 		if (!is_array($list)) return false;
 
-		return Cellplan::whereIn('id', $list)->get();
+		return self::whereIn('id', $list)->get();
 	}
 
 	public function getPaged($take, $skip, $filters)
 	{
 		// Some query mysql fancy stuff
-		$query = Cellplan::with('company')->skip($skip)->take($take);
+		$query = self::with('company')->skip($skip)->take($take);
 
 		// Filters
 		foreach ($filters as $filter_id => $filter)
@@ -50,7 +50,7 @@ class CellplanPostgres extends Resource implements ProductInterface, CellplanInt
 
 	public function getOne($id)
 	{
-		$query = Cellplan::with('company')->find($id);
+		$query = self::with('company')->find($id);
 
 		$query->networks = unserialize($query->networks);
 

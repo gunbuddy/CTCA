@@ -36,7 +36,7 @@
 
 		header {
 			background: #34495E;
-			padding: 3em 0;
+			padding: 1em 0;
 		}
 
 		.compare {
@@ -84,11 +84,19 @@
 				}
 		.filters {
 			width: 100%;
-			background: #ECF0F5;
+			background: #4D77C2;
 			padding: 1em 0;
 		}
 
-		.filters h2 { color: #000; }
+			.filters h2 { color: #FFF; }
+
+		#application {
+			background: #ECF0F5;
+		}
+
+		#right-helper {
+			background: #446CB3;
+		}
 		.fade-hide, .fade-show {
 		  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
 		  -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
@@ -109,13 +117,53 @@
 		.fade-show.fade-show-active {
 		  opacity:1;
 		}
+
+		.table-header {
+			color: #2D3E4F;
+			text-transform: uppercase;
+			font-size: 16px;
+		}
+
+		.product-item {
+			background: #FFF;
+			padding: 10px 0;
+			border: 3px solid #E4E9EF;
+		}
+			.name {
+				color: #2D3E4F;
+				text-transform: uppercase;
+				font-size: 12px;
+				font-weight: bold;
+			}
+
+			.company {
+				float: right;
+				background: #0086C3;
+				padding: 2px 3px;
+				color: #FFF;
+				margin-right: 50px;
+				border-radius: 3px;
+				text-transform: uppercase;
+				margin-top: 5px;
+				font-size: 12px;
+			}
+
+			.number {
+				font-size: 18px;
+				color: #425C75;
+			}
+			.number-description {
+				font-size: 12px;
+				color: #345B81;
+				display: block;
+			}
 	</style>
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
 	<?php print HTML::script("https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"); ?>
 	<?php print HTML::script("js/vendor/jquery.js") ?>
 	<?php print HTML::script("js/jquery.chosen.js") ?>
-
+	<?php print HTML::script("http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.4.min.js") ?>
 
 	<script type="text/javascript">
 	FirstSetupCtrl = function($scope, $http, $routeParams)
@@ -165,6 +213,109 @@
 		$rootScope.fourthProduct = {};
 		$rootScope.fifthProduct  = {};
 	});
+
+	app.directive('meter', function() {
+		return {
+			restrict: 'E',
+			replace: true,
+			scope: {
+				max: '@',
+				value: '@'
+			},
+			template: '<div></div>',
+			link: function(scope, element, attrs) {
+
+				var total_percent_points =  52.0 / scope.max;
+				var total_filled_points  = (parseFloat(scope.value) / parseFloat(scope.max)) * 52.0;
+				var total_rest_points    = 52.0 - total_filled_points;
+
+				var stage = new Kinetic.Stage({
+			        container: element[0],
+			        width: 23,
+			        height: 52
+			    });
+
+			    var layer = new Kinetic.Layer();
+			    var rect = new Kinetic.Rect({
+			        x: 0,
+			        y: 0,
+			        width: 23,
+			        height: 52,
+			        fill: '#ECF0F5',
+			    });
+
+			    var fillRectangle = new Kinetic.Rect({
+			        x: 0,
+			        y: 52,
+			        width: 23,
+			        height: 0,
+			        fill: '#28ABE1',
+			    });
+
+			    layer.add(rect);
+			    layer.add(fillRectangle);
+
+      			stage.add(layer);
+
+      			var tween = new Kinetic.Tween({
+			        node: fillRectangle, 
+			        duration: 1,
+			        height: -total_filled_points,
+			        easing: Kinetic.Easings.EaseInOut,
+			    });
+
+				setTimeout(function() {
+			        tween.play();
+			    }, 2000);
+			}
+		};
+	});
+
+	app.directive('stairsMeter', function() {
+		return {
+			restrict: 'E',
+			replace: true,
+			scope: {
+				max: '@',
+				value: '@'
+			},
+			template: '<canvas width="52" height="52"></canvas>',
+			link: function(scope, element, attrs) {
+
+				var context = element[0].getContext('2d');
+
+				context.fillStyle = '#ECF0F5';
+				context.fillRect(0,0,10,10);
+				context.fillRect(0,13,10,10);
+				context.fillRect(0,26,10,10);
+				context.fillRect(0,39,10,10);
+
+				context.fillRect(13,13,10,10);
+				context.fillRect(13,26,10,10);
+				context.fillRect(13,39,10,10);
+
+				context.fillRect(26,26,10,10);
+				context.fillRect(26,39,10,10);
+
+				context.fillRect(39,39,10,10);
+
+				var percent = parseFloat(scope.value) / parseFloat(scope.max) * 100;
+
+				context.fillStyle = '#28ABE1';
+
+				if (percent >= 10) { context.fillRect(39,39,10,10); }
+				if (percent >= 20) { context.fillRect(26,39,10,10); }
+				if (percent >= 30) { context.fillRect(13,39,10,10); }
+				if (percent >= 40) { context.fillRect(0,39,10,10); }
+				if (percent >= 50) { context.fillRect(26,26,10,10); }
+				if (percent >= 60) { context.fillRect(13,26,10,10); }
+				if (percent >= 70) { context.fillRect(0,26,10,10); }
+				if (percent >= 80) { context.fillRect(13,13,10,10); }
+				if (percent >= 90) { context.fillRect(0,13,10,10); }
+				if (percent >= 100) { context.fillRect(0,0,10,10); }
+			}
+		};
+	});
 	</script>
 </head>
 
@@ -172,7 +323,7 @@
 	<header>
 		<div class="row">
 			<div class="large-4 columns">
-				<h1>Planes de telefonia</h1>
+				<img src="<?php echo asset('img/plain-logo.png'); ?>" width="50" />
 			</div>
 		</div>
 	</header>
@@ -224,9 +375,12 @@
 	</section>
 
 	<section id="application">
-		<div class="row">
-			<div class="large-12 columns" ng-view>
+		<div class="row" style="max-width:100em">
+			<div class="large-11 columns" ng-view>
 				
+			</div>
+			<div class="large-1 columns" id="right-helper">
+				x
 			</div>
 		</div>
 	</section>
@@ -238,44 +392,71 @@
 
 
 	<script type="text/ng-template" id="setup.html">
-		<div class="row" style="margin-top: 50px;margin-bottom: 20px;">
-			<div class="large-12 columns">
-				<div class="large-4 columns">
-				Plan y compañia
-				</div>
-				<div class="large-2 columns">
-				Clasificacion
-				</div>
-				<div class="large-2 columns">
-				Costo mensual
-				</div>
-				<div class="large-2 columns">
-				Minutos
-				</div>
-				<div class="large-2 columns">
-				Mensajes
-				</div>
-			</div>
 
-			<div class="large-12 columns" ng-repeat="product in products">
-				<div class="large-4 columns">
-				{{ product.name }} <br /> <strong>{{ product.company.name }}</strong>
+		<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
+			<div class="large-12 columns">
+				<div class="large-3 columns">
+					<span class="table-header">Plan y compañia</span>
 				</div>
 				<div class="large-2 columns">
-				not yet
+					<span class="table-header">Minutos</span>
 				</div>
 				<div class="large-2 columns">
-				$ {{ product.fee }}
+					<span class="table-header">Mensajes</span>
+				</div>
+				<div class="large-1 columns">
+					<span class="table-header">Internet</span>
+				</div>
+				<div class="large-2 columns" align="center">
+					<span class="table-header">Costo mensual</span>
 				</div>
 				<div class="large-2 columns">
-				{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}
-				</div>
-				<div class="large-2 columns">
-				{{ product.messages }}
+					<span class="table-header">Afinidad</span>
 				</div>
 			</div>
 		</div>
-		
+
+		<div class="row" ng-repeat="product in products">
+			<div class="large-12 columns product-item">
+				<div class="large-3 columns">
+					<div class="name">{{ product.name }}</div>
+					<div class="company {{ product.company.label }}">{{ product.company.name }}</div>
+				</div>
+				<div class="large-2 columns">
+					<div class="row">
+						<div class="large-2 large-offset-2 columns">
+							<meter value="{{ product.minutes_toany }}" max="2000"></meter>
+						</div>
+						<div class="large-4 columns" align="center">
+							<span class="number">{{ product.minutes_toany }}</span>
+							<span class="number-description">al mes</span>
+						</div>
+						<div class="large-4 columns"></div>
+					</div>
+				</div>
+				<div class="large-2 columns">
+					<div class="row">
+						<div class="large-4 large-offset-1 columns">
+							<stairs-meter value="{{ product.messages }}" max="200"></stairs-meter>
+						</div>
+						<div class="large-4 columns" align="center">
+							<span class="number">{{ product.messages }}</span>
+							<span class="number-description">al mes</span>
+						</div>
+						<div class="large-3 columns"></div>
+					</div>
+				</div>
+				<div class="large-1 columns">
+					<span class="table-header">Internet</span>
+				</div>
+				<div class="large-2 columns" align="center">
+					<span class="table-header">$ {{ product.fee }}</span>
+				</div>
+				<div class="large-2 columns">
+					<span class="table-header">Afinidad</span>
+				</div>
+			</div>
+		</div>
 	</script>
 </body>
 </html>
