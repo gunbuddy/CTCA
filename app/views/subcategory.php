@@ -403,9 +403,11 @@
 				id: '@',
 			},
 			replace: true,
-			template: '<input type="text" value="{{ value }}" data-value="{{ value }}" data-height="50" data-max="{{ max }}" data-width="50" data-bgColor="#ECF0F5" data-angleOffset=-125 data-angleArc=250 data-fgColor="#28ABE1">',
+			template: '<input type="text" value="{{ value }}" data-height="50" data-max="{{ max }}" data-readOnly=true data-displayInput=false data-width="50" data-bgColor="#ECF0F5" data-angleOffset=-125 data-angleArc=250 data-fgColor="#28ABE1">',
 			link: function(scope, element, attrs) {
 
+				$(element).attr('value', scope.value);
+				$(element).data('max', scope.max);
 				$(element).knob();
 			},
 		}
@@ -538,7 +540,7 @@
 					</div>
 				</div>
 				<div class="large-1 columns" align="center">
-					<radial-meter id="{{ product.id }}" value="100" max="200"></radial-meter>
+					<radial-meter id="{{ product.id }}" value="{{ product.internet }}" max="4096"></radial-meter>
 				</div>
 				<div class="large-2 columns" align="center">
 					<span class="price">$ {{ product.fee }}</span>
