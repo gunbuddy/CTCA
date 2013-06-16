@@ -15,7 +15,7 @@ class CellplanPostgres extends Resource implements ProductInterface, CellplanInt
 
 	public function getAll() 
 	{
-		return self::with('company')->get();
+		return self::with('company')->orderBy('fee', 'asc')->where('fee', '>', 0)->where('billing', 'monthly')->get();
 	}
 
 	public function getList($list)
@@ -70,7 +70,7 @@ class CellplanPostgres extends Resource implements ProductInterface, CellplanInt
 	public function createOne($repository)
 	{
 
-		$make = new Cellplan;
+		$make = new self;
 
 		$make->name = $repository->name;
 		$make->company_id = $repository->company;

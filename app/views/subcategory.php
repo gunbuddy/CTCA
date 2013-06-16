@@ -10,6 +10,7 @@
 	<?php print HTML::style("css/foundation.css") ?>
 	<?php print HTML::script("js/vendor/custom.modernizr.js") ?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 
 	<style type="text/css">
 		body, html {
@@ -18,7 +19,7 @@
 
 		body {
 			background: #FFF;
-			font:14px/1.231 "Lato", sans-serif;
+			font:14px/1.231 "Varela Round", sans-serif;
 			width: 100%;
 			height: 100%;
 		}
@@ -100,12 +101,13 @@
 				text-align: center;
 			}
 		#application {
-			background: #ECF0F5;
+			background: #F6F8F8;
 		}
 
 		#right-helper {
 			background: #446CB3;
 		}
+
 		.fade-hide, .fade-show {
 		  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
 		  -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
@@ -254,7 +256,12 @@
 	<?php print HTML::script("http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.4.min.js") ?>
 
 	<script type="text/javascript">
-	FirstSetupCtrl = function($scope, $http, $routeParams)
+	FirstSetupCtrl = function($scope, $location)
+	{
+
+	};
+
+	SecondSetupCtrl = function($scope, $http, $routeParams)
 	{
 		if ($routeParams.filters)
 		{
@@ -276,8 +283,8 @@
 
 		$locationProvider.hashPrefix('!');
 		$routeProvider.
-			when('/', {templateUrl: 'setup.html', controller: FirstSetupCtrl}).
-			otherwise({redirectTo: '/'});
+			when('/list', {templateUrl: 'setup.html', controller: SecondSetupCtrl}).
+			otherwise({redirectTo: '/list'});
 	});
 
 
@@ -428,7 +435,7 @@
 		</div>
 	</header>
 
-	<section class="compare">
+	<section class="compare" ng-hide="true">
 		<div class="row">
 			<div class="large-2 columns">
 				<a href="#" ng-click="compare()" class="button" style="margin-top:1.5em">Comparar</a>
@@ -486,7 +493,6 @@
 	<script>
 		$(document).foundation();
 	</script>
-
 
 	<script type="text/ng-template" id="setup.html">
 
