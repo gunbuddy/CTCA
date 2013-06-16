@@ -207,6 +207,10 @@
 			a.action:hover {
 				color: #26B99A;
 			}
+
+			.radialNumber {
+				color: #425C75;
+			}
 		.custom-enter,
 		.custom-leave,
 		.custom-move {
@@ -509,7 +513,7 @@
 			</div>
 		</div>
 
-		<div class="row" ng-repeat="product in products" ng-animate="'custom'">
+		<div class="row" ng-repeat="product in products | limitTo:10" ng-animate="'custom'">
 			<div class="large-12 columns product-item">
 				<div class="large-3 columns">
 					<div class="name">{{ product.name }}</div>
@@ -518,10 +522,10 @@
 				<div class="large-2 columns">
 					<div class="row">
 						<div class="large-2 large-offset-1 columns">
-							<meter value="{{ product.minutes_toany }}" max="250"></meter>
+							<meter value="{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}" max="1600"></meter>
 						</div>
 						<div class="large-4 columns" align="center">
-							<span class="number">{{ product.minutes_toany }}</span>
+							<span class="number">{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}</span>
 							<span class="number-description">al mes</span>
 						</div>
 						<div class="large-5 columns"></div>
@@ -540,7 +544,8 @@
 					</div>
 				</div>
 				<div class="large-1 columns" align="center">
-					<radial-meter id="{{ product.id }}" value="{{ product.internet }}" max="4096"></radial-meter>
+					<radial-meter id="{{ product.id }}" value="{{ product.internet }}" max="1024"></radial-meter>
+					<div class="radialNumber">{{ product.internet }} MB</div>
 				</div>
 				<div class="large-2 columns" align="center">
 					<span class="price">$ {{ product.fee }}</span>

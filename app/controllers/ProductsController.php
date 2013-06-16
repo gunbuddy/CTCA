@@ -49,7 +49,7 @@ class ProductsController extends BaseController {
 				}
 			}
 
-			$products = $aller->getPaged($take, $skip, $filters);
+			$products = $aller->getAll();
 
 			return $products;
 		}
