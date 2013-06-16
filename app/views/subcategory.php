@@ -22,6 +22,7 @@
 			font:14px/1.231 "Varela Round", sans-serif;
 			width: 100%;
 			height: 100%;
+			padding-top: 90px;
 		}
 
 		body h1 {
@@ -85,7 +86,10 @@
 		.filters {
 			width: 100%;
 			background: #4D77C2;
-			padding: 1em 0;
+			position: fixed;
+			left: 0px;
+			top: 0px;
+			z-index: 1000;
 		}
 
 			.filters h2 { color: #FFF; }
@@ -99,6 +103,36 @@
 				height: 100px;
 				line-height: 100px;
 				text-align: center;
+			}
+
+			.filters a {
+				color: #FFF;
+				display: inline-block;
+				height: 100px;
+				text-align: center;
+				width: 100%;
+				padding: 30px 0 0;
+				font-size: 18px;
+				-webkit-transition: 0.35s linear all;
+				-moz-transition: 0.35s linear all;
+				-o-transition: 0.35s linear all;
+				transition: 0.35s linear all;
+				background: #4D77C2 url(../img/border.png) repeat-y top left;
+			}
+
+			.filters a span.info {
+				display: block;
+				font-size: 13px;
+				margin-top: 10px;
+			}
+
+			.filters a:hover {
+				background: #FFF url(../img/border.png) repeat-y top left;
+				color: #4D77C2;
+			}
+
+			.filters img {
+				margin: 8px 0;
 			}
 		#application {
 			background: #F6F8F8;
@@ -427,7 +461,7 @@
 </head>
 
 <body ng-app="Comparison">
-	<header>
+	<header ng-hide="true">
 		<div class="row">
 			<div class="large-4 columns">
 				<img src="<?php echo asset('img/plain-logo.png'); ?>" width="50" />
@@ -476,8 +510,32 @@
 	<section class="filters">
 		<div class="row" style="max-width:100em">
 			<div class="large-2 columns">
-				<a href="#" class="settings"><i class="icon-umbrella"></i></a>
+				<img src="<?php echo asset("img/small-logo.png"); ?>"  />
 			</div>
+
+			<div class="large-10 columns">
+				<div class="row collapse">
+					<div class="large-2 columns">
+						<a href="#">Minutos al mes <span class="info">0 a 2000 / mes</span></a>
+					</div>
+
+					<div class="large-2 columns">
+						<a href="#">Mensajes <span class="info">0 a 2000 / mes</span></a>
+					</div>
+
+					<div class="large-2 columns">
+						<a href="#">Internet movil <span class="info">0 MB a 2000 MB</span></a>
+					</div>
+
+					<div class="large-3 columns">
+						<a href="#">Costo <span class="info">$0 a $2000 por mes</span></a>
+					</div>
+
+					<div class="large-3 columns">
+						<a href="#">Compañia <span class="info">todas</span></a>
+					</div>
+				</div>
+			</div>	
 		</div>
 	</section>
 
