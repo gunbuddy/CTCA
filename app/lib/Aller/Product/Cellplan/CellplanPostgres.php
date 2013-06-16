@@ -28,7 +28,7 @@ class CellplanPostgres extends Resource implements ProductInterface, CellplanInt
 	public function getPaged($take, $skip, $filters)
 	{
 		// Some query mysql fancy stuff
-		$query = self::with('company')->skip($skip)->take($take);
+		$query = self::with('company')->skip($skip)->take($take)->orderBy('fee', 'asc')->where('fee', '>', 0);
 
 		// Filters
 		foreach ($filters as $filter_id => $filter)

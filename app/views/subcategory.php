@@ -4,11 +4,10 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width" />
 
-	<title>Comparateca | <?php echo $subcategory->name; ?></title>
+	<title>Comparateca | Comparaciones de <?php echo $subcategory->name; ?></title>
 
 	<?php print HTML::style("css/normalize.css") ?>
 	<?php print HTML::style("css/foundation.css") ?>
-	<?php print HTML::style("css/chosen.css") ?>
 	<?php print HTML::script("js/vendor/custom.modernizr.js") ?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
 
@@ -90,6 +89,16 @@
 
 			.filters h2 { color: #FFF; }
 
+			.filters a.settings {
+				background: #446CB3;
+				color: rgba(255,255,255,0.7);
+				display: block;
+				font-size: 40px;
+				width: 100px;
+				height: 100px;
+				line-height: 100px;
+				text-align: center;
+			}
 		#application {
 			background: #ECF0F5;
 		}
@@ -128,7 +137,9 @@
 			background: #FFF;
 			padding: 10px 0;
 			border: 3px solid #E4E9EF;
+			border-bottom: 0px;
 		}
+
 			.name {
 				color: #2D3E4F;
 				text-transform: uppercase;
@@ -148,6 +159,18 @@
 				font-size: 12px;
 			}
 
+			.company.green {
+				background: #79CF19;
+			}
+
+			.company.red {
+				background: #ED4545;
+			}
+
+			.company.orange {
+				background: #FBA617;
+			}
+
 			.number {
 				font-size: 18px;
 				color: #425C75;
@@ -158,6 +181,32 @@
 				display: block;
 			}
 
+			.price {
+				color: #425C75;
+				font-size: 22px;
+				font-weight: bold;
+				border: 3px solid #25BC9D;
+				padding: 5px;
+				display: block;
+				width: 100px;
+				border-radius: 3px;
+			}
+
+			a.action {
+				color: #425C75;
+				font-size: 24px;
+				text-decoration: none;
+				display: inline-block;
+				margin: 10px;
+				-webkit-transition: 0.35s linear all;
+				-moz-transition: 0.35s linear all;
+				-o-transition: 0.35s linear all;
+				transition: 0.35s linear all;
+			}
+
+			a.action:hover {
+				color: #26B99A;
+			}
 		.custom-enter,
 		.custom-leave,
 		.custom-move {
@@ -197,7 +246,7 @@
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
 	<?php print HTML::script("https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"); ?>
 	<?php print HTML::script("js/vendor/jquery.js") ?>
-	<?php print HTML::script("js/jquery.chosen.js") ?>
+	<?php print HTML::script("js/jquery.knob.js") ?>
 	<?php print HTML::script("http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.4.min.js") ?>
 
 	<script type="text/javascript">
@@ -215,13 +264,6 @@
 		$http.post('/tunnel/products/<?php echo $subcategory->aller; ?>', {take: 10, skip:0, filter: filtrate}).success(function(data)
 		{
 			$scope.products = data;
-		});
-
-		$(function() {
-
-			console.log(filtrate);
-
-			$("#filters").chosen({no_results_text:'Uups, ningun filtro llamado '});
 		});
 	};
 
@@ -351,6 +393,23 @@
 			}
 		};
 	});
+
+	app.directive('radialMeter', function() {
+		return {
+			restrict: 'E',
+			scope: {
+				value: '@',
+				max: '@',
+				id: '@',
+			},
+			replace: true,
+			template: '<input type="text" value="{{ value }}" data-value="{{ value }}" data-height="50" data-max="{{ max }}" data-width="50" data-bgColor="#ECF0F5" data-angleOffset=-125 data-angleArc=250 data-fgColor="#28ABE1">',
+			link: function(scope, element, attrs) {
+
+				$(element).knob();
+			},
+		}
+	});
 	</script>
 </head>
 
@@ -402,20 +461,17 @@
 	</section>
 
 	<section class="filters">
-		<div class="row">
-			<div class="large-12 columns">
-				<h2>Filtros</h2>
+		<div class="row" style="max-width:100em">
+			<div class="large-2 columns">
+				<a href="#" class="settings"><i class="icon-umbrella"></i></a>
 			</div>
 		</div>
 	</section>
 
 	<section id="application">
 		<div class="row" style="max-width:100em">
-			<div class="large-11 columns" ng-view>
+			<div class="large-12 columns" ng-view>
 				
-			</div>
-			<div class="large-1 columns" id="right-helper">
-				x
 			</div>
 		</div>
 	</section>
@@ -433,7 +489,7 @@
 				<div class="large-3 columns">
 					<span class="table-header">Plan y compañia</span>
 				</div>
-				<div class="large-2 columns">
+				<div class="large-2 columns" align="left">
 					<span class="table-header">Minutos</span>
 				</div>
 				<div class="large-2 columns">
@@ -443,10 +499,10 @@
 					<span class="table-header">Internet</span>
 				</div>
 				<div class="large-2 columns" align="center">
-					<span class="table-header">Costo mensual</span>
+					<span class="table-header">Precio</span>
 				</div>
 				<div class="large-2 columns">
-					<span class="table-header">Afinidad</span>
+					<span class="table-header"></span>
 				</div>
 			</div>
 		</div>
@@ -459,20 +515,20 @@
 				</div>
 				<div class="large-2 columns">
 					<div class="row">
-						<div class="large-2 large-offset-2 columns">
-							<meter value="{{ product.minutes_toany }}" max="2000"></meter>
+						<div class="large-2 large-offset-1 columns">
+							<meter value="{{ product.minutes_toany }}" max="250"></meter>
 						</div>
 						<div class="large-4 columns" align="center">
 							<span class="number">{{ product.minutes_toany }}</span>
 							<span class="number-description">al mes</span>
 						</div>
-						<div class="large-4 columns"></div>
+						<div class="large-5 columns"></div>
 					</div>
 				</div>
 				<div class="large-2 columns">
 					<div class="row">
 						<div class="large-4 large-offset-1 columns">
-							<stairs-meter value="{{ product.messages }}" max="200"></stairs-meter>
+							<stairs-meter value="{{ product.messages }}" max="20"></stairs-meter>
 						</div>
 						<div class="large-4 columns" align="center">
 							<span class="number">{{ product.messages }}</span>
@@ -481,14 +537,14 @@
 						<div class="large-3 columns"></div>
 					</div>
 				</div>
-				<div class="large-1 columns">
-					<span class="table-header">Internet</span>
+				<div class="large-1 columns" align="center">
+					<radial-meter id="{{ product.id }}" value="100" max="200"></radial-meter>
 				</div>
 				<div class="large-2 columns" align="center">
-					<span class="table-header">$ {{ product.fee }}</span>
+					<span class="price">$ {{ product.fee }}</span>
 				</div>
 				<div class="large-2 columns">
-					<span class="table-header">Afinidad</span>
+					<span class="table-header"><a href="#" class="action"><i class="icon-comments-alt"></i></a> <a href="#" class="action"><i class="icon-plus"></i></a></span>
 				</div>
 			</div>
 		</div>
