@@ -157,6 +157,41 @@
 				color: #345B81;
 				display: block;
 			}
+
+		.custom-enter,
+		.custom-leave,
+		.custom-move {
+		  -webkit-transition: 0.35s linear all;
+		  -moz-transition: 0.35s linear all;
+		  -o-transition: 0.35s linear all;
+		  transition: 0.35s linear all;
+		  position:relative;
+		}
+
+		.custom-enter {
+		  left:-10px;
+		  opacity:0;
+		}
+		.custom-enter.custom-enter-active {
+		  left:0;
+		  opacity:1;
+		}
+
+		.custom-leave {
+		  left:0;
+		  opacity:1;
+		}
+		.custom-leave.custom-leave-active {
+		  left:-10px;
+		  opacity:0;
+		}
+
+		.custom-move {
+		  opacity:0.5;
+		}
+		.custom-move.custom-move-active {
+		  opacity:1;
+		}
 	</style>
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
@@ -416,7 +451,7 @@
 			</div>
 		</div>
 
-		<div class="row" ng-repeat="product in products">
+		<div class="row" ng-repeat="product in products" ng-animate="'custom'">
 			<div class="large-12 columns product-item">
 				<div class="large-3 columns">
 					<div class="name">{{ product.name }}</div>
