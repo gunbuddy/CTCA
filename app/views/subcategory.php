@@ -99,9 +99,6 @@
 				color: rgba(255,255,255,0.7);
 				display: block;
 				font-size: 40px;
-				width: 100px;
-				height: 100px;
-				line-height: 100px;
 				text-align: center;
 			}
 
@@ -527,12 +524,16 @@
 						<a href="#">Internet movil <span class="info">0 MB a 2000 MB</span></a>
 					</div>
 
-					<div class="large-3 columns">
+					<div class="large-2 columns">
 						<a href="#">Costo <span class="info">$0 a $2000 por mes</span></a>
 					</div>
 
-					<div class="large-3 columns">
+					<div class="large-2 columns">
 						<a href="#">Compañia <span class="info">todas</span></a>
+					</div>
+
+					<div class="large-2 columns">
+						<a href="#" class="settings"><i class="icon-cogs"></i></a>
 					</div>
 				</div>
 			</div>	
