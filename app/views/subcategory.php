@@ -251,7 +251,7 @@
 				color: #425C75;
 				font-size: 22px;
 				font-weight: bold;
-				border: 3px solid #25BC9D;
+				border: 3px solid #28ABE1;
 				padding: 5px;
 				display: block;
 				width: 100px;
@@ -627,13 +627,20 @@
 						<span class="table-header">Precio</span>
 					</div>
 					<div class="large-2 columns">
-						<span class="table-header"></span>
+						<select id="order_by" ng-model="orderBy">
+							<option selected>Ordernar por </option>
+							<option value="name">Nombre y compañia</option>
+							<option value="fee">Costo mensual</option>
+							<option value="-messages">Mensajes incluidos</option>
+							<option value="-minutes_toany">Minutos incluidos</option>
+							<option value="-internet">Internet</option>
+						</select>
 					</div>
 				</div>
 			</div>
 		</div>
 
-		<div class="row" ng-repeat="product in products | limitTo:10" ng-animate="'custom'">
+		<div class="row" ng-repeat="product in products | orderBy:orderBy:false" ng-animate="'custom'">
 			<div class="large-12 columns">
 				<div class="row product-item">
 					<div class="large-3 columns">
@@ -643,7 +650,7 @@
 					<div class="large-2 columns">
 						<div class="row">
 							<div class="large-2 large-offset-1 columns">
-								<meter value="{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}" max="260"></meter>
+								<meter value="{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}" max="4000"></meter>
 							</div>
 							<div class="large-4 columns" align="center">
 								<span class="number">{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}</span>
@@ -655,7 +662,7 @@
 					<div class="large-2 columns">
 						<div class="row">
 							<div class="large-4 large-offset-1 columns">
-								<stairs-meter value="{{ product.messages }}" max="20"></stairs-meter>
+								<stairs-meter value="{{ product.messages }}" max="1000"></stairs-meter>
 							</div>
 							<div class="large-4 columns" align="center">
 								<span class="number">{{ product.messages }}</span>
@@ -665,7 +672,7 @@
 						</div>
 					</div>
 					<div class="large-1 columns" align="center">
-						<radial-meter id="{{ product.id }}" value="{{ product.internet }}" max="1024"></radial-meter>
+						<radial-meter id="{{ product.id }}" value="{{ product.internet }}" max="4096"></radial-meter>
 						<div class="radialNumber">{{ product.internet }} MB</div>
 					</div>
 					<div class="large-2 columns" align="center">
