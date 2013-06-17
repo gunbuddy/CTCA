@@ -94,6 +94,18 @@
 			background: #3A9AD8;
 		}
 
+		.filters.stick {
+			position: fixed;
+			top: 0px;
+			z-index: 1000;
+		}
+
+		.filters-hide {
+			width:100%;
+			height: 100px;
+			display: none;
+		}
+
 			.filters h2 { color: #FFF; }
 
 			.filters a.settings {
@@ -340,6 +352,23 @@
 		{
 			$scope.products = data;
 		});
+
+		$(function() {
+		    var s = $(".filters");
+		    var h = $(".filters-hide");
+
+		    var pos = s.position();                    
+		    $(window).scroll(function() {
+		        var windowpos = $(window).scrollTop();
+		        if (windowpos >= pos.top) {
+		            s.addClass("stick");
+		            h.show();
+		        } else {
+		            s.removeClass("stick"); 
+		            h.hide();
+		        }
+		    });
+		});
 	};
 
 	app = angular.module("Comparison", [])
@@ -557,6 +586,7 @@
 		</div>
 	</section>
 
+	<section class="filters-hide">&nbsp;</section>
 	<section class="filters">
 		<div class="row" style="max-width:100em">
 			<div class="large-12 columns">
@@ -628,7 +658,6 @@
 					</div>
 					<div class="large-2 columns">
 						<select id="order_by" ng-model="orderBy">
-							<option selected>Ordernar por </option>
 							<option value="name">Nombre y compañia</option>
 							<option value="fee">Costo mensual</option>
 							<option value="-messages">Mensajes incluidos</option>
