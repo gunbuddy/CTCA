@@ -22,7 +22,6 @@
 			font:14px/1.231 "Varela Round", sans-serif;
 			width: 100%;
 			height: 100%;
-			padding-top: 90px;
 		}
 
 		body h1 {
@@ -40,8 +39,15 @@
 			padding: 1em 0;
 		}
 
+		header a.category {
+			color: #FFF;
+			margin-top: 2.5em;
+			display: block;
+			text-align: center;
+		}
+
 		.compare {
-			background: #446CB3;
+			background: #2c3e50;
 			padding: 3em 0;
 		}
 
@@ -58,12 +64,12 @@
 			.compare .product {
 				padding: 1em;
 				background: #FFF;
-				color: #446CB3;
+				color: #34495E;
 				position: relative;
 			}
 				.compare .product div.drop {
-					background: #253B62;
-					color: #446CB3;
+					background: #F6F8F8;
+					color: #34495E;
 					top: -10px;
 					right: -10px;
 					position: absolute;
@@ -85,18 +91,14 @@
 				}
 		.filters {
 			width: 100%;
-			background: #4D77C2;
-			position: fixed;
-			left: 0px;
-			top: 0px;
-			z-index: 1000;
+			background: #3A9AD8;
 		}
 
 			.filters h2 { color: #FFF; }
 
 			.filters a.settings {
 				background: #FFF;
-				color: #4D77C2;
+				color: #3A9AD8;
 				display: block;
 				font-size: 40px;
 				text-align: center;
@@ -114,7 +116,7 @@
 				-moz-transition: 0.35s linear all;
 				-o-transition: 0.35s linear all;
 				transition: 0.35s linear all;
-				background: #4D77C2 url(../img/border.png) repeat-y top left;
+				background: #3A9AD8;
 			}
 
 			.filters a span.info {
@@ -124,13 +126,43 @@
 			}
 
 			.filters a:hover {
-				background: #FFF url(../img/border.png) repeat-y top left;
-				color: #4D77C2;
+				background: #FFF;
+				color: #3A9AD8;
 			}
 
 			.filters img {
 				margin: 8px 0;
 			}
+
+			.filters .filter {
+				position:relative;
+			}
+
+			.filters .filter .filter-drop {
+				background: #FFF;
+				display: none;
+				position: absolute;
+				width: 100%;
+				padding: 10px;
+				z-index: 1000;
+			}
+
+			.filters .filter .filter-drop::before {
+				content: "";
+				border-style: solid;
+				border-width: 0 20px 12px 20px;
+				border-color: transparent transparent #FFF transparent;
+				height: 0;
+				position: absolute;
+				left: 40%;
+				top: -12px;
+				width: 0;
+				-webkit-transform: rotate(360deg);
+			}
+			.filters .filter:hover > .filter-drop {
+				display: block;
+			}
+
 		#application {
 			background: #F6F8F8;
 		}
@@ -168,9 +200,11 @@
 
 		.product-item {
 			background: #FFF;
-			padding: 10px 0;
-			border: 3px solid #E4E9EF;
+			padding-bottom: 10px;
+			padding-top: 10px;
 			border-bottom: 0px;
+			margin-left: 0.9375em;
+			margin-right: 0.9375em;
 		}
 
 			.name {
@@ -181,12 +215,11 @@
 			}
 
 			.company {
-				float: right;
+				float: left;
 				background: #0086C3;
 				padding: 2px 3px;
 				color: #FFF;
 				margin-right: 50px;
-				border-radius: 3px;
 				text-transform: uppercase;
 				margin-top: 5px;
 				font-size: 12px;
@@ -458,45 +491,65 @@
 </head>
 
 <body ng-app="Comparison">
-	<header ng-hide="true">
-		<div class="row">
-			<div class="large-4 columns">
+	<header>
+		<div class="row" style="max-width:100em">
+			<div class="large-2 columns" align="center">
 				<img src="<?php echo asset('img/plain-logo.png'); ?>" width="50" />
+			</div>
+
+			<div class="large-2 columns">
+				<a href="#" class="category">Telecomunicaciones</a>
+			</div>
+
+			<div class="large-2 columns">
+				<a href="#" class="category">Educación</a>
+			</div>
+
+			<div class="large-2 columns">
+				<a href="#" class="category">Turismo</a>
+			</div>
+
+			<div class="large-2 columns">
+				<a href="#" class="category">Vehículos</a>
+			</div>
+
+			<div class="large-2 columns">
+				<a href="#" class="category">Electronicos</a>
 			</div>
 		</div>
 	</header>
 
 	<section class="compare" ng-hide="true">
-		<div class="row">
+		<div class="row" style="max-width:100em">
 			<div class="large-2 columns">
 				<a href="#" ng-click="compare()" class="button" style="margin-top:1.5em">Comparar</a>
 			</div>
 			<div class="large-2 columns">
-				<div class="product" ng-show="firstProduct.name" ng-animate="'fade'">
+				<div class="product" ng-animate="'fade'">
 					<div class="drop" ng-click="firstProduct={}"><i class="icon-remove"></i></div>
-					<h4>Telcel Plus Mixto 40</h4>
+					<h4>MÁS X MENOS 1</h4>
 				</div>
 			</div>
 			<div class="large-2 columns">
-				<div class="product" ng-show="secondProduct.name">
+				<div class="product">
+					<div class="drop"><i class="icon-remove"></i></div>
+					<h4>IUSAPACK 199 +COMUNIDAD</h4>
+				</div>
+			</div>
+			<div class="large-2 columns">
+				<div class="product">
+					<div class="drop"><i class="icon-remove"></i></div>
+					<h4>PLAN LIBERTAD 199</h4>
+				</div>
+			</div>
+			<div class="large-2 columns">
+				<div class="product">
 					<div class="drop"><i class="icon-remove"></i></div>
 					<h4>Telcel Plus Mixto 40</h4>
 				</div>
 			</div>
 			<div class="large-2 columns">
-				<div class="product" ng-show="thirdProduct.name">
-					<div class="drop"><i class="icon-remove"></i></div>
-					<h4>Telcel Plus Mixto 40</h4>
-				</div>
-			</div>
-			<div class="large-2 columns">
-				<div class="product" ng-show="fourthProduct.name">
-					<div class="drop"><i class="icon-remove"></i></div>
-					<h4>Telcel Plus Mixto 40</h4>
-				</div>
-			</div>
-			<div class="large-2 columns">
-				<div class="product" ng-show="fifthProduct.name">
+				<div class="product">
 					<div class="drop"><i class="icon-remove"></i></div>
 					<h4>Telcel Plus Mixto 40</h4>
 				</div>
@@ -506,14 +559,14 @@
 
 	<section class="filters">
 		<div class="row" style="max-width:100em">
-			<div class="large-2 columns">
-				<img src="<?php echo asset("img/small-logo.png"); ?>"  />
-			</div>
-
-			<div class="large-10 columns">
+			<div class="large-12 columns">
 				<div class="row collapse">
-					<div class="large-2 columns">
+					<div class="large-2 columns filter">
 						<a href="#">Minutos al mes <span class="info">0 a 2000 / mes</span></a>
+
+						<div class="filter-drop">
+							test
+						</div>
 					</div>
 
 					<div class="large-2 columns">
@@ -557,66 +610,70 @@
 
 		<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
 			<div class="large-12 columns">
-				<div class="large-3 columns">
-					<span class="table-header">Plan y compañia</span>
-				</div>
-				<div class="large-2 columns" align="left">
-					<span class="table-header">Minutos</span>
-				</div>
-				<div class="large-2 columns">
-					<span class="table-header">Mensajes</span>
-				</div>
-				<div class="large-1 columns">
-					<span class="table-header">Internet</span>
-				</div>
-				<div class="large-2 columns" align="center">
-					<span class="table-header">Precio</span>
-				</div>
-				<div class="large-2 columns">
-					<span class="table-header"></span>
+				<div class="row">
+					<div class="large-3 columns">
+						<span class="table-header">Plan y compañia</span>
+					</div>
+					<div class="large-2 columns" align="left">
+						<span class="table-header">Minutos</span>
+					</div>
+					<div class="large-2 columns">
+						<span class="table-header">Mensajes</span>
+					</div>
+					<div class="large-1 columns">
+						<span class="table-header">Internet</span>
+					</div>
+					<div class="large-2 columns" align="center">
+						<span class="table-header">Precio</span>
+					</div>
+					<div class="large-2 columns">
+						<span class="table-header"></span>
+					</div>
 				</div>
 			</div>
 		</div>
 
 		<div class="row" ng-repeat="product in products | limitTo:10" ng-animate="'custom'">
-			<div class="large-12 columns product-item">
-				<div class="large-3 columns">
-					<div class="name">{{ product.name }}</div>
-					<div class="company {{ product.company.label }}">{{ product.company.name }}</div>
-				</div>
-				<div class="large-2 columns">
-					<div class="row">
-						<div class="large-2 large-offset-1 columns">
-							<meter value="{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}" max="260"></meter>
-						</div>
-						<div class="large-4 columns" align="center">
-							<span class="number">{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}</span>
-							<span class="number-description">al mes</span>
-						</div>
-						<div class="large-5 columns"></div>
+			<div class="large-12 columns">
+				<div class="row product-item">
+					<div class="large-3 columns">
+						<div class="name">{{ product.name }}</div>
+						<div class="company {{ product.company.label }}">{{ product.company.name }}</div>
 					</div>
-				</div>
-				<div class="large-2 columns">
-					<div class="row">
-						<div class="large-4 large-offset-1 columns">
-							<stairs-meter value="{{ product.messages }}" max="20"></stairs-meter>
+					<div class="large-2 columns">
+						<div class="row">
+							<div class="large-2 large-offset-1 columns">
+								<meter value="{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}" max="260"></meter>
+							</div>
+							<div class="large-4 columns" align="center">
+								<span class="number">{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}</span>
+								<span class="number-description">al mes</span>
+							</div>
+							<div class="large-5 columns"></div>
 						</div>
-						<div class="large-4 columns" align="center">
-							<span class="number">{{ product.messages }}</span>
-							<span class="number-description">al mes</span>
-						</div>
-						<div class="large-3 columns"></div>
 					</div>
-				</div>
-				<div class="large-1 columns" align="center">
-					<radial-meter id="{{ product.id }}" value="{{ product.internet }}" max="1024"></radial-meter>
-					<div class="radialNumber">{{ product.internet }} MB</div>
-				</div>
-				<div class="large-2 columns" align="center">
-					<span class="price">$ {{ product.fee }}</span>
-				</div>
-				<div class="large-2 columns">
-					<span class="table-header"><a href="#" class="action"><i class="icon-comments-alt"></i></a> <a href="#" class="action"><i class="icon-plus"></i></a></span>
+					<div class="large-2 columns">
+						<div class="row">
+							<div class="large-4 large-offset-1 columns">
+								<stairs-meter value="{{ product.messages }}" max="20"></stairs-meter>
+							</div>
+							<div class="large-4 columns" align="center">
+								<span class="number">{{ product.messages }}</span>
+								<span class="number-description">al mes</span>
+							</div>
+							<div class="large-3 columns"></div>
+						</div>
+					</div>
+					<div class="large-1 columns" align="center">
+						<radial-meter id="{{ product.id }}" value="{{ product.internet }}" max="1024"></radial-meter>
+						<div class="radialNumber">{{ product.internet }} MB</div>
+					</div>
+					<div class="large-2 columns" align="center">
+						<span class="price">$ {{ product.fee }}</span>
+					</div>
+					<div class="large-2 columns">
+						<span class="table-header"><a href="#" class="action"><i class="icon-comments-alt"></i></a> <a href="#" class="action"><i class="icon-plus"></i></a></span>
+					</div>
 				</div>
 			</div>
 		</div>
