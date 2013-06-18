@@ -20,7 +20,7 @@
 		}
 
 		body {
-			background: #FFF;
+			background: #F6F8F8;
 			font:14px/1.231 "Varela Round", sans-serif;
 			width: 100%;
 			height: 100%;
@@ -152,6 +152,10 @@
 				position:relative;
 			}
 
+		#application-brief h2 {
+			color: #3489C0;
+			margin: 1em 0;
+		}
 		#application {
 			background: #F6F8F8;
 		}
@@ -714,6 +718,45 @@
 		</div>
 	</section>
 
+	<section id="application-brief">
+		<div class="row" style="max-width:100em;background:#FFF">
+			<div class="large-12 columns">
+				<h2>Planes de telefonía para ti: </h2>
+
+				<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
+					<div class="large-12 columns">
+						<div class="row">
+							<div class="large-3 columns">
+								<span class="table-header">Plan y compañia</span>
+							</div>
+							<div class="large-2 columns" align="left">
+								<span class="table-header">Minutos</span>
+							</div>
+							<div class="large-2 columns">
+								<span class="table-header">Mensajes</span>
+							</div>
+							<div class="large-1 columns">
+								<span class="table-header">Internet</span>
+							</div>
+							<div class="large-2 columns" align="center">
+								<span class="table-header">Precio</span>
+							</div>
+							<div class="large-2 columns">
+								<select id="order_by" ng-model="orderBy">
+									<option value="name">Nombre y compañia</option>
+									<option value="fee">Costo mensual</option>
+									<option value="-messages">Mensajes incluidos</option>
+									<option value="-minutes_toany">Minutos incluidos</option>
+									<option value="-internet">Internet</option>
+								</select>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<section id="application">
 		<div class="row" style="max-width:100em">
 			<div class="large-12 columns" ng-view>
@@ -728,37 +771,6 @@
 	</script>
 
 	<script type="text/ng-template" id="setup.html">
-
-		<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
-			<div class="large-12 columns">
-				<div class="row">
-					<div class="large-3 columns">
-						<span class="table-header">Plan y compañia</span>
-					</div>
-					<div class="large-2 columns" align="left">
-						<span class="table-header">Minutos</span>
-					</div>
-					<div class="large-2 columns">
-						<span class="table-header">Mensajes</span>
-					</div>
-					<div class="large-1 columns">
-						<span class="table-header">Internet</span>
-					</div>
-					<div class="large-2 columns" align="center">
-						<span class="table-header">Precio</span>
-					</div>
-					<div class="large-2 columns">
-						<select id="order_by" ng-model="orderBy">
-							<option value="name">Nombre y compañia</option>
-							<option value="fee">Costo mensual</option>
-							<option value="-messages">Mensajes incluidos</option>
-							<option value="-minutes_toany">Minutos incluidos</option>
-							<option value="-internet">Internet</option>
-						</select>
-					</div>
-				</div>
-			</div>
-		</div>
 
 		<div class="row" ng-repeat="product in products | orderBy:orderBy:false | limitTo:10" ng-animate="'custom'">
 			<div class="large-12 columns">
