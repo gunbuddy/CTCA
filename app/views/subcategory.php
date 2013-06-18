@@ -6,11 +6,13 @@
 
 	<title>Comparateca | Comparaciones de <?php echo $subcategory->name; ?></title>
 
+	<?php print HTML::style("css/tooltipster.css") ?>
 	<?php print HTML::style("css/normalize.css") ?>
 	<?php print HTML::style("css/foundation.css") ?>
 	<?php print HTML::script("js/vendor/custom.modernizr.js") ?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
 	<style type="text/css">
 		body, html {
@@ -148,31 +150,6 @@
 
 			.filters .filter {
 				position:relative;
-			}
-
-			.filters .filter .filter-drop {
-				background: #FFF;
-				display: none;
-				position: absolute;
-				width: 100%;
-				padding: 10px;
-				z-index: 1000;
-			}
-
-			.filters .filter .filter-drop::before {
-				content: "";
-				border-style: solid;
-				border-width: 0 20px 12px 20px;
-				border-color: transparent transparent #FFF transparent;
-				height: 0;
-				position: absolute;
-				left: 40%;
-				top: -12px;
-				width: 0;
-				-webkit-transform: rotate(360deg);
-			}
-			.filters .filter:hover > .filter-drop {
-				display: block;
 			}
 
 		#application {
@@ -323,13 +300,62 @@
 		.custom-move.custom-move-active {
 		  opacity:1;
 		}
+
+		.filters-theme {
+			border-radius: 5px; 
+			border: 1px solid #34495E;
+			background: #34495E;
+			color: #fff;
+		}
+
+		/* Use this next selector to style things like font-size and line-height: */
+		.filters-theme .tooltipster-content {
+			font-family: Arial, sans-serif;
+			font-size: 14px;
+			line-height: 16px;
+			padding: 8px 10px;
+		}
+
+		.ui-widget-header {
+			border: 1px solid #aaaaaa;
+			background: #1abc9c;
+			color: #222222;
+			font-weight: bold;
+		}
+
+		.ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br, .ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl, .ui-corner-all, .ui-corner-top, .ui-corner-right, .ui-corner-tr, .ui-corner-all, .ui-corner-top, .ui-corner-left, .ui-corner-tl {
+			border-radius: 0;
+		}
+
+		.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+			border: 0px;
+			background: #16a085;
+		}
+
+		.ui-slider .ui-slider-handle {
+			position: absolute;
+			z-index: 2;
+			width: .8em;
+			height: .8em;
+			cursor: default;
+		}
+
+		.ui-widget-content {
+			border: 0;
+		}
+		.ui-slider-horizontal .ui-slider-handle {
+			top: 0em;
+			margin-left: -.4em;
+		}
 	</style>
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
 	<?php print HTML::script("https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"); ?>
 	<?php print HTML::script("js/vendor/jquery.js") ?>
+	<?php print HTML::script("http://code.jquery.com/ui/1.10.3/jquery-ui.js") ?>
 	<?php print HTML::script("js/jquery.knob.js") ?>
 	<?php print HTML::script("http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.4.min.js") ?>
+	<?php print HTML::script("js/jquery.tooltipster.min.js"); ?>
 
 	<script type="text/javascript">
 	FirstSetupCtrl = function($scope, $location)
@@ -350,10 +376,44 @@
 
 		$http.post('/tunnel/products/<?php echo $subcategory->aller; ?>', {take: 10, skip:0, filter: filtrate}).success(function(data)
 		{
-			$scope.products = data;
+			$scope.$emit('updateFullSet', data);
+			$scope.$emit('updatePartialSetUseFilter');
 		});
 
 		$(function() {
+
+			$("#filter-minutes").tooltipster({
+				theme: '.filters-theme',
+				content: $("#filter-minutes-module"),
+				position: 'bottom',
+				interactive: true,
+				fixedWidth: 200,
+				functionReady: function(origin, tooltip)
+				{
+					$(tooltip).find("#slider").slider({
+						range: true,
+					      min: 0,
+					      max: 2000,
+					      step: 50,
+					      values: [ $scope.filters.minutes.from, $scope.filters.minutes.to ],
+					      slide: function( event, ui ) {
+					        
+					        $(tooltip).find(".from").html(ui.values[ 0 ]);
+					        $(tooltip).find(".to").html(ui.values[ 1 ]);
+
+					        $scope.filters.minutes.from = parseInt(ui.values[ 0 ]);
+					        $scope.filters.minutes.to   = parseInt(ui.values[ 1 ]);
+					        $scope.$apply();
+					      },
+					      change: function( event, ui ) {
+
+					      	$scope.$emit('updatePartialSetUseFilter');
+					      	$scope.$apply();
+					      }
+					});
+				}
+			});
+
 		    var s = $(".filters");
 		    var h = $(".filters-hide");
 
@@ -383,16 +443,43 @@
 
 	app.run(function($rootScope) { 
 
-		$rootScope.compare = function()
-		{
-			alert("bout to compare");
+		$rootScope.filters = {
+			minutes: {
+				from: 0,
+				to: 2000
+			}
 		};
 
-		$rootScope.firstProduct  = {};
-		$rootScope.secondProduct = {};
-		$rootScope.thirdProduct  = {};
-		$rootScope.fourthProduct = {};
-		$rootScope.fifthProduct  = {};
+		$rootScope.productsFull = [];
+		$rootScope.products = [];
+
+		$rootScope.$on('updateFullSet', function(event, set) {
+
+			$rootScope.productsFull = set;
+		});
+
+		$rootScope.$on('updatePartialSetUseFilter', function(event) {
+
+			var limit = 10;
+			var put = 0;
+
+			$rootScope.products = [];
+
+			for (var i = $rootScope.productsFull.length - 1; i >= 0; i--) {
+				
+				if (put < limit)
+				{
+					var product = $rootScope.productsFull[i];
+					var minutes = product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother;
+
+					if (minutes > $rootScope.filters.minutes.from && minutes <= $rootScope.filters.minutes.to)
+					{
+						$rootScope.products.push(product);
+						put = put + 1;
+					}
+				}	
+			};
+		});
 	});
 
 	app.directive('meter', function() {
@@ -591,12 +678,8 @@
 		<div class="row" style="max-width:100em">
 			<div class="large-12 columns">
 				<div class="row collapse">
-					<div class="large-2 columns filter">
-						<a href="#">Minutos al mes <span class="info">0 a 2000 / mes</span></a>
-
-						<div class="filter-drop">
-							test
-						</div>
+					<div class="large-2 columns filter" id="filter-minutes">
+						<a href="#">Minutos al mes <span class="info">{{ filters.minutes.from }} a {{ filters.minutes.to }} / mes</span></a>
 					</div>
 
 					<div class="large-2 columns">
@@ -620,6 +703,14 @@
 					</div>
 				</div>
 			</div>	
+		</div>
+	</section>
+
+	<section id="filter-module" style="display:none">
+		<div id="filter-minutes-module">
+			<div id="slider" style="width:200px;margin: 10px 0"></div>
+			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
+			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">2000</div>
 		</div>
 	</section>
 
@@ -669,7 +760,7 @@
 			</div>
 		</div>
 
-		<div class="row" ng-repeat="product in products | orderBy:orderBy:false" ng-animate="'custom'">
+		<div class="row" ng-repeat="product in products | orderBy:orderBy:false | limitTo:10" ng-animate="'custom'">
 			<div class="large-12 columns">
 				<div class="row product-item">
 					<div class="large-3 columns">
