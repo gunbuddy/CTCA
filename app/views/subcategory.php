@@ -454,12 +454,32 @@
 			}
 		};
 
+		$rootScope.maxs = {
+			minutes: 0
+		};
+
 		$rootScope.productsFull = [];
 		$rootScope.products = [];
 
 		$rootScope.$on('updateFullSet', function(event, set) {
 
 			$rootScope.productsFull = set;
+
+			$rootScope.productsFull.sort(function(a, b){
+				var minutes_a = a.minutes_tolocal + a.minutes_toany + a.minutes_tosame + a.minutes_toother;
+				var minutes_b = b.minutes_tolocal + b.minutes_toany + b.minutes_tosame + b.minutes_toother;
+
+				if (minutes_a < minutes_b)
+				{
+					return -1;
+				}
+				else if (minutes_a > minutes_b)
+				{
+					return 1;
+				}
+
+				return 0;
+			});
 		});
 
 		$rootScope.$on('updatePartialSetUseFilter', function(event) {
@@ -467,6 +487,7 @@
 			var limit = 10;
 			var put = 0;
 
+			$rootScope.maxs.minutes = 0;
 			$rootScope.products = [];
 
 			for (var i = $rootScope.productsFull.length - 1; i >= 0; i--) {
@@ -483,6 +504,16 @@
 					}
 				}	
 			};
+
+			for (var i = $rootScope.products.length - 1; i >= 0; i--) {
+				
+				var product = $rootScope.products[i];
+				var minutes = product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother;
+
+				if (minutes > $rootScope.maxs.minutes) { $rootScope.maxs.minutes = minutes; }
+			};
+
+			console.log($rootScope.maxs);
 		});
 	});
 
@@ -491,7 +522,7 @@
 			restrict: 'E',
 			replace: true,
 			scope: {
-				max: '@',
+				max: '=',
 				value: '@'
 			},
 			template: '<div></div>',
@@ -538,7 +569,72 @@
 
 				setTimeout(function() {
 			        tween.play();
+
+
 			    }, 2000);
+
+			    scope.$watch("max", function() {
+
+					var n_total_percent_points =  52.0 / scope.max;
+					var n_total_filled_points  = (parseFloat(scope.value) / parseFloat(scope.max)) * 52.0;
+					var n_total_rest_points    = 52.0 - total_filled_points;
+
+					if (n_total_filled_points != total_filled_points)
+					{
+						if (n_total_filled_points >= total_filled_points)
+						{
+							var fillUp = new Kinetic.Rect({
+						        x: 0,
+						        y: 52,
+						        width: 23,
+						        height: 0,
+						        fill: '#28ABE1',
+						    });
+
+							layer.add(fillUp);
+
+							var tweenUp = new Kinetic.Tween({
+						        node: fillUp, 
+						        duration: 1,
+						        height: -n_total_filled_points,
+						        easing: Kinetic.Easings.EaseInOut,
+						    });
+
+						    setTimeout(function() {
+						        tweenUp.play();
+						    }, 2000);
+
+						    total_filled_points = n_total_filled_points;
+						}
+						else
+						{
+							console.log("fill down");
+
+							var fillDown = new Kinetic.Rect({
+						        x: 0,
+						        y: 0,
+						        width: 23,
+						        height: 0,
+						        fill: '#ECF0F5',
+						    });
+
+							layer.add(fillDown);
+
+							var tweenDown = new Kinetic.Tween({
+						        node: fillDown, 
+						        duration: 1,
+						        height: (52.0-n_total_filled_points),
+						        easing: Kinetic.Easings.EaseInOut,
+						    });
+
+						    setTimeout(function() {
+						        tweenDown.play();
+						    }, 2000);
+
+						    total_filled_points = n_total_filled_points;
+						}
+					}
+				});
 			}
 		};
 	});
@@ -782,7 +878,7 @@
 					<div class="large-2 columns">
 						<div class="row">
 							<div class="large-2 large-offset-1 columns">
-								<meter value="{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}" max="4000"></meter>
+								<meter value="{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}" max="maxs.minutes"></meter>
 							</div>
 							<div class="large-4 columns" align="center">
 								<span class="number">{{ product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother }}</span>
