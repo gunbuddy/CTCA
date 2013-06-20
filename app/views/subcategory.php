@@ -418,19 +418,23 @@
 		$rootScope.filters = {
 			minutes: {
 				from: 0,
-				to: 4000
+				to: 4000,
+				def: 4000
 			},
 			messages: {
 				from: 0,
-				to: 1000
+				to: 1000,
+				def: 1000
 			},
 			internet: {
 				from: 0,
-				to: 4096
+				to: 4096,
+				def: 4096
 			},
 			fee: {
 				from: 0,
-				to: 2500
+				to: 2500,
+				def: 2500
 			}
 		};
 
@@ -483,14 +487,17 @@
 					var product = $rootScope.productsFull[i];
 					var minutes = product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother;
 
-					if (minutes > $rootScope.filters.minutes.from && minutes <= $rootScope.filters.minutes.to)
+					if (minutes >= $rootScope.filters.minutes.from && minutes <= $rootScope.filters.minutes.to)
 					{
-						if (product.messages > $rootScope.filters.messages.from && product.messages <= $rootScope.filters.messages.to)
+						if (product.messages >= $rootScope.filters.messages.from && product.messages <= $rootScope.filters.messages.to)
 						{
-							if (product.fee > $rootScope.filters.fee.from && product.fee <= $rootScope.filters.fee.to)
+							if (product.fee >= $rootScope.filters.fee.from && product.fee <= $rootScope.filters.fee.to)
 							{
-								$rootScope.products.push(product);
-								put = put + 1;
+								if (product.internet >= $rootScope.filters.internet.from && product.internet <= $rootScope.filters.internet.to)
+								{
+									$rootScope.products.push(product);
+									put = put + 1;
+								}
 							}
 						}
 					}
@@ -709,7 +716,8 @@
 				message: '@',
 				name: '@',
 				post: '@',
-				pre: '@'
+				pre: '@',
+				def: '='
 			},
 			transclude: true,
 			link: function(scope, element, attrs) {
@@ -725,7 +733,7 @@
 						$(tooltip).find("#slider").slider({
 							range: true,
 						      min: 0,
-						      max: scope.to,
+						      max: scope.def,
 						      step: 50,
 						      values: [ scope.from, scope.to ],
 						      slide: function( event, ui ) {
@@ -824,19 +832,19 @@
 		<div class="row" style="max-width:100em">
 			<div class="large-12 columns">
 				<div class="row collapse">
-					<filter from="filters.minutes.from" to="filters.minutes.to" name="minutes">
+					<filter from="filters.minutes.from" def="filters.minutes.def" to="filters.minutes.to" name="minutes">
 						Minutos al mes
 					</filter>
 
-					<filter from="filters.messages.from" to="filters.messages.to" name="messages">
+					<filter from="filters.messages.from" def="filters.messages.def" to="filters.messages.to" name="messages">
 						Mensajes
 					</filter>
 
-					<filter from="filters.internet.from" to="filters.internet.to" name="internet" post=" MB">
+					<filter from="filters.internet.from" def="filters.internet.def" to="filters.internet.to" name="internet" post=" MB">
 						Internet movil
 					</filter>
 
-					<filter from="filters.fee.from" to="filters.fee.to" name="fee" pre="$ ">
+					<filter from="filters.fee.from" def="filters.fee.def" to="filters.fee.to" name="fee" pre="$ ">
 						Costo
 					</filter>
 
@@ -857,14 +865,14 @@
 			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Cuanto llamas por mes?</h4></div>
 			<div id="slider" style="width:200px;margin: 10px 0"></div>
 			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
-			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">2000</div>
+			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">4000</div>
 		</div>
 
 		<div id="filter-messages-module">
 			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Que tanto escribes?</h4></div>
 			<div id="slider" style="width:200px;margin: 10px 0"></div>
 			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
-			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">2000</div>
+			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">1000</div>
 		</div>
 
 		<div id="filter-internet-module">
@@ -878,7 +886,7 @@
 			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Presupuesto?</h4></div>
 			<div id="slider" style="width:200px;margin: 10px 0"></div>
 			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
-			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">3000</div>
+			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">2500</div>
 		</div>
 	</section>
 
