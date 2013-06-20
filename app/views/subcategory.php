@@ -317,7 +317,7 @@
 			font-family: Arial, sans-serif;
 			font-size: 14px;
 			line-height: 16px;
-			padding: 8px 10px;
+			padding: 8px 15px;
 		}
 
 		.ui-widget-header {
@@ -386,38 +386,6 @@
 
 		$(function() {
 
-			$("#filter-minutes").tooltipster({
-				theme: '.filters-theme',
-				content: $("#filter-minutes-module"),
-				position: 'bottom',
-				interactive: true,
-				fixedWidth: 200,
-				functionReady: function(origin, tooltip)
-				{
-					$(tooltip).find("#slider").slider({
-						range: true,
-					      min: 0,
-					      max: 2000,
-					      step: 50,
-					      values: [ $scope.filters.minutes.from, $scope.filters.minutes.to ],
-					      slide: function( event, ui ) {
-					        
-					        $(tooltip).find(".from").html(ui.values[ 0 ]);
-					        $(tooltip).find(".to").html(ui.values[ 1 ]);
-
-					        $scope.filters.minutes.from = parseInt(ui.values[ 0 ]);
-					        $scope.filters.minutes.to   = parseInt(ui.values[ 1 ]);
-					        $scope.$apply();
-					      },
-					      change: function( event, ui ) {
-
-					      	$scope.$emit('updatePartialSetUseFilter');
-					      	$scope.$apply();
-					      }
-					});
-				}
-			});
-
 		    var s = $(".filters");
 		    var h = $(".filters-hide");
 
@@ -450,12 +418,26 @@
 		$rootScope.filters = {
 			minutes: {
 				from: 0,
-				to: 2000
+				to: 4000
+			},
+			messages: {
+				from: 0,
+				to: 1000
+			},
+			internet: {
+				from: 0,
+				to: 4096
+			},
+			fee: {
+				from: 0,
+				to: 2500
 			}
 		};
 
 		$rootScope.maxs = {
-			minutes: 0
+			minutes: 0,
+			messages: 0,
+			internet: 0
 		};
 
 		$rootScope.productsFull = [];
@@ -488,6 +470,10 @@
 			var put = 0;
 
 			$rootScope.maxs.minutes = 0;
+			$rootScope.maxs.fee = 0;
+			$rootScope.maxs.messages = 0;
+			$rootScope.maxs.internet = 0;
+
 			$rootScope.products = [];
 
 			for (var i = $rootScope.productsFull.length - 1; i >= 0; i--) {
@@ -499,8 +485,14 @@
 
 					if (minutes > $rootScope.filters.minutes.from && minutes <= $rootScope.filters.minutes.to)
 					{
-						$rootScope.products.push(product);
-						put = put + 1;
+						if (product.messages > $rootScope.filters.messages.from && product.messages <= $rootScope.filters.messages.to)
+						{
+							if (product.fee > $rootScope.filters.fee.from && product.fee <= $rootScope.filters.fee.to)
+							{
+								$rootScope.products.push(product);
+								put = put + 1;
+							}
+						}
 					}
 				}	
 			};
@@ -602,7 +594,7 @@
 
 						    setTimeout(function() {
 						        tweenUp.play();
-						    }, 2000);
+						    }, 1000);
 
 						    total_filled_points = n_total_filled_points;
 						}
@@ -629,7 +621,7 @@
 
 						    setTimeout(function() {
 						        tweenDown.play();
-						    }, 2000);
+						    }, 1000);
 
 						    total_filled_points = n_total_filled_points;
 						}
@@ -703,6 +695,60 @@
 			},
 		}
 	});
+
+	app.directive('filter', function() {
+		return {
+			restrict: 'E',
+			template: 
+				'<div class="large-2 columns filter" id="filter-{{ name }}"> ' +
+					'<a href="#"><span ng-transclude></span> <span class="info">{{ pre }}{{ from }}{{ post }} a {{ pre }}{{ to }}{{ post }} / mes</span></a>' +
+				'</div>',
+			scope: {
+				from: '=',
+				to: '=',
+				message: '@',
+				name: '@',
+				post: '@',
+				pre: '@'
+			},
+			transclude: true,
+			link: function(scope, element, attrs) {
+
+				$(element).find("div.filter").tooltipster({
+					theme: '.filters-theme',
+					content: $("#filter-"+scope.name+"-module"),
+					position: 'bottom',
+					interactive: true,
+					fixedWidth: 200,
+					functionReady: function(origin, tooltip)
+					{
+						$(tooltip).find("#slider").slider({
+							range: true,
+						      min: 0,
+						      max: scope.to,
+						      step: 50,
+						      values: [ scope.from, scope.to ],
+						      slide: function( event, ui ) {
+						        
+						        $(tooltip).find(".from").html(ui.values[ 0 ]);
+						        $(tooltip).find(".to").html(ui.values[ 1 ]);
+
+						        scope.from = parseInt(ui.values[ 0 ]);
+						        scope.to   = parseInt(ui.values[ 1 ]);
+						        scope.$apply();
+						      },
+						      change: function( event, ui ) {
+
+						      	scope.$emit('updatePartialSetUseFilter');
+						      	scope.$apply();
+						      }
+						});
+					}
+				});
+
+			},
+		}
+	})
 	</script>
 </head>
 
@@ -778,21 +824,21 @@
 		<div class="row" style="max-width:100em">
 			<div class="large-12 columns">
 				<div class="row collapse">
-					<div class="large-2 columns filter" id="filter-minutes">
-						<a href="#">Minutos al mes <span class="info">{{ filters.minutes.from }} a {{ filters.minutes.to }} / mes</span></a>
-					</div>
+					<filter from="filters.minutes.from" to="filters.minutes.to" name="minutes">
+						Minutos al mes
+					</filter>
 
-					<div class="large-2 columns">
-						<a href="#">Mensajes <span class="info">0 a 2000 / mes</span></a>
-					</div>
+					<filter from="filters.messages.from" to="filters.messages.to" name="messages">
+						Mensajes
+					</filter>
 
-					<div class="large-2 columns">
-						<a href="#">Internet movil <span class="info">0 MB a 2000 MB</span></a>
-					</div>
+					<filter from="filters.internet.from" to="filters.internet.to" name="internet" post=" MB">
+						Internet movil
+					</filter>
 
-					<div class="large-2 columns">
-						<a href="#">Costo <span class="info">$0 a $2000 por mes</span></a>
-					</div>
+					<filter from="filters.fee.from" to="filters.fee.to" name="fee" pre="$ ">
+						Costo
+					</filter>
 
 					<div class="large-2 columns">
 						<a href="#">Compañia <span class="info">todas</span></a>
@@ -808,9 +854,31 @@
 
 	<section id="filter-module" style="display:none">
 		<div id="filter-minutes-module">
+			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Cuanto llamas por mes?</h4></div>
 			<div id="slider" style="width:200px;margin: 10px 0"></div>
 			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
 			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">2000</div>
+		</div>
+
+		<div id="filter-messages-module">
+			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Que tanto escribes?</h4></div>
+			<div id="slider" style="width:200px;margin: 10px 0"></div>
+			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
+			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">2000</div>
+		</div>
+
+		<div id="filter-internet-module">
+			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Navegas en linea?</h4></div>
+			<div id="slider" style="width:200px;margin: 10px 0"></div>
+			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
+			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">4096</div>
+		</div>
+
+		<div id="filter-fee-module">
+			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Presupuesto?</h4></div>
+			<div id="slider" style="width:200px;margin: 10px 0"></div>
+			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
+			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">3000</div>
 		</div>
 	</section>
 
