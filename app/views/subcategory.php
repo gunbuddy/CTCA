@@ -189,8 +189,36 @@
 			color: #2D3E4F;
 			text-transform: uppercase;
 			font-size: 16px;
+			padding: 10px;
+			display: block;
 		}
 
+		.order {
+			background: #25BC9D;
+			border-radius: 4px;
+			color: #FFF;
+			padding: 10px;
+			font-size: 16px;
+		}
+
+		#order-hide a {
+			width: 200px;
+			padding: 10px;
+			text-align: left;
+			margin: 0;
+			color: #FFF;
+			font-size: 16px;
+			display: block;
+			border-radius: 4px;
+		}
+
+		#order-hide a:hover, #order-hide a.active {
+			background: #25BC9D;
+		}
+
+		#order-hide a.reverse {
+			background: #35CC77;
+		}
 		.product-item {
 			background: #FFF;
 			padding-bottom: 10px;
@@ -386,6 +414,13 @@
 
 		$(function() {
 
+			$(".order").tooltipster({
+				interactive: true,
+				content: $("#order-hide"),
+				theme: '.filters-theme',
+				position: 'bottom'
+			});
+
 		    var s = $(".filters");
 		    var h = $(".filters-hide");
 
@@ -447,21 +482,75 @@
 		$rootScope.productsFull = [];
 		$rootScope.products = [];
 
+		$rootScope.orderedBy = '-minutes';
+		$rootScope.orderProductsBy = function(property) {
+
+			var order = function(property) {
+			    var sortOrder = 1;
+			    if(property[0] === "-") {
+			        sortOrder = -1;
+			        property = property.substr(1, property.length - 1);
+			    }
+
+			    if (property == 'minutes')
+			    {
+			    	return function(a, b){
+						var minutes_a = parseInt(a.minutes_tolocal) + parseInt(a.minutes_toany) + parseInt(a.minutes_tosame) + parseInt(a.minutes_toother);
+						var minutes_b = parseInt(b.minutes_tolocal) + parseInt(b.minutes_toany) + parseInt(b.minutes_tosame) + parseInt(b.minutes_toother);
+
+						if (minutes_a < minutes_b)
+						{
+							return -1 * sortOrder;
+						}
+						else if (minutes_a > minutes_b)
+						{
+							return 1 * sortOrder;
+						}
+
+						return 0;
+					};
+			    }
+
+			    return function (a,b) {
+			    	if (property == 'name')
+			    	{
+			    		var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
+			    	}
+			    	else
+			    	{
+			    		var result = (parseFloat(a[property]) < parseFloat(b[property])) ? -1 : (parseFloat(a[property]) > parseFloat(b[property])) ? 1 : 0;
+			    	}
+			        
+			        return result * sortOrder;
+			    }
+			};
+
+			if ($rootScope.orderedBy == property)
+			{
+				property = '-' + property;
+			}
+
+			$rootScope.orderedBy = property;
+
+			$rootScope.productsFull.sort(order(property));
+			$rootScope.$emit('updatePartialSetUseFilter');
+		};
+
 		$rootScope.$on('updateFullSet', function(event, set) {
 
 			$rootScope.productsFull = set;
 
 			$rootScope.productsFull.sort(function(a, b){
-				var minutes_a = a.minutes_tolocal + a.minutes_toany + a.minutes_tosame + a.minutes_toother;
-				var minutes_b = b.minutes_tolocal + b.minutes_toany + b.minutes_tosame + b.minutes_toother;
+				var minutes_a = parseInt(a.minutes_tolocal) + parseInt(a.minutes_toany) + parseInt(a.minutes_tosame) + parseInt(a.minutes_toother);
+				var minutes_b = parseInt(b.minutes_tolocal) + parseInt(b.minutes_toany) + parseInt(b.minutes_tosame) + parseInt(b.minutes_toother);
 
 				if (minutes_a < minutes_b)
 				{
-					return -1;
+					return 1;
 				}
 				else if (minutes_a > minutes_b)
 				{
-					return 1;
+					return -1;
 				}
 
 				return 0;
@@ -480,7 +569,9 @@
 
 			$rootScope.products = [];
 
-			for (var i = $rootScope.productsFull.length - 1; i >= 0; i--) {
+			console.log($rootScope.productsFull);
+
+			for (var i = 0; i < $rootScope.productsFull.length; i++) {
 				
 				if (put < limit)
 				{
@@ -511,8 +602,6 @@
 
 				if (minutes > $rootScope.maxs.minutes) { $rootScope.maxs.minutes = minutes; }
 			};
-
-			console.log($rootScope.maxs);
 		});
 	});
 
@@ -914,13 +1003,19 @@
 								<span class="table-header">Precio</span>
 							</div>
 							<div class="large-2 columns">
-								<select id="order_by" ng-model="orderBy">
-									<option value="name">Nombre y compañia</option>
-									<option value="fee">Costo mensual</option>
-									<option value="-messages">Mensajes incluidos</option>
-									<option value="-minutes_toany">Minutos incluidos</option>
-									<option value="-internet">Internet</option>
-								</select>
+								<div class="order">
+									Ordernar por
+								</div>
+
+								<div style="display:none">
+									<div id="order-hide">
+										<a href="" ng-class="{active:orderedBy=='name', reverse:orderedBy=='-name'}" ng-click="orderProductsBy('name')">Nombre y compañia</a>
+										<a href="" ng-class="{active:orderedBy=='minutes', reverse:orderedBy=='-minutes'}" ng-click="orderProductsBy('minutes')">Minutos / mes</a>
+										<a href="" ng-class="{active:orderedBy=='messages', reverse:orderedBy=='-messages'}" ng-click="orderProductsBy('messages')">Mensajes / mes</a>
+										<a href="" ng-class="{active:orderedBy=='internet', reverse:orderedBy=='-internet'}" ng-click="orderProductsBy('internet')">Internet movil</a>
+										<a href="" ng-class="{active:orderedBy=='fee', reverse:orderedBy=='-fee'}" ng-click="orderProductsBy('fee')">Precio</a>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -982,8 +1077,8 @@
 					<div class="large-2 columns" align="center">
 						<span class="price">$ {{ product.fee }}</span>
 					</div>
-					<div class="large-2 columns">
-						<span class="table-header"><a href="#" class="action"><i class="icon-comments-alt"></i></a> <a href="#" class="action"><i class="icon-plus"></i></a></span>
+					<div class="large-2 columns" align="center">
+						<a href="#" class="action"><i class="icon-comments-alt"></i></a> <a href="#" class="action"><i class="icon-plus"></i></a>
 					</div>
 				</div>
 			</div>
