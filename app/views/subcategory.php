@@ -379,6 +379,19 @@
 			top: 0em;
 			margin-left: -.4em;
 		}
+
+		.reveal-modal {
+			width: 400px;
+			left: 50%;
+			margin-left: -200px;
+			position: fixed;
+			margin-top: 5%;
+		}
+
+		.reveal-modal h2 {
+			color: #2D3E4F;
+			z-index: 10000;
+		}
 	</style>
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
@@ -481,6 +494,12 @@
 
 		$rootScope.productsFull = [];
 		$rootScope.products = [];
+		$rootScope.currentProduct = {};
+
+		$rootScope.productShow = function(product) {
+			
+			$rootScope.currentProduct = product;
+		}
 
 		$rootScope.orderedBy = '-minutes';
 		$rootScope.orderProductsBy = function(property) {
@@ -611,13 +630,23 @@
 			replace: true,
 			scope: {
 				max: '=',
-				value: '@'
+				value: '@',
+				smax: '@',
 			},
 			template: '<div></div>',
 			link: function(scope, element, attrs) {
 
-				var total_percent_points =  52.0 / scope.max;
-				var total_filled_points  = (parseFloat(scope.value) / parseFloat(scope.max)) * 52.0;
+				if (! scope.max)
+				{
+					var max = scope.smax;
+				}
+				else
+				{
+					var max = scope.max;
+				}
+
+				var total_percent_points =  52.0 / max;
+				var total_filled_points  = (parseFloat(scope.value) / parseFloat(max)) * 52.0;
 				var total_rest_points    = 52.0 - total_filled_points;
 
 				var stage = new Kinetic.Stage({
@@ -664,7 +693,7 @@
 			    scope.$watch("max", function() {
 
 					var n_total_percent_points =  52.0 / scope.max;
-					var n_total_filled_points  = (parseFloat(scope.value) / parseFloat(scope.max)) * 52.0;
+					var n_total_filled_points  = (parseFloat(scope.value) / parseFloat(max)) * 52.0;
 					var n_total_rest_points    = 52.0 - total_filled_points;
 
 					if (n_total_filled_points != total_filled_points)
@@ -845,7 +874,19 @@
 
 			},
 		}
-	})
+	});
+
+	app.directive('action', function() {
+
+		return {
+			restrict: 'E',
+			scope: {},
+			template: '',
+			link: function(scope, element, attrs) {
+
+			}
+		}
+	});
 	</script>
 </head>
 
@@ -1032,6 +1073,51 @@
 		</div>
 	</section>
 
+	<div id="myModal" class="reveal-modal">
+	  <h2>{{ currentProduct.name }}</h2>
+	  <p class="lead">Detalles del plan</p>
+	  <p>Los planes elite de Iusacell normalmente son planes de gama de alto consumo con un precio que supera los $1500, considerela una buena opción si usted hace un uso intensivo de las caracteristicas.</p>
+
+	  
+	  <div class="row">
+	  	<div class="large-8 columns" style="padding-top:1em">
+	  		Costo mensual
+	  	</div>
+	  	<div class="large-4 columns">
+	  		<div class="price">$ {{ currentProduct.fee }} </div>
+	  	</div>
+	  </div>
+	  <br />
+	  <div class="row">
+	  	<div class="large-8 columns" style="padding-top:1em">
+	  		Minutos al mes
+	  	</div>
+	  	<div class="large-4 columns">
+	  		<div class="price" align="center">{{ currentProduct.minutes_tolocal + currentProduct.minutes_toany + currentProduct.minutes_tosame + currentProduct.minutes_toother }}</div>
+	  	</div>
+	  </div>
+	  <br />
+	  <div class="row">
+	  	<div class="large-3 columns">
+	  		<meter value="{{ currentProduct.minutes_toany }}" smax="{{ currentProduct.minutes_tolocal + currentProduct.minutes_toany + currentProduct.minutes_tosame + currentProduct.minutes_toother }}"></meter>
+	  		Todo destino
+	  	</div>
+	  	<div class="large-3 columns">
+	  		<meter value="{{ currentProduct.minutes_tolocal }}" smax="{{ currentProduct.minutes_tolocal + currentProduct.minutes_toany + currentProduct.minutes_tosame + currentProduct.minutes_toother }}"></meter>
+	  		Locales
+	  	</div>
+	  	<div class="large-3 columns">
+	  		<meter value="{{ currentProduct.minutes_tosame }}" smax="{{ currentProduct.minutes_tolocal + currentProduct.minutes_toany + currentProduct.minutes_tosame + currentProduct.minutes_toother }}"></meter>
+	  		Misma compañia
+	  	</div>
+	  	<div class="large-3 columns">
+	  		<meter value="{{ currentProduct.minutes_toother }}" smax="{{ currentProduct.minutes_tolocal + currentProduct.minutes_toany + currentProduct.minutes_tosame + currentProduct.minutes_toother }}"></meter>
+	  		Otras compañias
+	  	</div>
+	  </div>
+	  <a class="close-reveal-modal">&#215;</a>
+	</div>
+
 	<?php print HTML::script("js/foundation.min.js") ?>
 	<script>
 		$(document).foundation();
@@ -1078,7 +1164,7 @@
 						<span class="price">$ {{ product.fee }}</span>
 					</div>
 					<div class="large-2 columns" align="center">
-						<a href="#" class="action"><i class="icon-comments-alt"></i></a> <a href="#" class="action"><i class="icon-plus"></i></a>
+						<a href="#" ng-click="productShow(product)" class="action" data-reveal-id="myModal"><i class="icon-comments-alt"></i></a> <a href="#" class="action"><i class="icon-plus"></i></a>
 					</div>
 				</div>
 			</div>
