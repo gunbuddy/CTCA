@@ -9,7 +9,7 @@
 
 	<?php print HTML::style("css/tooltipster.css") ?>
 	<?php print HTML::style("css/normalize.css") ?>
-	<?php print HTML::style("css/foundation.css") ?>
+	<?php print HTML::style("css/foundation.min.css") ?>
 	<?php print HTML::style("css/perfect-scrollbar.css") ?>
 	<?php print HTML::script("js/vendor/custom.modernizr.js") ?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
@@ -17,15 +17,11 @@
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
 
 	<style type="text/css">
-		body, html {
-			height: 100%;
-		}
-
+		html { height: 100% }
 		body {
 			background: #34495E;
 			font:14px/1.231 "Varela Round", sans-serif;
 			width: 100%;
-			height: 100%;
 		}
 
 		body h1 {
@@ -197,6 +193,8 @@
 
 		#application-brief .compare-list > div {
 			min-width: 2600px;
+			overflow: hidden;
+			position: relative;
 		}
 		#application-brief .compare-list .compare-item {
 			width: 240px;
@@ -865,6 +863,10 @@
 					<h4 style="margin-top:30px">Internet</h4>
 					<h4 style="margin-top:30px">Radio</h4>
 					<h4 style="margin-top:30px">Numeros gratis</h4>
+
+					<div class="tag" style="margin-top:40px">Costo adicional</div>
+					<h4 style="margin-top:30px">Costo</h4>
+					<h4 style="margin-top:30px">Minutos</h4>
 				</div>
 			</div>
 
