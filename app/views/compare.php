@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 
+
 <html>
 <head>
 	<meta charset="utf-8" />
@@ -254,6 +255,38 @@
 			font: 18px "Varela Round";
 		}
 
+		#application-brief .compare-list .compare-item .vertical-meter {
+			color: #FFF;
+			font: 16px "Varela Round";
+		}
+
+		#application-brief .compare-list .compare-item .vertical-meter .meter {
+			background: #ECF0F5;
+			height: 23px;
+			width: 100%;
+		}
+
+		#application-brief .compare-list .compare-item .vertical-meter .fill {
+			height: 23px;
+			background: #0086C3;
+		}
+
+		#application-brief .compare-list .compare-item .knob {
+			position: relative;
+			color: #FFF;
+			font: 18px "Varela Round";
+		}
+
+		#application-brief .compare-list .compare-item .knob .mbs {
+			color: #FFF;
+			font: 16px "Varela Round";
+			position: absolute;
+			top: 40px;
+			width:100%;
+			text-align: center;
+			left:0px;
+		}
+
 		.fade-hide, .fade-show {
 		  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
 		  -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
@@ -499,6 +532,7 @@
 	{
 		$(function() {
 			$(".compare-list").perfectScrollbar();
+			$(".dial").knob();
 		});
 	};
 
@@ -869,8 +903,8 @@
 					<div class="tag">Consumo</div>
 					<h4 style="margin-top:40px">Costo</h4>
 					<h4 style="margin-top:80px">Minutos</h4>
-					<h4 style="margin-top:140px">Mensajes</h4>
-					<h4 style="margin-top:30px">Internet</h4>
+					<h4 style="margin-top:150px">Mensajes</h4>
+					<h4 style="margin-top:65px">Internet</h4>
 					<h4 style="margin-top:30px">Radio</h4>
 					<h4 style="margin-top:30px">Numeros gratis</h4>
 
@@ -883,6 +917,13 @@
 			<div class="large-9 columns">
 				<div class="compare-list">
 					<div>
+						<?php $messages = 0; ?>
+						<?php $internet = 0; ?>
+						<?php foreach ($products as $product): ?>
+						<?php if ($product->messages > $messages) $messages = $product->messages; ?>
+						<?php if ($product->internet > $internet) $internet = $product->internet; ?>
+						<?php endforeach; ?>
+
 						<?php foreach ($products as $product): ?>
 						<?php $minutes = $product->minutes_toany + $product->minutes_tolocal + $product->minutes_tosame + $product->minutes_toother; ?>
 						<div class="compare-item">
@@ -934,6 +975,31 @@
 									<div class="q">
 										minutos<br /> cada mes
 									</div>
+								</div>
+							</div>
+
+							<div class="vertical-meter" style="margin-top:20px">
+								<div class="row">
+									<div class="large-6 columns">
+										<div class="meter">
+											<div class="fill" style="width:<?php echo ($product->messages/$messages)*100; ?>%"></div>
+										</div>
+									</div>
+
+									<div class="large-6 columns" align="left">
+										<?php echo $product->messages; ?> / mes
+									</div>
+								</div>
+							</div>
+
+							<div class="row knob" style="margin-top:20px">
+								<div class="large-6 columns">
+									<input type="text" data-fgColor="#3A9AD8" data-bgColor="#ECF0F5" value="<?php echo $product->internet ?>" data-max="<?php echo $internet ?>" data-readOnly="true" class="dial" data-width="100" data-height="100"data-displayInput="false" />
+									<div class="mbs"><?php echo $product->internet ?></div>
+								</div>
+
+								<div class="large-6 columns" style="padding-top:2.1em">
+									MB's al mes
 								</div>
 							</div>
 						</div>
