@@ -1,14 +1,46 @@
 <?php
 namespace Backend;
 
-use \CategoriesRepository;
+use \Aller\Backend\CategoriesRepository;
+use \Aller\Backend\SubcategoriesRepository;
 use \App;
 
 class CategoryController extends \BaseController {
 
-	public function __construct(CategoriesRepository $categories)
+	public function __construct(CategoriesRepository $categories, SubcategoriesRepository $subcategories)
 	{
-		$this->categories = $categories;
+		// Dependent objects injected
+		$this->categories    = $categories;
+		$this->subcategories = $subcategories;
+	}
+
+	public function showCategory($id) {
+
+		$category = $this->categories->findById($id);
+
+		return View::make();
+	}
+
+	public function showStats($id) {
+
+		return View::make();
+	}
+
+	public function showSubcategories($id) { 
+
+		// Use DI for the model methods
+		$categories = $this->categories->findById($id);
+
+		return 'subcategories from ' . $id;
+	}
+	public function showReports($id) {
+
+		return View::make();
+	}
+
+	public function updateProduct() { 
+
+		return View::make();
 	}
 
 	/**
@@ -34,71 +66,4 @@ class CategoryController extends \BaseController {
 
 		return $categories;
 	}
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
-	{
-		//
-	}
-
-	/**
-	 * Store a newly created resource in storage.
-	 *
-	 * @return Response
-	 */
-	public function store()
-	{
-		//
-	}
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function show($id)
-	{
-		$category = $this->categories->getCategory($id);
-
-		return (!$category) ? array() : $category;
-	}
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
-	{
-		//
-	}
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
-	}
-
 }

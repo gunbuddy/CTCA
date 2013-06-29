@@ -1,9 +1,10 @@
 <?php
+
 namespace Backend;
 
-class ProductController extends \BaseController {
+class CompanyController extends \BaseController {
 	
-	public function index() {}
+	public function index() { return 'index'; }
 	public function create() {}
 	public function store() {}
 	public function show($id) {}

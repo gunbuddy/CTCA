@@ -24,16 +24,27 @@ Route::get('/show-comparison/{category}/{slug}', 'HomeController@showComparison'
 // Front-end API
 Route::post('/tunnel/products/{category}', 'ProductsController@showProducts');
 
-/** Backend interface **/
-Route::get('backend/v1', array('as' => 'backend.service', 'uses' => 'Backend\ServiceController@showInterface'));
+/** Backend routes **/
+Route::group(array('prefix' => 'backend'), function(){
 
-// Route group for API versioning
-Route::group(array('prefix' => 'backend/api/v1'), function()
-{
-    Route::get('partial/{partial}.template', array('as' => 'backend.partial', 'uses' => 'Backend\PartialController@showTemplate'));
-    Route::resource('category', 'Backend\CategoryController');
-    Route::controller('product', 'Backend\ProductController');
+	Route::get('dashboard', 'Backend\DashboardController@showIndex');
+	Route::resource('users', 'Backend\UserController');
+	Route::resource('invoices', 'Backend\InvoiceController');
+	Route::get('tools', 'Backend\ToolsController@showIndex');
+
+	// View products routes and create products routes
+	Route::resource('categories/products', 'Backend\ProductController');
+
+	// Show companies view
+	Route::resource('categories/companies', 'Backend\CompanyController');
+
+	// Show category routes
+	Route::get('categories/{id}', 'Backend\CategoryController@showCategory');
+	Route::get('categories/{id}/stats', 'Backend\CategoryController@showStats');
+	Route::get('categories/{id}/subcategories', 'Backend\CategoryController@showSubcategories');
+	Route::get('categories/{id}/reports', 'Backend\CategoryController@showReports');
 });
+
 
 // These routes has to be at the end, because these points to the main route backend/
 Route::controller('backend', 'Backend\HomeController');

@@ -1,7 +1,8 @@
 <?php
+
 namespace Backend;
 
-class ProductController extends \BaseController {
+class UserController extends \BaseController {
 	
 	public function index() {}
 	public function create() {}

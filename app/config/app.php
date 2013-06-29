@@ -114,6 +114,7 @@ return array(
 		'Illuminate\View\ViewServiceProvider',
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Aller\Product\ProductServiceProvider',
+		'Aller\Backend\BackendServiceProvider',
 		'Cartalyst\Sentry\SentryServiceProvider'
 	),
 

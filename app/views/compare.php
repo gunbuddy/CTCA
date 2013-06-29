@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html>
 <head>
 	<meta charset="utf-8" />
@@ -9,6 +10,7 @@
 	<?php print HTML::style("css/tooltipster.css") ?>
 	<?php print HTML::style("css/normalize.css") ?>
 	<?php print HTML::style("css/foundation.css") ?>
+	<?php print HTML::style("css/perfect-scrollbar.css") ?>
 	<?php print HTML::script("js/vendor/custom.modernizr.js") ?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
@@ -20,7 +22,7 @@
 		}
 
 		body {
-			background: #F6F8F8;
+			background: #34495E;
 			font:14px/1.231 "Varela Round", sans-serif;
 			width: 100%;
 			height: 100%;
@@ -167,6 +169,80 @@
 
 		#right-helper {
 			background: #446CB3;
+		}
+
+		#application-brief .data-info {
+			background: #283644;
+			padding: 10px 0px;
+		}
+
+		#application-brief .data-info .tag {
+			background: url(/img/tag.png) top left no-repeat;
+			color: #FFF;
+			height: 34px;
+			width: 232px;
+			padding: 6px 10px;
+			font-size: 18px;
+		}
+
+		#application-brief .data-info h4 {
+			color: #FFF;
+			font: 18px "Varela Round";
+			padding: 0px 10px;
+		}
+
+		#application-brief .compare-list {
+			overflow: hidden;
+		}
+
+		#application-brief .compare-list > div {
+			min-width: 2600px;
+		}
+		#application-brief .compare-list .compare-item {
+			width: 240px;
+			text-align: center;
+			float: left;
+			margin: 0px 50px;
+		}
+
+		#application-brief .compare-list .compare-item h3 {
+			color: #FFF;
+			font: 18px "Varela Round";
+			height: 44px;
+		}
+
+		#application-brief .compare-list .compare-item .bigCircle {
+			background: #3A9AD8;
+			border-radius:45px;
+			-moz-border-radius:45px;
+			-webkit-border-radius:45px;
+			color: #FFF;
+			height: 90px;
+			width: 90px;
+			margin: 0 auto;
+			text-align: center;
+			padding: 25px 0 0;
+		}
+		
+		#application-brief .compare-list .compare-item .bigCircle strong {
+			font-size: 18px;
+			display: block;
+		}
+
+		#application-brief .compare-list .compare-item .bigCircle small {
+			font-size: 14px;
+		}
+
+		#application-brief .compare-list .compare-item .simpleq .qt {
+			background: #3A9AD8;
+			color: #FFF;
+			padding: 10px;
+			font-size: 20px;
+		}
+
+		#application-brief .compare-list .compare-item .simpleq .q {
+			color: #FFF;
+			font: 18px "Varela Round";
 		}
 
 		.fade-hide, .fade-show {
@@ -406,53 +482,14 @@
 	<?php print HTML::script("js/jquery.knob.js") ?>
 	<?php print HTML::script("http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.4.min.js") ?>
 	<?php print HTML::script("js/jquery.tooltipster.min.js"); ?>
+	<?php print HTML::script("js/jquery.mousewheel.js"); ?>
+	<?php print HTML::script("js/perfect-scrollbar.js"); ?>
 
 	<script type="text/javascript">
-	FirstSetupCtrl = function($scope, $location)
+	CompareCtrl = function($scope, $location)
 	{
-
-	};
-
-	SecondSetupCtrl = function($scope, $http, $routeParams)
-	{
-		if ($routeParams.filters)
-		{
-			filtrate = $routeParams.filters;
-		}
-		else
-		{
-			filtrate = null;
-		}
-
-		$http.post('/tunnel/products/<?php echo $subcategory->aller; ?>', {take: 10, skip:0, filter: filtrate}).success(function(data)
-		{
-			$scope.$emit('updateFullSet', data);
-			$scope.$emit('updatePartialSetUseFilter');
-		});
-
 		$(function() {
-
-			$(".order").tooltipster({
-				interactive: true,
-				content: $("#order-hide"),
-				theme: '.filters-theme',
-				position: 'bottom'
-			});
-
-		    var s = $(".filters");
-		    var h = $(".filters-hide");
-
-		    var pos = s.position();                    
-		    $(window).scroll(function() {
-		        var windowpos = $(window).scrollTop();
-		        if (windowpos >= pos.top) {
-		            s.addClass("stick");
-		            h.show();
-		        } else {
-		            s.removeClass("stick"); 
-		            h.hide();
-		        }
-		    });
+			$(".compare-list").perfectScrollbar();
 		});
 	};
 
@@ -461,223 +498,13 @@
 
 		$locationProvider.hashPrefix('!');
 		$routeProvider.
-			when('/list', {templateUrl: 'setup.html', controller: SecondSetupCtrl}).
+			when('/list', {templateUrl: 'setup.html', controller: CompareCtrl}).
 			otherwise({redirectTo: '/list'});
 	});
 
 
 	app.run(function($rootScope, $location) { 
 
-		$rootScope.filters = {
-			minutes: {
-				from: 0,
-				to: 4000,
-				def: 4000
-			},
-			messages: {
-				from: 0,
-				to: 1000,
-				def: 1000
-			},
-			internet: {
-				from: 0,
-				to: 4096,
-				def: 4096
-			},
-			fee: {
-				from: 0,
-				to: 2500,
-				def: 2500
-			},
-			company: {
-				
-			}
-		};
-
-		$rootScope.maxs = {
-			minutes: 0,
-			messages: 0,
-			internet: 0
-		};
-
-		$rootScope.productsFull = [];
-		$rootScope.products = [];
-		$rootScope.currentProduct = {};
-
-		$rootScope.productShow = function(product) {
-			
-			$rootScope.currentProduct = product;
-		}
-
-		$rootScope.compareList = [];
-
-		$rootScope.addToCompare = function(product) {
-
-			
-
-			if ($rootScope.compareList.length >= 5)
-			{
-				$rootScope.compareList.shift();
-			}
-
-			$rootScope.compareList.push(product);
-		}
-
-		$rootScope.compare = function() {
-
-			var url = '/show-comparison/cellplan/';
-			var slugify = function(Text) { 
-				return Text
-			        .toLowerCase()
-			        .replace(/[^\w ]+/g,'')
-			        .replace(/ +/g,'-');
-			}
-
-			if ($rootScope.compareList.length == 1)
-			{	
-				// Throw an error
-
-				return;
-			}
-
-			var first = false;
-
-			angular.forEach($rootScope.compareList, function(product) {
-
-				var product_url = product.id + '-' + slugify(product.name);
-
-				if (first == false)
-				{
-					url  += product_url;
-					first = true;
-					return true;
-				}
-
-				url += '-vs-' + product_url;
-			});
-
-			location.href = url;
-		}
-
-		$rootScope.orderedBy = '-minutes';
-		$rootScope.orderProductsBy = function(property) {
-
-			var order = function(property) {
-			    var sortOrder = 1;
-			    if(property[0] === "-") {
-			        sortOrder = -1;
-			        property = property.substr(1, property.length - 1);
-			    }
-
-			    if (property == 'minutes')
-			    {
-			    	return function(a, b){
-						var minutes_a = parseInt(a.minutes_tolocal) + parseInt(a.minutes_toany) + parseInt(a.minutes_tosame) + parseInt(a.minutes_toother);
-						var minutes_b = parseInt(b.minutes_tolocal) + parseInt(b.minutes_toany) + parseInt(b.minutes_tosame) + parseInt(b.minutes_toother);
-
-						if (minutes_a < minutes_b)
-						{
-							return -1 * sortOrder;
-						}
-						else if (minutes_a > minutes_b)
-						{
-							return 1 * sortOrder;
-						}
-
-						return 0;
-					};
-			    }
-
-			    return function (a,b) {
-			    	if (property == 'name')
-			    	{
-			    		var result = (a[property] < b[property]) ? -1 : (a[property] > b[property]) ? 1 : 0;
-			    	}
-			    	else
-			    	{
-			    		var result = (parseFloat(a[property]) < parseFloat(b[property])) ? -1 : (parseFloat(a[property]) > parseFloat(b[property])) ? 1 : 0;
-			    	}
-			        
-			        return result * sortOrder;
-			    }
-			};
-
-			if ($rootScope.orderedBy == property)
-			{
-				property = '-' + property;
-			}
-
-			$rootScope.orderedBy = property;
-
-			$rootScope.productsFull.sort(order(property));
-			$rootScope.$emit('updatePartialSetUseFilter');
-		};
-
-		$rootScope.$on('updateFullSet', function(event, set) {
-
-			$rootScope.productsFull = set;
-
-			$rootScope.productsFull.sort(function(a, b){
-				var minutes_a = parseInt(a.minutes_tolocal) + parseInt(a.minutes_toany) + parseInt(a.minutes_tosame) + parseInt(a.minutes_toother);
-				var minutes_b = parseInt(b.minutes_tolocal) + parseInt(b.minutes_toany) + parseInt(b.minutes_tosame) + parseInt(b.minutes_toother);
-
-				if (minutes_a < minutes_b)
-				{
-					return 1;
-				}
-				else if (minutes_a > minutes_b)
-				{
-					return -1;
-				}
-
-				return 0;
-			});
-		});
-
-		$rootScope.$on('updatePartialSetUseFilter', function(event) {
-
-			var limit = 10;
-			var put = 0;
-
-			$rootScope.maxs.minutes = 0;
-			$rootScope.maxs.fee = 0;
-			$rootScope.maxs.messages = 0;
-			$rootScope.maxs.internet = 0;
-
-			$rootScope.products = [];
-
-			for (var i = 0; i < $rootScope.productsFull.length; i++) {
-				
-				if (put < limit)
-				{
-					var product = $rootScope.productsFull[i];
-					var minutes = product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother;
-
-					if (minutes >= $rootScope.filters.minutes.from && minutes <= $rootScope.filters.minutes.to)
-					{
-						if (product.messages >= $rootScope.filters.messages.from && product.messages <= $rootScope.filters.messages.to)
-						{
-							if (product.fee >= $rootScope.filters.fee.from && product.fee <= $rootScope.filters.fee.to)
-							{
-								if (product.internet >= $rootScope.filters.internet.from && product.internet <= $rootScope.filters.internet.to)
-								{
-									$rootScope.products.push(product);
-									put = put + 1;
-								}
-							}
-						}
-					}
-				}	
-			};
-
-			for (var i = $rootScope.products.length - 1; i >= 0; i--) {
-				
-				var product = $rootScope.products[i];
-				var minutes = product.minutes_tolocal + product.minutes_toany + product.minutes_tosame + product.minutes_toother;
-
-				if (minutes > $rootScope.maxs.minutes) { $rootScope.maxs.minutes = minutes; }
-			};
-		});
 	});
 
 	app.directive('meter', function() {
@@ -1016,128 +843,89 @@
 		</div>
 	</header>
 
-	<section class="compare" ng-hide="compareList.length<=0">
-		<div class="row" style="max-width:100em">
-			<div class="large-2 columns">
-				<a href="#" ng-click="compare()" class="button" style="margin-top:1.5em">Comparar</a>
-			</div>
-			<div class="large-10 columns">
-				<div ng-repeat="product in compareList"  ng-animate="'custom'">
-					<div class="product">
-						<div class="drop" ng-click="removeFromCompare(product)"><i class="icon-remove"></i></div>
-						<h4>{{ product.name  }}</h4>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-
 	<section class="filters-hide">&nbsp;</section>
 	<section class="filters">
 		<div class="row" style="max-width:100em">
-			<div class="large-12 columns">
-				<div class="row collapse">
-					<filter from="filters.minutes.from" def="filters.minutes.def" to="filters.minutes.to" name="minutes">
-						Minutos al mes
-					</filter>
-
-					<filter from="filters.messages.from" def="filters.messages.def" to="filters.messages.to" name="messages">
-						Mensajes
-					</filter>
-
-					<filter from="filters.internet.from" def="filters.internet.def" to="filters.internet.to" name="internet" post=" MB">
-						Internet movil
-					</filter>
-
-					<filter from="filters.fee.from" def="filters.fee.def" to="filters.fee.to" name="fee" pre="$ ">
-						Costo
-					</filter>
-
-					<filter from="filters.fee.from" def="filters.fee.def" to="filters.fee.to" name="fee" pre="$ ">
-						Costo
-					</filter>
-
-					<!--<filterMultiple from="filters.fee.from" def="filters.fee.def" to="filters.fee.to" name="fee" pre="$ ">
-						Costo
-					</filterMultiple>-->
-
-					<div class="large-2 columns">
-						<a href="#" class="settings"><i class="icon-cogs"></i></a>
-					</div>
-				</div>
+			<div class="large-4 columns">
+				<h4 style="color: #BCDDF2">Información disponible</h4>
 			</div>	
 		</div>
 	</section>
 
-	<section id="filter-module" style="display:none">
-		<div id="filter-minutes-module">
-			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Cuanto llamas por mes?</h4></div>
-			<div id="slider" style="width:200px;margin: 10px 0"></div>
-			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
-			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">4000</div>
-		</div>
 
-		<div id="filter-messages-module">
-			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Que tanto escribes?</h4></div>
-			<div id="slider" style="width:200px;margin: 10px 0"></div>
-			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
-			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">1000</div>
-		</div>
 
-		<div id="filter-internet-module">
-			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Navegas en linea?</h4></div>
-			<div id="slider" style="width:200px;margin: 10px 0"></div>
-			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
-			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">4096</div>
-		</div>
+	<section id="application-brief" style="margin-top:20px">
+		<div class="row" style="max-width:100em">
+			<div class="large-3 columns">
+				<div class="data-info">
+					<div class="tag">Consumo</div>
+					<h4 style="margin-top:40px">Costo</h4>
+					<h4 style="margin-top:80px">Minutos</h4>
+					<h4 style="margin-top:140px">Mensajes</h4>
+					<h4 style="margin-top:30px">Internet</h4>
+					<h4 style="margin-top:30px">Radio</h4>
+					<h4 style="margin-top:30px">Numeros gratis</h4>
+				</div>
+			</div>
 
-		<div id="filter-fee-module">
-			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Presupuesto?</h4></div>
-			<div id="slider" style="width:200px;margin: 10px 0"></div>
-			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
-			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">2500</div>
-		</div>
-	</section>
+			<div class="large-9 columns">
+				<div class="compare-list">
+					<div>
+						<?php foreach ($products as $product): ?>
+						<?php $minutes = $product->minutes_toany + $product->minutes_tolocal + $product->minutes_tosame + $product->minutes_toother; ?>
+						<div class="compare-item">
+							<h3><?php echo $product->name; ?></h3>
 
-	<section id="application-brief">
-		<div class="row" style="max-width:100em;background:#FFF">
-			<div class="large-12 columns">
-				<h2>Planes de telefonía para ti: </h2>
+							<div class="bigCircle">
+								<strong>$ <?php echo $product->fee; ?> </strong>
+								<small>cada mes</small>
+							</div>
 
-				<div class="row" style="margin-top: 20px;margin-bottom: 20px;">
-					<div class="large-12 columns">
-						<div class="row">
-							<div class="large-3 columns">
-								<span class="table-header">Plan y compañia</span>
+							<div class="row" style="margin-top:20px">
+								<div class="large-3 columns" align="left">
+									<meter smax="<?php echo $minutes; ?>" value="<?php echo $product->minutes_tolocal; ?>" />
+								</div>
+								<div class="large-3 columns" align="left">
+									<meter smax="<?php echo $minutes; ?>" value="<?php echo $product->minutes_tosame; ?>" />
+								</div>
+								<div class="large-3 columns" align="left">
+									<meter smax="<?php echo $minutes; ?>" value="<?php echo $product->minutes_toother; ?>" />
+								</div>
+								<div class="large-3 columns" align="left">
+									<meter smax="<?php echo $minutes; ?>" value="<?php echo $product->minutes_toany; ?>" />
+								</div>
 							</div>
-							<div class="large-2 columns" align="left">
-								<span class="table-header">Minutos</span>
+
+							<div class="row" style="margin-top:20px;color:#FFF">
+								<div class="large-3 columns" align="left">
+									locales
+								</div>
+								<div class="large-3 columns" align="left">
+									misma comp.
+								</div>
+								<div class="large-3 columns" align="left">
+									otras comp.
+								</div>
+								<div class="large-3 columns" align="left">
+									todo destino
+								</div>
 							</div>
-							<div class="large-2 columns">
-								<span class="table-header">Mensajes</span>
-							</div>
-							<div class="large-1 columns">
-								<span class="table-header">Internet</span>
-							</div>
-							<div class="large-2 columns" align="center">
-								<span class="table-header">Precio</span>
-							</div>
-							<div class="large-2 columns">
-								<div class="order">
-									Ordernar por
+
+							<div class="row simpleq" style="margin-top:20px">
+								<div class="large-6 columns">
+									<div class="qt">
+										<?php echo $minutes; ?>
+									</div>
 								</div>
 
-								<div style="display:none">
-									<div id="order-hide">
-										<a href="" ng-class="{active:orderedBy=='name', reverse:orderedBy=='-name'}" ng-click="orderProductsBy('name')">Nombre y compañia</a>
-										<a href="" ng-class="{active:orderedBy=='minutes', reverse:orderedBy=='-minutes'}" ng-click="orderProductsBy('minutes')">Minutos / mes</a>
-										<a href="" ng-class="{active:orderedBy=='messages', reverse:orderedBy=='-messages'}" ng-click="orderProductsBy('messages')">Mensajes / mes</a>
-										<a href="" ng-class="{active:orderedBy=='internet', reverse:orderedBy=='-internet'}" ng-click="orderProductsBy('internet')">Internet movil</a>
-										<a href="" ng-class="{active:orderedBy=='fee', reverse:orderedBy=='-fee'}" ng-click="orderProductsBy('fee')">Precio</a>
+								<div class="large-6 columns" align="left">
+									<div class="q">
+										minutos<br /> cada mes
 									</div>
 								</div>
 							</div>
 						</div>
+						<?php endforeach; ?>
 					</div>
 				</div>
 			</div>

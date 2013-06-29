@@ -99,7 +99,7 @@ class HomeController extends BaseController {
 			App::abort(404, 'Page not found');
 		}
 
-		return $product;
+		return View::make('compare')->with('products', $product)->with('subcategory', $get_subcategory);
 	}
 
 	public function showHome()
