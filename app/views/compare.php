@@ -94,6 +94,17 @@
 					font: inherit;
 					font-size: 16px;
 				}
+
+		.compare-filtrate {
+			width: 100%;
+			background: #3A9AD8;
+			padding: 10px 0;
+		}
+
+		.compare-filtrate h4 {
+			font: 20px "Varela Round";
+		}
+
 		.filters {
 			width: 100%;
 			background: #3A9AD8;
@@ -841,8 +852,7 @@
 		</div>
 	</header>
 
-	<section class="filters-hide">&nbsp;</section>
-	<section class="filters">
+	<section class="compare-filtrate">
 		<div class="row" style="max-width:100em">
 			<div class="large-4 columns">
 				<h4 style="color: #BCDDF2">Información disponible</h4>
