@@ -52,7 +52,22 @@ class HomeController extends BaseController {
 
 		// Check the category before checking products slug
 		$category_treatment = strtolower($category);
-		$get_subcategory    = $this->subcategories->getByAller($category_treatment);
+
+		$cache = md5('subcategory' . $category_treatment);
+
+		if (Cache::get($cache))
+		{
+			$get_subcategory    = Cache::get($cache);
+		}
+		else
+		{
+			$get_subcategory    = $this->subcategories->getByAller($category_treatment);
+
+			if ($get_subcategory)
+			{
+				Cache::add($cache, $get_subcategory, 60*24);
+			}
+		}
 
 		if (!$get_subcategory)
 		{
@@ -89,9 +104,21 @@ class HomeController extends BaseController {
 			$list[] = (int)$product_slug_split[0];
 		}
 
+		$cache   = md5('compare' . serialize($list));
 
-		// Get the products from the list of ids
-		$product = $aller->getList($list);
+		if (Cache::has($cache))
+		{
+			// Get the products from the list of ids
+			$product = Cache::get($cache);
+		}
+		else
+		{
+			// Get the products from the list of ids
+			$product = $aller->getList($list);
+
+			Cache::add($cache, $product, 60*24);
+		}
+		
 
 		if ($product->count() < $products)
 		{

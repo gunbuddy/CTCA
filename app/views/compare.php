@@ -8,10 +8,10 @@
 
 	<title>Comparateca | Comparaciones de <?php echo $subcategory->name; ?></title>
 
-	<?php print HTML::style("css/tooltipster.css") ?>
-	<?php print HTML::style("css/normalize.css") ?>
-	<?php print HTML::style("css/foundation.min.css") ?>
-	<?php print HTML::style("css/perfect-scrollbar.css") ?>
+	<?php print HTML::style("asset/tooltipster.css") ?>
+	<?php print HTML::style("asset/normalize.css") ?>
+	<?php print HTML::style("asset/foundation.min.css") ?>
+	<?php print HTML::style("asset/perfect-scrollbar.css") ?>
 	<?php print HTML::script("js/vendor/custom.modernizr.js") ?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
