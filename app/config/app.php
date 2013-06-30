@@ -171,8 +171,7 @@ return array(
 		'Redirect'        => 'Illuminate\Support\Facades\Redirect',
 		'Redis'           => 'Illuminate\Support\Facades\Redis',
 		'Request'         => 'Illuminate\Support\Facades\Request',
-		// 'Response'        => 'Illuminate\Support\Facades\Response', # We've erased the illuminate response
-		'Response'        => 'Aller\Api\Facades\Response',
+		'Response'        => 'Illuminate\Support\Facades\Response', # We've erased the illuminate response
 		'Route'           => 'Illuminate\Support\Facades\Route',
 		'Schema'          => 'Illuminate\Support\Facades\Schema',
 		'Seeder'          => 'Illuminate\Database\Seeder',

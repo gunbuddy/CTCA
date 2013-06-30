@@ -12,7 +12,7 @@
 	<?php print HTML::style("asset/normalize.css") ?>
 	<?php print HTML::style("asset/foundation.min.css") ?>
 	<?php print HTML::style("asset/perfect-scrollbar.css") ?>
-	<?php print HTML::script("asset/script/vendor/custom.modernizr.js") ?>
+	<?php print HTML::script("asset/script/vendor-custom.modernizr.js") ?>
 	<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
 	<link href='http://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
 	<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
@@ -519,13 +519,13 @@
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
 	<?php print HTML::script("https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"); ?>
-	<?php print HTML::script("asset/script/vendor/jquery.js") ?>
+	<?php print HTML::script("asset/script/vendor-jquery.js") ?>
 	<?php print HTML::script("http://code.jquery.com/ui/1.10.3/jquery-ui.js") ?>
 	<?php print HTML::script("asset/script/jquery.knob.js") ?>
 	<?php print HTML::script("http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.4.min.js") ?>
 	<?php print HTML::script("asset/script/jquery.tooltipster.min.js"); ?>
 	<?php print HTML::script("asset/script/jquery.mousewheel.js"); ?>
-	<?php print HTML::script("asset/script/perfect-scrollbar.js"); ?>
+	<?php print HTML::script("asset/script/perfectscrollbar.js"); ?>
 
 	<script type="text/javascript">
 	CompareCtrl = function($scope, $location)
@@ -1063,7 +1063,7 @@
 	  <a class="close-reveal-modal">&#215;</a>
 	</div>
 
-	<?php print HTML::script("js/foundation.min.js") ?>
+	<?php print HTML::script("asset/script/foundation.min.js") ?>
 	<script>
 		$(document).foundation();
 	</script>
