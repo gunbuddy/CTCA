@@ -299,6 +299,20 @@
 			font-size: 14px;
 		}
 
+		#application-brief .compare-list .compare-item .circle {
+			background: #3A9AD8;
+			border-radius:75px;
+			-moz-border-radius:75px;
+			-webkit-border-radius:75px;
+			color: #FFF;
+			height: 80px;
+			width: 80px;
+			margin: 20px auto 0;
+			text-align: center;
+			padding: 30px 0 0;
+			font-size: 18px;
+		}
+
 		#application-brief .compare-list .compare-item .simpleq .qt {
 			background: #3A9AD8;
 			color: #FFF;
@@ -977,15 +991,20 @@
 				<div class="data-info">
 					<div class="tag">Consumo</div>
 					<h4 style="margin-top:40px">Costo</h4>
-					<h4 style="margin-top:80px">Minutos</h4>
-					<h4 style="margin-top:150px">Mensajes</h4>
+					<h4 style="margin-top:150px">Minutos</h4>
+					<h4 style="margin-top:100px">Mensajes</h4>
 					<h4 style="margin-top:65px">Internet</h4>
-					<h4 style="margin-top:30px">Radio</h4>
-					<h4 style="margin-top:30px">Numeros gratis</h4>
+					<h4 style="margin-top:60px">Radio</h4>
+					<h4 style="margin-top:45px">Numeros gratis</h4>
 
 					<div class="tag" style="margin-top:40px">Costo adicional</div>
-					<h4 style="margin-top:30px">Costo</h4>
-					<h4 style="margin-top:30px">Minutos</h4>
+					<h4 style="margin-top:60px">KB adicional</h4>
+					<h4 style="margin-top:80px">MMS</h4>
+					<h4 style="margin-top:80px">Mensaje adicional</h4>
+					<h4 style="margin-top:80px">Minuto adicional (misma comp.)</h4>
+					<h4 style="margin-top:80px">Minuto adicional (otras comp.)</h4>
+					<h4 style="margin-top:80px">Minuto adicional (nacional)</h4>
+					<h4 style="margin-top:80px">Minuto adicional (local)</h4>
 				</div>
 			</div>
 
@@ -1076,6 +1095,43 @@
 								<div class="large-6 columns" style="padding-top:2.1em">
 									MB's al mes
 								</div>
+							</div>
+
+							<div style="margin-top:20px;font-size:22px;color:#FFF" align="center">
+								<?php if ($product->radio): ?>
+								<span class="icon-ok"></span>
+								<?php else: ?>
+								<span class="icon-remove"></span>
+								<?php endif; ?>
+							</div>
+
+							<div class="circle" style="margin-top:20px">
+								<?php echo $product->free_numbers_tosame + $product->free_numbers_toother; ?>
+							</div>
+
+							<div class="circle" style="margin-top:60px">
+								$ <?php echo (float)$product->additional_internet_kb; ?>
+							</div>
+
+							<div class="circle" style="margin-top:20px">
+								$ <?php echo (float)$product->additional_mms; ?>
+							</div>
+							<div class="circle" style="margin-top:20px">
+								$ <?php echo (float)$product->additional_message; ?>
+							</div>
+							<div class="circle" style="margin-top:20px">
+								$ <?php echo (float)$product->additional_minute_tosame; ?>
+							</div>
+							<div class="circle" style="margin-top:20px">
+								$ <?php echo (float)$product->additional_minute_toother; ?>
+							</div>
+
+							<div class="circle" style="margin-top:20px">
+								$ <?php echo (float)$product->additional_minute_any_national; ?>
+							</div>
+
+							<div class="circle" style="margin-top:20px">
+								$ <?php echo (float)$product->additional_minute_any_local; ?>
 							</div>
 						</div>
 						<?php endforeach; ?>

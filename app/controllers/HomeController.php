@@ -118,7 +118,6 @@ class HomeController extends BaseController {
 
 			Cache::add($cache, $product, 60*24);
 		}
-		
 
 		if ($product->count() < $products)
 		{
