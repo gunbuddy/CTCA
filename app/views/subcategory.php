@@ -156,6 +156,12 @@
 			.filters .filter {
 				position:relative;
 			}
+		
+		.comparing-now {
+			background: #2C3E50;
+			height: 50px;
+			width: 100%;
+		}
 
 		#application-brief h2 {
 			color: #3489C0;
@@ -441,6 +447,7 @@
 
 		    var s = $(".filters");
 		    var h = $(".filters-hide");
+		    var comparing = $(".filters .comparing-now");
 
 		    var pos = s.position();                    
 		    $(window).scroll(function() {
@@ -448,9 +455,14 @@
 		        if (windowpos >= pos.top) {
 		            s.addClass("stick");
 		            h.show();
+
+		            comparing.show();
+
 		        } else {
 		            s.removeClass("stick"); 
 		            h.hide();
+
+		            comparing.hide();
 		        }
 		    });
 		});
@@ -1066,6 +1078,10 @@
 					</div>
 				</div>
 			</div>	
+		</div>
+
+		<div class="comparing-now" style="display:none">
+			&nbsp;
 		</div>
 	</section>
 

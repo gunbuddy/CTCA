@@ -36,12 +36,12 @@
 		}
 
 		header {
-			background: #34495E;
+			background: #FFF;
 			padding: 1em 0;
 		}
 
 		header a.category {
-			color: #FFF;
+			color: #34495E;
 			margin-top: 2.5em;
 			display: block;
 			text-align: center;
@@ -102,8 +102,64 @@
 			padding: 10px 0;
 		}
 
-		.compare-filtrate h4 {
-			font: 20px "Varela Round";
+		.compare-filtrate .dropdown {
+			font: 16px "Varela Round";
+			background: #25BC9D;
+			width: 300px;
+			border-radius: 4px;
+			-moz-border-radius: 4px;
+			-webkit-border-radius: 4px;
+		}
+
+		.compare-filtrate .dropdown h4 {
+			font: inherit;
+			display: inline-block;
+			width: 230px;
+			color: #FFF;
+			padding: 10px 10px;
+			margin: 0;
+		}
+
+		.compare-filtrate .dropdown .tip {
+			display: inline-block;
+			width: 60px;
+			color: #FFF;
+			padding: 10px 0;
+			border-left: 1px solid #22AE91;
+			text-align: center;
+		}
+
+		.compare-filtrate .search {
+			background: #FFF;
+			border-radius: 20px;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
+			width: 300px;
+			height: 40px;
+		}
+
+		.compare-filtrate .search input {
+			border: none;
+			background: transparent;
+			box-shadow: none;
+			width: 250px;
+			display: inline-block;
+			margin: 0;
+			padding: 10px 10px;
+			height: 40px
+		}
+
+		.compare-filtrate .search .add {
+			display: inline-block;
+			width: 30px;
+			background: #0086C3;
+			color: #FFF;
+			height: 30px;
+			line-height: 32px;
+			text-align: center;
+			border-radius: 20px;
+			-moz-border-radius: 20px;
+			-webkit-border-radius: 20px;
 		}
 
 		.filters {
@@ -533,6 +589,11 @@
 		$(function() {
 			$(".compare-list").perfectScrollbar();
 			$(".dial").knob();
+
+			var lastScrollLeft = 0;
+			$(".compare-list").scroll(function() {
+
+			});
 		});
 	};
 
@@ -861,7 +922,7 @@
 	<header>
 		<div class="row" style="max-width:100em">
 			<div class="large-2 columns" align="center">
-				<img src="<?php echo asset('img/plain-logo.png'); ?>" width="50" />
+				<img src="<?php echo asset('img/plain-logo2.png'); ?>" width="50" />
 			</div>
 
 			<div class="large-2 columns">
@@ -889,7 +950,21 @@
 	<section class="compare-filtrate">
 		<div class="row" style="max-width:100em">
 			<div class="large-4 columns">
-				<h4 style="color: #BCDDF2">Información disponible</h4>
+				<div class="dropdown">
+					<h4>Toda la información</h4> 
+
+					<div class="tip"><span class="icon-chevron-down"></span></div>
+				</div>
+			</div>	
+			<div class="large-4 columns" align="center">
+				
+				<div class="search">
+					<input type="text" placeholder="Buscar y añadir" />
+					<div class="add"><span class="icon-plus"></span></div>
+				</div>
+			</div>	
+			<div class="large-4 columns">
+				&nbsp;
 			</div>	
 		</div>
 	</section>
