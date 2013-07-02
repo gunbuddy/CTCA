@@ -601,13 +601,20 @@
 	CompareCtrl = function($scope, $location)
 	{
 		$(function() {
-			$(".compare-list").perfectScrollbar();
+			//$(".compare-list").perfectScrollbar();
 			$(".dial").knob();
 
 			var lastScrollLeft = 0;
-			$(".compare-list").scroll(function() {
-
-			});
+			$(".minutes_meters").hover(
+				function() {
+					$(".meter_text").slideUp();
+					$(".meter_number").slideDown();
+				},
+				function() {
+					$(".meter_text").slideDown();
+					$(".meter_number").slideUp();
+				}
+			);
 		});
 	};
 
@@ -1028,7 +1035,7 @@
 								<small>cada mes</small>
 							</div>
 
-							<div class="row" style="margin-top:20px">
+							<div class="row minutes_meters" style="margin-top:20px">
 								<div class="large-3 columns" align="left">
 									<meter smax="<?php echo $minutes; ?>" value="<?php echo $product->minutes_tolocal; ?>" />
 								</div>
@@ -1045,16 +1052,20 @@
 
 							<div class="row" style="margin-top:20px;color:#FFF">
 								<div class="large-3 columns" align="left">
-									locales
+									<div class="meter_text">locales</div>
+									<div class="meter_number" style="display:none"><?php echo $product->minutes_tolocal; ?></div>
 								</div>
 								<div class="large-3 columns" align="left">
-									misma comp.
+									<div class="meter_text">misma comp.</div>
+									<div class="meter_number" style="display:none"><?php echo $product->minutes_tosame; ?></div>
 								</div>
 								<div class="large-3 columns" align="left">
-									otras comp.
+									<div class="meter_text">otras comp.</div>
+									<div class="meter_number" style="display:none"><?php echo $product->minutes_toother; ?></div>
 								</div>
 								<div class="large-3 columns" align="left">
-									todo destino
+									<div class="meter_text">todo destino</div>
+									<div class="meter_number" style="display:none"><?php echo $product->minutes_toany; ?></div>
 								</div>
 							</div>
 
