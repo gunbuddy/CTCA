@@ -5,9 +5,9 @@ namespace Aller\Product\Cellplan;
 use \Aller\Product\ProductInterface;
 use \Aller\Product\Cellplan\CellplanInterface;
 use \Aller\Product\Cellplan\CellplanEntity;
-use \Aller\API\Resource\Eloquent\Resource;
+use Eloquent;
 
-class CellplanPostgres extends Resource implements ProductInterface, CellplanInterface {
+class CellplanPostgres extends Eloquent implements ProductInterface, CellplanInterface {
 	
 	public $table = 'cellplans';
 	public $template = 'list-cellplan.html';
