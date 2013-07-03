@@ -290,7 +290,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpFoundation\RedirectResponse as SymfonyRedirect;
 class Application extends Container implements HttpKernelInterface, ResponsePreparerInterface
 {
-    const VERSION = '4.0.3';
+    const VERSION = '4.0.4';
     protected $booted = false;
     protected $bootingCallbacks = array();
     protected $bootedCallbacks = array();
@@ -4247,8 +4247,7 @@ class SessionServiceProvider extends ServiceProvider
     }
     protected function registerSessionEvents()
     {
-        $app = $this->app;
-        $config = $app['config']['session'];
+        $config = $this->app['config']['session'];
         if (!is_null($config['driver'])) {
             $this->registerBootingEvent();
             $this->registerCloseEvent();
@@ -4256,8 +4255,7 @@ class SessionServiceProvider extends ServiceProvider
     }
     protected function registerBootingEvent()
     {
-        $app = $this->app;
-        $this->app->booting(function ($app) use($app) {
+        $this->app->booting(function ($app) {
             $app['session']->start();
         });
     }
@@ -5940,7 +5938,7 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
     }
     public function attributesToArray()
     {
-        $attributes = $this->getAccessibleAttributes();
+        $attributes = $this->getArrayableAttributes();
         foreach ($this->getMutatedAttributes() as $key) {
             if (!array_key_exists($key, $attributes)) {
                 continue;
@@ -5949,13 +5947,12 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
         }
         return $attributes;
     }
-    protected function getAccessibleAttributes()
+    protected function getArrayableAttributes()
     {
-        $attributes = array_merge(array_fill_keys($this->getMutatedAttributes(), null), $this->attributes);
         if (count($this->visible) > 0) {
-            return array_intersect_key($attributes, array_flip($this->visible));
+            return array_intersect_key($this->attributes, array_flip($this->visible));
         }
-        return array_diff_key($attributes, array_flip($this->hidden));
+        return array_diff_key($this->attributes, array_flip($this->hidden));
     }
     public function relationsToArray()
     {
@@ -6108,6 +6105,10 @@ abstract class Model implements ArrayAccess, ArrayableInterface, JsonableInterfa
             }
         }
         return $dirty;
+    }
+    public function getRelations()
+    {
+        return $this->relations;
     }
     public function getRelation($relation)
     {
@@ -6409,7 +6410,7 @@ class Store extends SymfonySession
     {
         return array_get($this->all(), $name, $default);
     }
-    public function hasOldInput($key)
+    public function hasOldInput($key = null)
     {
         return !is_null($this->getOldInput($key));
     }
@@ -8414,6 +8415,11 @@ class MessageBag implements ArrayableInterface, Countable, JsonableInterface, Me
     public function setFormat($format = ':message')
     {
         $this->format = $format;
+        return $this;
+    }
+    public function isEmpty()
+    {
+        return !$this->any();
     }
     public function any()
     {

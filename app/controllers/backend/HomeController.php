@@ -27,7 +27,7 @@ class HomeController extends \BaseController {
 
 			$user = Sentry::authenticate($credentials, false);
 
-			return Redirect::to('backend/v1/');
+			return Redirect::to('backend/dashboard/');
 
 		} 
 		catch (\Cartalyst\Sentry\Users\LoginRequiredException $e) 
@@ -57,28 +57,6 @@ class HomeController extends \BaseController {
 		catch (\Cartalyst\Sentry\Throttling\UserBannedException $e)
 		{
 		    return Redirect::route('backend.login')->with('error', 'La cuenta de administrador ha sido baneada.');
-		}
-	}
-
-	public function getTest()
-	{
-		try {
-			Sentry::getGroupProvider()->create(array(
-			    'name'        => 'Administrador',
-			    'permissions' => array('system' => 1),
-			));
-
-			$user = Sentry::getUserProvider()->create(array(
-		        'email'    => 'bruce.wayne@example.com',
-		        'password' => 'test',
-		    ));
-
-			$adminGroup = Sentry::getGroupProvider()->findById(1);
-
-			$user->addGroup($adminGroup);
-
-		} catch (Exception $e) {
-			
 		}
 	}
 }

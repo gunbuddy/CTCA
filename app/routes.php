@@ -32,10 +32,12 @@ Route::group(array('prefix' => 'backend'), function(){
 
 	Route::get('dashboard', 'Backend\DashboardController@showIndex');
 	Route::resource('users', 'Backend\UserController');
+	Route::resource('category', 'Backend\CategoryController');
 	Route::resource('invoices', 'Backend\InvoiceController');
 	Route::get('tools', 'Backend\ToolsController@showIndex');
 
 	// View products routes and create products routes
+	Route::get('categories/products/{category?}', 'Backend\ProductController@index');
 	Route::resource('categories/products', 'Backend\ProductController');
 
 	// Show companies view
