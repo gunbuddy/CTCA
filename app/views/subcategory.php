@@ -37,12 +37,12 @@
 		}
 
 		header {
-			background: #34495E;
+			background: #FFF;
 			padding: 1em 0;
 		}
 
 		header a.category {
-			color: #FFF;
+			color: #34495E;
 			margin-top: 2.5em;
 			display: block;
 			text-align: center;
@@ -116,8 +116,8 @@
 			.filters h2 { color: #FFF; }
 
 			.filters a.settings {
-				background: #FFF;
-				color: #3A9AD8;
+				background: #3A9AD8;
+				color: #FFF;
 				display: block;
 				font-size: 40px;
 				text-align: center;
@@ -255,6 +255,9 @@
 				text-transform: uppercase;
 				margin-top: 5px;
 				font-size: 12px;
+				padding: 10px;
+				width: 100px;
+				text-align: center;
 			}
 
 			.company.green {
@@ -452,7 +455,7 @@
 		    var pos = s.position();                    
 		    $(window).scroll(function() {
 		        var windowpos = $(window).scrollTop();
-		        if (windowpos >= pos.top) {
+		        if (windowpos - 30 >= pos.top) {
 		            s.addClass("stick");
 		            h.show();
 
@@ -1060,7 +1063,7 @@
 	<header>
 		<div class="row" style="max-width:100em">
 			<div class="large-2 columns" align="center">
-				<img src="<?php echo asset('img/plain-logo.png'); ?>" width="50" />
+				<img src="<?php echo asset('img/plain-logo2.png'); ?>" width="50" />
 			</div>
 
 			<div class="large-2 columns">
@@ -1103,7 +1106,7 @@
 
 	<section class="filters-hide">&nbsp;</section>
 	<section class="filters">
-		<div class="row" style="max-width:100em">
+		<div class="row" style="max-width:102em">
 			<div class="large-12 columns">
 				<div class="row collapse">
 					<filter from="filters.minutes.from" def="filters.minutes.def" to="filters.minutes.to" name="minutes">
@@ -1281,9 +1284,11 @@
 		<div class="row" ng-repeat="product in products | orderBy:orderBy:false | limitTo:10" ng-animate="'custom'">
 			<div class="large-12 columns">
 				<div class="row product-item">
-					<div class="large-3 columns">
-						<div class="name">{{ product.name }}</div>
+					<div class="large-1 columns">
 						<div class="company {{ product.company.label }}">{{ product.company.name }}</div>
+					</div>
+					<div class="large-2 columns">
+						<div class="name">{{ product.name }}</div>
 					</div>
 					<div class="large-2 columns">
 						<div class="row">

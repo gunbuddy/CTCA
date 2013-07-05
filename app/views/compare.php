@@ -256,11 +256,11 @@
 		}
 
 		#application-brief .compare-list {
-			overflow: hidden;
+			overflow: auto;
 		}
 
 		#application-brief .compare-list > div {
-			min-width: 2600px;
+			min-width: <?php echo count($products) * 350 ?>px;
 			overflow: hidden;
 			position: relative;
 		}

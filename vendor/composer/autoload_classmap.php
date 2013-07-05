@@ -104,6 +104,7 @@ return array(
     'CreateCategories' => $baseDir . '/app/database/migrations/2013_05_31_201056_create_categories.php',
     'CreateCellplan' => $baseDir . '/app/database/migrations/2013_06_02_195212_create_cellplan.php',
     'CreateCompany' => $baseDir . '/app/database/migrations/2013_06_03_000153_create_company.php',
+    'CreateComparisons' => $baseDir . '/app/database/migrations/2013_07_05_123708_create_comparisons.php',
     'CreateInternet' => $baseDir . '/app/database/migrations/2013_06_03_010213_create_internet.php',
     'CreateSubCategories' => $baseDir . '/app/database/migrations/2013_05_31_204219_create_sub_categories.php',
     'CreateSubcategoriesAller' => $baseDir . '/app/database/migrations/2013_06_02_184058_create_subcategories_aller.php',

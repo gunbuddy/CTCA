@@ -125,6 +125,15 @@ class HomeController extends BaseController {
 			App::abort(404, 'Page not found');
 		}
 
+
+		// Get comparison provider
+		Aller\API\Comparison::getProvider()->send('compare', json_encode($list), $category_treatment);
+
+		foreach ($list as $_id)
+		{
+			Aller\API\Comparison::getProvider()->send('product', $_id, $category_treatment);
+		}
+
 		return View::make('compare')->with('products', $product)->with('subcategory', $get_subcategory);
 	}
 

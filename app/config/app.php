@@ -115,7 +115,8 @@ return array(
 		'Illuminate\Workbench\WorkbenchServiceProvider',
 		'Aller\Product\ProductServiceProvider',
 		'Aller\Backend\BackendServiceProvider',
-		'Cartalyst\Sentry\SentryServiceProvider'
+		'Cartalyst\Sentry\SentryServiceProvider',
+		'Aller\API\ApiServiceProvider',
 	),
 
 	/*
