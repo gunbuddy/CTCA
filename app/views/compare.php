@@ -313,6 +313,16 @@
 			font-size: 18px;
 		}
 
+		#application-brief .compare-list .compare-item .compareButton a {
+
+			background: #FFF;
+			border-radius: 2px;
+			border: 5px solid transparent;
+			border-bottom: 5px solid #3A9AD8;
+			padding: 10px 20px;
+			color: #3A9AD8;
+		}
+
 		#application-brief .compare-list .compare-item .simpleq .qt {
 			background: #3A9AD8;
 			color: #FFF;
@@ -603,18 +613,6 @@
 		$(function() {
 			//$(".compare-list").perfectScrollbar();
 			$(".dial").knob();
-
-			var lastScrollLeft = 0;
-			$(".minutes_meters").hover(
-				function() {
-					$(".meter_text").slideUp();
-					$(".meter_number").slideDown();
-				},
-				function() {
-					$(".meter_text").slideDown();
-					$(".meter_number").slideUp();
-				}
-			);
 		});
 	};
 
@@ -995,11 +993,11 @@
 	<section id="application-brief" style="margin-top:20px">
 		<div class="row" style="max-width:100em">
 			<div class="large-3 columns">
-				<div class="data-info">
+				<div class="data-info" style="padding-bottom: 200px">
 					<div class="tag">Consumo</div>
 					<h4 style="margin-top:40px">Costo</h4>
 					<h4 style="margin-top:150px">Minutos</h4>
-					<h4 style="margin-top:100px">Mensajes</h4>
+					<h4 style="margin-top:80px">Mensajes</h4>
 					<h4 style="margin-top:65px">Internet</h4>
 					<h4 style="margin-top:60px">Radio</h4>
 					<h4 style="margin-top:45px">Numeros gratis</h4>
@@ -1008,10 +1006,10 @@
 					<h4 style="margin-top:60px">KB adicional</h4>
 					<h4 style="margin-top:80px">MMS</h4>
 					<h4 style="margin-top:80px">Mensaje adicional</h4>
-					<h4 style="margin-top:80px">Minuto adicional (misma comp.)</h4>
-					<h4 style="margin-top:80px">Minuto adicional (otras comp.)</h4>
-					<h4 style="margin-top:80px">Minuto adicional (nacional)</h4>
-					<h4 style="margin-top:80px">Minuto adicional (local)</h4>
+					<h4 style="margin-top:75px">Minuto adicional (misma comp.)</h4>
+					<h4 style="margin-top:75px">Minuto adicional (otras comp.)</h4>
+					<h4 style="margin-top:75px">Minuto adicional (nacional)</h4>
+					<h4 style="margin-top:75px">Minuto adicional (local)</h4>
 				</div>
 			</div>
 
@@ -1143,6 +1141,10 @@
 
 							<div class="circle" style="margin-top:20px">
 								$ <?php echo (float)$product->additional_minute_any_local; ?>
+							</div>
+
+							<div class="compareButton" style="margin-top:40px;margin-bottom:120px">
+								<a href="#">Contratar</a>
 							</div>
 						</div>
 						<?php endforeach; ?>

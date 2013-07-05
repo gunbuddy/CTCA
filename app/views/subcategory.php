@@ -501,8 +501,12 @@
 				to: 2500,
 				def: 2500
 			},
-			company: {
-				
+			companies: {
+				telcel: true,
+				movistar: true,
+				nextel: true,
+				unefon: true,
+				iusacell: true
 			}
 		};
 
@@ -625,6 +629,7 @@
 			$rootScope.$emit('updatePartialSetUseFilter');
 		};
 
+
 		$rootScope.$on('updateFullSet', function(event, set) {
 
 			$rootScope.productsFull = set;
@@ -673,8 +678,10 @@
 							{
 								if (product.internet >= $rootScope.filters.internet.from && product.internet <= $rootScope.filters.internet.to)
 								{
-									$rootScope.products.push(product);
-									put = put + 1;
+									if ((parseInt(product.company.id) == 1 && $rootScope.filters.companies.telcel == true) || (parseInt(product.company.id) == 2 && $rootScope.filters.companies.movistar == true) || (parseInt(product.company.id) == 3 && $rootScope.filters.companies.nextel == true) || (parseInt(product.company.id) == 4 && $rootScope.filters.companies.iusacell == true) || (parseInt(product.company.id) == 5 && $rootScope.filters.companies.unefon == true)) {
+										$rootScope.products.push(product);
+										put = put + 1;
+									}
 								}
 							}
 						}
@@ -690,6 +697,28 @@
 				if (minutes > $rootScope.maxs.minutes) { $rootScope.maxs.minutes = minutes; }
 			};
 		});
+
+		$rootScope.$watch("filters.companies.telcel", function() {
+
+			$rootScope.$emit('updatePartialSetUseFilter');
+		})
+		$rootScope.$watch("filters.companies.movistar", function() {
+
+			$rootScope.$emit('updatePartialSetUseFilter');
+		})
+		$rootScope.$watch("filters.companies.nextel", function() {
+
+			$rootScope.$emit('updatePartialSetUseFilter');
+		})
+		$rootScope.$watch("filters.companies.iusacell", function() {
+
+			$rootScope.$emit('updatePartialSetUseFilter');
+		})
+		$rootScope.$watch("filters.companies.unefon", function() {
+
+			$rootScope.$emit('updatePartialSetUseFilter');
+		})
+		
 	});
 
 	app.directive('meter', function() {
@@ -942,7 +971,7 @@
 		}
 	});
 	
-	app.directive('filter-multiple', function() {
+	app.directive('filterMultiple', function() {
 		return {
 			restrict: 'E',
 			template: 
@@ -966,31 +995,7 @@
 					content: $("#filter-"+scope.name+"-module"),
 					position: 'bottom',
 					interactive: true,
-					fixedWidth: 200,
-					functionReady: function(origin, tooltip)
-					{
-						$(tooltip).find("#slider").slider({
-							range: true,
-						      min: 0,
-						      max: scope.def,
-						      step: 50,
-						      values: [ scope.from, scope.to ],
-						      slide: function( event, ui ) {
-						        
-						        $(tooltip).find(".from").html(ui.values[ 0 ]);
-						        $(tooltip).find(".to").html(ui.values[ 1 ]);
-
-						        scope.from = parseInt(ui.values[ 0 ]);
-						        scope.to   = parseInt(ui.values[ 1 ]);
-						        scope.$apply();
-						      },
-						      change: function( event, ui ) {
-
-						      	scope.$emit('updatePartialSetUseFilter');
-						      	scope.$apply();
-						      }
-						});
-					}
+					fixedWidth: 200
 				});
 
 			},
@@ -1065,23 +1070,15 @@
 						Costo
 					</filter>
 
-					<filter from="filters.fee.from" def="filters.fee.def" to="filters.fee.to" name="fee" pre="$ ">
-						Costo
-					</filter>
-
-					<!--<filterMultiple from="filters.fee.from" def="filters.fee.def" to="filters.fee.to" name="fee" pre="$ ">
-						Costo
-					</filterMultiple>-->
+					<filter-multiple set="filters.companies" name="company">
+						Compañia
+					</filter-multiple>
 
 					<div class="large-2 columns">
 						<a href="#" class="settings"><i class="icon-cogs"></i></a>
 					</div>
 				</div>
 			</div>	
-		</div>
-
-		<div class="comparing-now" style="display:none">
-			&nbsp;
 		</div>
 	</section>
 
@@ -1112,6 +1109,15 @@
 			<div id="slider" style="width:200px;margin: 10px 0"></div>
 			<div style="float:left;width:100px;font-size:18px" class="from">0</div>
 			<div style="float:right;font-size:18px;width:100px;text-align:right"class="to">2500</div>
+		</div>
+
+		<div id="filter-company-module">
+			<div><h4 style="color:#FFF;font-size:16px;margin-bottom:10px">¿Que compañias?</h4></div>
+			<div class="company-select"><input type="checkbox" name="" ng-model="filters.companies.telcel" /> Telcel</div>
+			<div class="company-select"><input type="checkbox" name="" ng-model="filters.companies.movistar" /> Movistar</div>
+			<div class="company-select"><input type="checkbox" name="" ng-model="filters.companies.unefon" /> Unefon</div>
+			<div class="company-select"><input type="checkbox" name="" ng-model="filters.companies.iusacell"  > Iusacell</div>
+			<div class="company-select"><input type="checkbox" name="" ng-model="filters.companies.nextel" /> Nextel</div>
 		</div>
 	</section>
 
