@@ -718,7 +718,7 @@
 
 			$rootScope.$emit('updatePartialSetUseFilter');
 		})
-		
+
 	});
 
 	app.directive('meter', function() {
@@ -975,16 +975,9 @@
 		return {
 			restrict: 'E',
 			template: 
-				'<div class="large-2 columns filter" id="filter-{{ name }}"> ' +
+				'<div class="large-2 columns filter" id="filter-company"> ' +
 					'<a href="#"><span ng-transclude></span> <span class="info">{{ options }}</span></a>' +
 				'</div>',
-			scope: {
-				from: '=',
-				to: '=',
-				message: '@',
-				name: '@',
-				def: '='
-			},
 			transclude: true,
 			link: function(scope, element, attrs) {
 
@@ -992,11 +985,70 @@
 
 				$(element).find("div.filter").tooltipster({
 					theme: '.filters-theme',
-					content: $("#filter-"+scope.name+"-module"),
+					content: $("#filter-company-module"),
 					position: 'bottom',
 					interactive: true,
 					fixedWidth: 200
 				});
+
+				// Watch for changes
+				var change_options = function()
+				{
+					if (scope.filters.companies.telcel == true && scope.filters.companies.movistar == true && scope.filters.companies.nextel == true && scope.filters.companies.iusacell == true && scope.filters.companies.unefon == true)
+					{
+						scope.options = 'TODAS';
+					}
+					else 
+					{
+						scope.options = '';
+
+						if (scope.filters.companies.telcel == true)
+						{
+							scope.options += 'TELCEL';
+						}
+
+						if (scope.filters.companies.movistar == true)
+						{
+							scope.options += ', MOVISTAR';
+						}
+
+						if (scope.filters.companies.nextel == true)
+						{
+							scope.options += ', NEXTEL';
+						}
+
+						if (scope.filters.companies.iusacell == true)
+						{
+							scope.options += ', IUSACELL';
+						}
+
+						if (scope.filters.companies.unefon == true)
+						{
+							scope.options += ', UNEFON';
+						}						
+					}
+				};
+
+				scope.$watch("filters.companies.telcel", function() {
+
+					change_options();
+				})
+				scope.$watch("filters.companies.movistar", function() {
+
+					change_options();
+				})
+				scope.$watch("filters.companies.nextel", function() {
+
+					change_options();
+				})
+				scope.$watch("filters.companies.iusacell", function() {
+
+					change_options();
+				})
+				scope.$watch("filters.companies.unefon", function() {
+
+					change_options();
+				})
 
 			},
 		}
