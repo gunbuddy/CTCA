@@ -23,9 +23,9 @@ class HomeController extends BaseController {
 
 	public function showCategories()
 	{
-		$categories = $this->categories->getCategories();
+		#$categories = $this->categories->getCategories();
 
-		return View::make('categories')->with('categories', $categories);
+		return View::make('home');
 	}
 
 	public function showCategory($category)

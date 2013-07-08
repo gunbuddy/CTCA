@@ -9,7 +9,16 @@
 
   <?php print HTML::style("asset/foundation.min.css") ?>
   <?php print HTML::style("asset/backend.private.css") ?>
+  <?php print HTML::style("css/perfect-scrollbar.css") ?>
+
+  <?php print HTML::script("asset/script/perfectscrollbar.css") ?>
   <script src="js/vendor/custom.modernizr.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+
+  });
+  </script>
 </head>
 <body>
 
@@ -21,8 +30,8 @@
 
 			<div class="large-7 columns">
 				<nav id="mainNav">
-					<a href="escritorio.html">Escritorio</a>
-					<a href="escritorio.html">Contenido</a>
+					<a href="<?php echo action('Backend\DashboardController@showIndex'); ?>">Escritorio</a>
+					<a href="<?php echo action('Backend\ProductController@index'); ?>">Contenido</a>
 					<a href="escritorio.html">Miembros</a>
 					<a href="escritorio.html">Facturas</a>
 					<a href="escritorio.html">Herramientas</a>
@@ -75,7 +84,7 @@
 											</div>
 
 											<div class="large-4 columns" align="center">
-												<a href="resume.html"><span class="icon">&#10078;</span></a>
+												<a href="<?php echo action('Backend\CategoryController@showCategory', array('id' => $categories[0]->id)); ?>"><span class="icon">&#10078;</span></a>
 											</div>
 										</div>
 									</div>
@@ -98,6 +107,20 @@
 													</div>
 												</div>
 											</a>
+
+												<?php foreach($category->subcategories as $subcategory): ?>
+												<a href="#">
+													<div class="row" style="margin-left: 0;margin-right: 0;">
+														<div class="large-4 columns picto" align="center">
+															<span class="icon">&#9889;</span>
+														</div>
+
+														<div class="large-8 columns text">
+															<?php echo $subcategory->name; ?>
+														</div>
+													</div>
+												</a>
+												<?php endforeach; ?>
 											<?php endforeach; ?>
 										</nav>
 									</div>
@@ -147,6 +170,7 @@
 						</div>
 
 						<!-- Product list -->
+						<div style="overflow:auto;height:480px">
 						<?php foreach($products as $product): ?>
 						<div class="product-row">
 							<div class="row" style="padding-left:1.875em;padding-right:0.9375em">
@@ -176,203 +200,7 @@
 							</div>
 						</div>
 						<?php endforeach; ?>
-
-						<div class="product-row">
-							<div class="row" style="padding-left:1.875em;padding-right:0.9375em">
-								<div class="large-2 columns">
-									Telcel plus 400
-								</div>
-
-								<div class="large-2 columns">
-									<span class="company">Telcel</span>
-								</div>
-
-								<div class="large-2 columns" align="center">
-									200
-								</div>
-
-								<div class="large-2 columns" align="center">
-									1024MB
-								</div>
-
-								<div class="large-2 columns" align="center">
-									230
-								</div>
-
-								<div class="large-2 columns">
-									<a href="#" class="pictolink">&#9998;</a> <a href="#" class="pictolink plain red">&#10060;</a>
-								</div>
-							</div>
 						</div>
-
-						<div class="product-row">
-							<div class="row" style="padding-left:1.875em;padding-right:0.9375em">
-								<div class="large-2 columns">
-									Telcel plus 400
-								</div>
-
-								<div class="large-2 columns">
-									<span class="company">Telcel</span>
-								</div>
-
-								<div class="large-2 columns" align="center">
-									200
-								</div>
-
-								<div class="large-2 columns" align="center">
-									1024MB
-								</div>
-
-								<div class="large-2 columns" align="center">
-									230
-								</div>
-
-								<div class="large-2 columns">
-									<a href="#" class="pictolink">&#9998;</a> <a href="#" class="pictolink plain red">&#10060;</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="product-row">
-							<div class="row" style="padding-left:1.875em;padding-right:0.9375em">
-								<div class="large-2 columns">
-									Telcel plus 400
-								</div>
-
-								<div class="large-2 columns">
-									<span class="company">Telcel</span>
-								</div>
-
-								<div class="large-2 columns" align="center">
-									200
-								</div>
-
-								<div class="large-2 columns" align="center">
-									1024MB
-								</div>
-
-								<div class="large-2 columns" align="center">
-									230
-								</div>
-
-								<div class="large-2 columns">
-									<a href="#" class="pictolink">&#9998;</a> <a href="#" class="pictolink plain red">&#10060;</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="product-row">
-							<div class="row" style="padding-left:1.875em;padding-right:0.9375em">
-								<div class="large-2 columns">
-									Telcel plus 400
-								</div>
-
-								<div class="large-2 columns">
-									<span class="company">Telcel</span>
-								</div>
-
-								<div class="large-2 columns" align="center">
-									200
-								</div>
-
-								<div class="large-2 columns" align="center">
-									1024MB
-								</div>
-
-								<div class="large-2 columns" align="center">
-									230
-								</div>
-
-								<div class="large-2 columns">
-									<a href="#" class="pictolink">&#9998;</a> <a href="#" class="pictolink plain red">&#10060;</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="product-row">
-							<div class="row" style="padding-left:1.875em;padding-right:0.9375em">
-								<div class="large-2 columns">
-									Telcel plus 400
-								</div>
-
-								<div class="large-2 columns">
-									<span class="company">Telcel</span>
-								</div>
-
-								<div class="large-2 columns" align="center">
-									200
-								</div>
-
-								<div class="large-2 columns" align="center">
-									1024MB
-								</div>
-
-								<div class="large-2 columns" align="center">
-									230
-								</div>
-
-								<div class="large-2 columns">
-									<a href="#" class="pictolink">&#9998;</a> <a href="#" class="pictolink plain red">&#10060;</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="product-row">
-							<div class="row" style="padding-left:1.875em;padding-right:0.9375em">
-								<div class="large-2 columns">
-									Telcel plus 400
-								</div>
-
-								<div class="large-2 columns">
-									<span class="company">Telcel</span>
-								</div>
-
-								<div class="large-2 columns" align="center">
-									200
-								</div>
-
-								<div class="large-2 columns" align="center">
-									1024MB
-								</div>
-
-								<div class="large-2 columns" align="center">
-									230
-								</div>
-
-								<div class="large-2 columns">
-									<a href="#" class="pictolink">&#9998;</a> <a href="#" class="pictolink plain red">&#10060;</a>
-								</div>
-							</div>
-						</div>
-
-						<div class="product-row">
-							<div class="row" style="padding-left:1.875em;padding-right:0.9375em">
-								<div class="large-2 columns">
-									Telcel plus 400
-								</div>
-
-								<div class="large-2 columns">
-									<span class="company">Telcel</span>
-								</div>
-
-								<div class="large-2 columns" align="center">
-									200
-								</div>
-
-								<div class="large-2 columns" align="center">
-									1024MB
-								</div>
-
-								<div class="large-2 columns" align="center">
-									230
-								</div>
-
-								<div class="large-2 columns">
-									<a href="#" class="pictolink">&#9998;</a> <a href="#" class="pictolink plain red">&#10060;</a>
-								</div>
-							</div>
-						</div>
-
 					</div>
 				</div>
 			</section>

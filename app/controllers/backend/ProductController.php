@@ -33,13 +33,14 @@ class ProductController extends \BaseController {
 				// Get the products & the count
 				$count    = $api->getCount();
 				$products = $api->getAll();
+
 				break;
 			}
 
 			break;
 		}
 
-		return View::make("backend.product.index")->with("categories", $categories)->with('count', $count)->with('products', $products);
+		return View::make("backend.product.index")->with("current", $subcategory->aller)->with("categories", $categories)->with('count', $count)->with('products', $products);
 	}
 	public function create() {}
 	public function store() {}
