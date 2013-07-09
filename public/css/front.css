@@ -1,0 +1,153 @@
+@font-face {
+		font-family: 'Conv_UniversLTStd';
+		src: url('../fonts/UniversLTStd.eot');
+		src: local('☺'), url('../fonts/UniversLTStd.woff') format('woff'), url('../fonts/UniversLTStd.ttf') format('truetype'), url('../fonts/UniversLTStd.svg') format('svg');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+@font-face {
+font-family: 'Conv_UniversLTStd-Light';
+src: url('../fonts/UniversLTStd-Light.eot');
+src: local('☺'), url('../fonts/UniversLTStd-Light.woff') format('woff'), url('../fonts/UniversLTStd-Light.ttf') format('truetype'), url('../fonts/UniversLTStd-Light.svg') format('svg');
+font-weight: normal;
+font-style: normal;
+}
+body {
+font-family: 'Conv_UniversLTStd-Light', serif;
+font-size: 14px;
+}
+
+header.top {
+	color: #0D1523;
+	height: 60px;
+}
+header.top h1 {
+	color: inherit;
+	font-size: 32px;
+	font-family: 'Conv_UniversLTStd-Light', serif;
+	font-weight: 300;
+	margin-top: 15px;
+}
+
+header.top .assist-me {
+	display: block;
+	height: 60px;
+	background: #FD6230 url(../img/assist-me.png) 20px center no-repeat;
+	color: #FFF;
+	font-weight: 300;
+	font-family: inherit;
+	font-size: 16px;
+	padding: 0 0 0 80px;
+	line-height: 60px;
+	transition:all 0.3034s ease;
+-webkit-transition:all 0.3034s ease;
+-moz-transition:all 0.3034s ease;
+-o-transition:all 0.3034s ease;
+}
+
+header.top .assist-me:hover {
+	background-color: #F34D17;
+}
+
+header.top .search {
+	display: block; 
+	background: #FAFAFA url(../img/search-home.png) 90% center no-repeat;
+	height: 60px;
+	line-height: 60px;
+	color: #888888;
+	font-size: 16px;
+	font-weight: 300;
+	border: 0;
+	box-shadow: none;
+	padding: 0px 60px 0 20px;
+	width: 100%;
+}
+header.top .search:focus {
+	outline: none;
+}
+
+section.body {
+	height: 600px;
+	background: #E9E9E9;
+	width:100%;
+}
+
+section.body h2 {
+	color: #0D1523;
+	font-family: inherit;
+	font-weight: 300;
+	margin-top: 80px;
+}
+
+section.body h3 {
+	color: #777777;
+	font-family: inherit;
+	font-weight: 300;
+	font-size: 22px;
+}
+
+section.body nav.categories {
+	margin-top: 50px;
+}
+
+section.body nav.categories a {
+	background: #FFF;
+	border-bottom: 1px solid #EEEEEE;
+	padding: 10px 10px;
+	display: inline-block;
+	width: 250px;
+	height: 60px;
+	-webkit-box-shadow: 1px 1px 1px #DBDCDC;
+-moz-box-shadow:    1px 1px 1px #DBDCDC
+box-shadow:         1px 1px 1px #DBDCDC;
+margin-right: 30px;
+}
+
+section.body nav.categories a:hover {
+	background: #F6F6F6;
+
+}
+
+section.body nav.categories a:hover .directional {
+	color: #52B752;
+}
+
+section.body nav.categories a .category-icon, .name, .directional {
+	display: block;
+	float: left;
+}
+
+section.body nav.categories a div.name {
+	color: #0D1523;
+	font-size: 18px;
+	margin-left: 20px;
+	margin-top: 12px;
+}
+
+section.body nav.categories a .directional {
+	color: #DDDDDD;
+	font-size: 28px;
+	margin-left: 30px;
+	margin-top: 5px;
+}
+
+footer {
+	margin-top: 30px;
+}
+
+footer h4 {
+	color: inherit;
+	font-family: inherit;
+	font-weight: 300;
+}
+
+footer p {
+	color: #999999;
+}
+
+footer a {
+	color: #999999;
+	display: block;
+	margin-bottom: 5px;
+}

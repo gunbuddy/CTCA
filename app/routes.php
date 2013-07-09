@@ -20,6 +20,7 @@ App::bind('Aller\Stat\StatInterface', 'Aller\Stat\StatPostgres');
 Route::get('/', 'HomeController@showCategories');
 Route::get('/show/{category}', 'HomeController@showCategory');
 Route::get('/show-comparison/{category}/{slug}', 'HomeController@showComparison');
+Route::get('/assist', 'AssistController@showFirstSetup');
 
 Route::get('asset/script/{asset}', 'AssetController@showScript');
 Route::get('asset/{asset}', 'AssetController@showAsset');

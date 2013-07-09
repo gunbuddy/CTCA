@@ -191,7 +191,7 @@
 			</div>
 
 			<div class="large-3 columns">
-				<a class="assist-me">
+				<a class="assist-me" href="<?php echo action('AssistController@showFirstSetup'); ?>">
 					Asistente
 				</a>
 			</div>
@@ -213,21 +213,21 @@
 		<div class="row">
 			<div class="large-12 columns">
 				<nav class="categories">
-					<a href="#">
+					<a href="<?php echo action('HomeController@showCategory', array('category' => 'telefonia-movil')); ?>">
 						<div class="category-icon"><img src="<?php echo asset("img/phone-icon.png"); ?>" /></div>
 						<div class="name">Telefonía Móvil</div>
 						<div class="directional"><i class="icon-angle-right"></i></div>
 						<br style="clear:both" />
 					</a>
 
-					<a href="#">
+					<a href="<?php echo action('HomeController@showCategory', array('category' => 'telefonia-movil')); ?>">
 						<div class="category-icon"><img src="<?php echo asset("img/television-icon.png"); ?>" /></div>
 						<div class="name">Televisión</div>
 						<div class="directional"><i class="icon-angle-right"></i></div>
 						<br style="clear:both" />
 					</a>
 
-					<a href="#">
+					<a href="<?php echo action('HomeController@showCategory', array('category' => 'telefonia-movil')); ?>">
 						<div class="category-icon"><img src="<?php echo asset("img/internet-icon.png"); ?>" /></div>
 						<div class="name">Internet</div>
 						<div class="directional"><i class="icon-angle-right"></i></div>
