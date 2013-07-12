@@ -1,21 +1,21 @@
 @font-face {
-		font-family: 'Conv_UniversLTStd';
-		src: url('../fonts/UniversLTStd.eot');
-		src: local('☺'), url('../fonts/UniversLTStd.woff') format('woff'), url('../fonts/UniversLTStd.ttf') format('truetype'), url('../fonts/UniversLTStd.svg') format('svg');
-		font-weight: normal;
-		font-style: normal;
-	}
+	font-family: 'Conv_UniversLTStd';
+	src: url('/fonts/UniversLTStd.eot');
+	src: local('☺'), url('/fonts/UniversLTStd.woff') format('woff'), url('/fonts/UniversLTStd.ttf') format('truetype'), url('/fonts/UniversLTStd.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
 
 @font-face {
-font-family: 'Conv_UniversLTStd-Light';
-src: url('../fonts/UniversLTStd-Light.eot');
-src: local('☺'), url('../fonts/UniversLTStd-Light.woff') format('woff'), url('../fonts/UniversLTStd-Light.ttf') format('truetype'), url('../fonts/UniversLTStd-Light.svg') format('svg');
-font-weight: normal;
-font-style: normal;
+	font-family: 'Conv_UniversLTStd-Light';
+	src: url('/fonts/UniversLTStd-Light.eot');
+	src: local('☺'), url('/fonts/UniversLTStd-Light.woff') format('woff'), url('/fonts/UniversLTStd-Light.ttf') format('truetype'), url('/fonts/UniversLTStd-Light.svg') format('svg');
+	font-weight: normal;
+	font-style: normal;
 }
 body {
-font-family: 'Conv_UniversLTStd-Light', serif;
-font-size: 14px;
+	font-family: 'Conv_UniversLTStd-Light', serif;
+	font-size: 14px;
 }
 
 header.top {
@@ -33,7 +33,7 @@ header.top h1 {
 header.top .assist-me {
 	display: block;
 	height: 60px;
-	background: #FD6230 url(../img/assist-me.png) 20px center no-repeat;
+	background: #FD6230 url(/img/assist-me.png) 20px center no-repeat;
 	color: #FFF;
 	font-weight: 300;
 	font-family: inherit;
@@ -52,7 +52,7 @@ header.top .assist-me:hover {
 
 header.top .search {
 	display: block; 
-	background: #FAFAFA url(../img/search-home.png) 90% center no-repeat;
+	background: #FAFAFA url(/img/search-home.png) 90% center no-repeat;
 	height: 60px;
 	line-height: 60px;
 	color: #888888;
@@ -150,33 +150,4 @@ footer a {
 	color: #999999;
 	display: block;
 	margin-bottom: 5px;
-}
-
-.view-enter, .view-leave {
-  -webkit-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-  -moz-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-  -o-transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-  transition:all cubic-bezier(0.250, 0.460, 0.450, 0.940) 0.5s;
-}
-
-.view-enter {
-  opacity:0;
-  left:50px;
-  width:100%;
-  position:absolute;
-}
-.view-enter.view-enter-active {
-  left:0;
-  opacity:1;
-}
-
-.view-leave {
-  position:absolute;
-  left:0;
-  width:100%;
-  opacity:1;
-}
-.view-leave.view-leave-active {
-  left:-100px;
-  opacity:0;
 }

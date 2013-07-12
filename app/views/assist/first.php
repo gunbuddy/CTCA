@@ -14,49 +14,10 @@
 	<?php print HTML::style("asset/normalize.css") ?>
 	<?php print HTML::style("asset/foundation.min.css") ?>
 	<?php print HTML::style("asset/perfect-scrollbar.css") ?>
-	<?php print HTML::style("asset/master.css") ?>
+	<?php print HTML::style("asset/front.css") ?>
 	<?php print HTML::script("asset/script/vendor-custom.modernizr.js") ?>
 	
 	<style type="text/css">
-	#application h1, h2, h3, h4, h5, h6 {
-		color: #0D1523;
-	}
-
-	#application h2 {
-		color: #A4A4A4;
-		font-weight: 300;
-	}
-
-	#application h4 {
-		color: #C0C0C0;
-		font-weight: 300;
-	}
-
-	.order-filter {
-		list-style: none;
-	}
-
-	.order-filter li {
-		background: #FFF;
-		padding: 10px;
-		cursor: move;
-	}
-
-	.order-filter li i {
-		margin-right: 20px;
-		color: #EFEFEF;
-	}
-
-	.order-filter .order-filter-placeholder {
-		height: 42px;
-		background: #52B752;
-	}
-
-	.filter-option {
-		background: #FFF;
-		padding: 10px;
-		margin-bottom: 1px;
-	}
 
 	a.button {
 		background: #F34D17;
@@ -64,12 +25,74 @@
 		box-shadow: none;
 		border-radius: 4px;
 	}
+	a.button.blue { background: #1D90D0; }
+
+	.question {
+		margin-top: 200px;
+	}
+
+	.question .fill-inline {
+		display: inline;
+		font-size: inherit;
+		background: transparent;
+		border: 0;
+		border-bottom: 1px dashed #C0C0C0;
+		width: 100px;
+		box-shadow: none;
+		padding: 0px 20px;
+	}
+
+	.question .fill-inline::-webkit-input-placeholder {
+		color: #777777;
+	}
+
+	.question .fill-inline:focus {
+		border: 0;
+		border-radius: 3px;
+		outline: 0;
+		box-shadow: none;
+		background: #FFF;
+		color: #A4A4A4;
+	}
+
+	.question .fill-inline:focus::-webkit-input-placeholder {
+		color: #A4A4A4;
+	}
+
+	.answer-options {
+		padding: 10px 5px 0;
+		width: 250px;
+	}
+
+	.answer-options a.button {
+		width: 100%;
+		font-size: 12px;
+	}
+
+
+	.tooltipster-assist
+	{
+	  border-radius:4px;
+	  border:2px solid #FFF;
+	  background:#FFF;
+	  color:#CAC8C8;
+	  -webkit-box-shadow: 0px 0px 3px rgba(0, 0, 0, 0.1);
+		-moz-box-shadow:    0px 0px 3px rgba(0, 0, 0, 0.1);
+		box-shadow:         0px 0px 3px rgba(0, 0, 0, 0.1);
+	}
+
+	.tooltipster-assist .tooltipster-content
+	{
+	  font-family: inherit;
+	  font-size:14px;
+	  line-height:16px;
+	  overflow:hidden;
+	}
 	</style>
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
 	<?php print HTML::script("https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"); ?>
 	<?php print HTML::script("asset/script/vendor-jquery.js") ?>
-	<?php print HTML::script("http://code.jquery.com/ui/1.10.3/jquery-ui.js") ?>
 	<?php print HTML::script("asset/script/jquery.knob.js") ?>
 	<?php print HTML::script("http://d3lp1msu2r81bx.cloudfront.net/kjs/js/lib/kinetic-v4.5.4.min.js") ?>
 	<?php print HTML::script("asset/script/jquery.tooltipster.min.js"); ?>
@@ -77,46 +100,51 @@
 	<?php print HTML::script("asset/script/perfectscrollbar.js"); ?>
 
 	<script type="text/javascript">
-	FirstCtrl = function($scope, $location)
+	CompanyCtrl = function($scope, $location, steps)
 	{
-		$(function() {
+		$scope.$watch("answer", function() {
+			if ($scope.answer == 'si' || $scope.answer == 'sí' || $scope.answer == 'yes')
+			{
+				$location.path('/companies');
+			}
 
-			$( "#sortable" ).sortable({
-		    	placeholder: "order-filter-placeholder"
-		    });
-			$( "#sortable" ).disableSelection();
-		});
-
-		$scope.next = function() {
-
-			$scope.done.first = true;
-			$scope.order = $( "#sortable" ).sortable("toArray");
-			$location.path('/' + $scope.order[0]);
-		}
+			if ($scope.answer == 'no' || $scope.answer == 'nop' || $scope.answer == 'nope')
+			{
+				$location.path('/calls');
+			}
+		})
 	};
 
-	MinutesCtrl = function($scope, $location) {
+	CompaniesCtrl = function($scope, $location, steps) 
+	{
 
-		$scope.step = $scope.step + 1; 
-
-		$scope.next = function() {
-
-			$scope.done.minutes = true;
-			console.log($scope.order);
-			$location.path('/' + $scope.order[$scope.step]);
-		}
 	}
 
-	MessagesCtrl = function($scope, $location) {
+	CallsCtrl = function($scope, $location, steps) 
+	{
+		$scope.$watch("answer", function() {
+			if ($scope.answer == 'pocas')
+			{
+				$location.path('/messages');
+			}
+			else if ($scope.answer == 'algunas')
+			{
+				$location.path('/messages');
+			}
+			else if ($scope.answer == 'bastantes')
+			{
+				$location.path('/messages');
+			}
+			else if ($scope.answer == 'muchas')
+			{
+				$location.path('/messages');
+			}
+		})
+	}
 
-		$scope.step++; 
+	MessagesCtrl = function($scope, $location, steps) 
+	{
 
-		$scope.next = function() {
-
-			$scope.done.minutes = true;
-			$scope.order = $( "#sortable" ).sortable("toArray");
-			$location.path('/' + $scope.order[0]);
-		}
 	}
 
 	app = angular.module("Comparison", [])
@@ -124,211 +152,228 @@
 
 		$locationProvider.hashPrefix('!');
 		$routeProvider.
-			when('/first', {templateUrl: 'setup.html', controller: FirstCtrl}).
-			when('/minutes', {templateUrl: 'minutes.html', controller: MinutesCtrl}).
-			when('/messages', {templateUrl: 'messages.html', controller: MessagesCtrl}).
-			otherwise({redirectTo: '/first'});
+			when('/company', {templateUrl: 'company.html', controller: CompanyCtrl}).
+			when('/companies', {templateUrl: 'companies.html', controller: CompaniesCtrl}).
+			when('/calls', {templateUrl: 'calls.html', controller: CallsCtrl}).
+			when('/messages', {templateUrl: 'messages.html', controller: CallsCtrl}).
+			otherwise({redirectTo: '/company'});
 	});
 
+	app.run(function ($rootScope) {
 
-	app.run(function($rootScope, $location) { 
-
-		$rootScope.step = 0;
-		$rootScope.order = [];
-		$rootScope.done = {};
-
-		// Vars to get the recommendations
-		$rootScope.daycalls = 0;
-		$rootScope.messages = 0;
 	});
+
+	app.factory('steps', function() {
+		return {
+			step: 0,
+			order: [],
+			done: {},
+			daycalls: 0,
+			messages: 0,
+			companies: {
+				telcel: true,
+				movistar: true,
+				nextel: true,
+				unefon: true,
+				iusacell: true
+			},
+			fee: {
+				from: 0,
+				to: 0
+			}
+		}
+	});
+
+	app.directive('answer', function() {
+		return {
+			restrict: 'E',
+			scope: {
+				bind: '=',
+				text: '@',
+				options: '&'
+			},
+			replace: true,
+			link: function(scope, element, attrs) {
+
+				scope.setOption = function(option) {
+
+					alert(option);
+					$(element).find("input").val(option);
+				}
+
+				var options  = '<div class="answer-options">';
+					options += '<div class="row">';
+					options += '<div class="large-12 columns">';
+					options += 'Escribe una opción de estas o presionala';
+					options += '</div>';
+					options += '</div>';
+
+					if (scope.options().length == 2)
+					{
+						options += '<div class="row" style="margin-top: 20px">';
+						options += '<div class="large-6 columns">';
+						options += '<a ng-click="setOption(scope.options()[0])" class="button blue">' + scope.options()[0].toUpperCase() + '</a>';
+						options += '</div>';
+						options += '<div class="large-6 columns">';
+						options += '<a ng-click="setOption(scope.options()[1])" class="button blue">' + scope.options()[1].toUpperCase() + '</a>';
+						options += '</div>';
+						options += '</div>';
+					}
+					else
+					{
+						angular.forEach(scope.options(), function(value, key)
+						{
+							options += '<div class="row" style="margin-top: 20px">';
+							options += '<div class="large-7 columns">';
+							options += '<a ng-click="setOption(value)" class="button blue">' + value.text.toUpperCase() + '</a>';
+							options += '</div>';
+							options += '<div class="large-5 columns" style="margin-top:10px">';
+							options += value.hint;
+							options += '</div>';
+							options += '</div>';
+						});
+					}
+
+					options += '</div>';
+
+
+				setTimeout(function() {
+					$(element).find("input").focus();
+				},50)
+
+				$(element).find("input").tooltipster({
+					content: options,
+					position: 'bottom',
+					theme: '.tooltipster-assist',
+					interactive: true,
+					interactiveTolerance: 10000000
+				});
+				$(element).find("input").tooltipster('show');
+
+				$(element).find("input").on('keyup', function(e) {
+
+					var value = $(this).val();
+
+					if (value.length === 1)
+					{
+						var width = 60;
+					}
+					else
+					{
+						var c = String.fromCharCode(e.keyCode|e.charCode);
+
+						$span = $(element).find("span");
+						$span.text($(this).val() + c);
+
+						$inputSize = $span.width() + 40;
+
+						var width = $inputSize;
+					}
+
+					$(this).animate({width: width}, 100);
+				});
+			},
+			template: '<div style="display:inline">' +
+						'<input title="cool" type="text" placeholder="{{ text }}" class="fill-inline" ng-model="bind" />' +
+						'<span id="answer-hide" style="display:none;font-size:22px"></span>' +
+					  '</div>'
+		}
+	})
 	</script>
 </head>
 
 <body ng-app="Comparison">
-	<header>
-		<div class="row" style="max-width:100em">
-			<div class="large-2 columns" align="center">
-				<img src="<?php echo asset('img/logo-home.png'); ?>" width="50" />
+	<header class="top">
+		<div class="row">
+			<div class="large-1 columns">
+				<img src="<?php echo asset("img/logo-home.png"); ?>" alt="Comparateca" />
 			</div>
 
-			<div class="large-2 columns">
-				<a href="#" class="category">Telecomunicaciones</a>
+			<div class="large-4 columns">
+				<h1>Comparateca</h1>
 			</div>
 
-			<div class="large-2 columns">
-				<a href="#" class="category">Educación</a>
+			<div class="large-3 columns">
+				<a class="assist-me" href="<?php echo action('AssistController@showFirstSetup'); ?>">
+					Asistente
+				</a>
 			</div>
 
-			<div class="large-2 columns">
-				<a href="#" class="category">Turismo</a>
-			</div>
-
-			<div class="large-2 columns">
-				<a href="#" class="category">Vehículos</a>
-			</div>
-
-			<div class="large-2 columns">
-				<a href="#" class="category">Electronicos</a>
+			<div class="large-4 columns">
+				<input class="search" placeholder="¿Que quieres comparar?" />
 			</div>
 		</div>
 	</header>
-	<section id="application">
+	<section class="body">
 		<div class="row">
-			<div class="large-12 columns">
-				<h1>Asistente</h1>
-				<h2>Paso a paso para descubrir el producto a tu medida</h2>
+			<div class="large-12 columns" ng-view ng-animate="{enter: 'view-enter', leave: 'view-leave'}">
+
 			</div>
-		</div>
-		<div class="row">
-			<div class="large-12 columns" ng-view>
-				
-			</div>
-		</div>
+ 		</div>
 	</section>
+
+	<footer>
+		<div class="row">
+			<div class="large-1 columns">
+				<img src="<?php echo asset("img/logo-home.png"); ?>" alt="Comparateca" width="30" />
+			</div>
+
+			<div class="large-4 columns">
+				<h4>Comparateca</h4>
+				<p>Es una plataforma que te facilita la búsqueda, análisis y comparación de productos y servicios antes de adquirirlos</p>
+			</div>
+
+			<div class="large-3 columns">
+				<h4>Enlaces</h4>
+
+				<nav>
+					<a href="privacy">Aviso de privacidad</a>
+					<a href="legal">Legales</a>
+					<a href="about">Acerca de</a>
+					<a href="team">Equipo</a>
+				</nav>
+			</div>
+			<div class="large-3 columns">
+				<h4>Social</h4>
+
+				<nav>
+					<a href="http://www.facebook.com">Facebook</a>
+					<a href="http://www.twitter.com">Twitter</a>
+					<a href="http://www.pinterest.com">Pinterest</a>
+				</nav>
+			</div>
+		</div>
+	</footer>
 
 	<?php print HTML::script("asset/script/foundation.min.js") ?>
 	<script>
 		$(document).foundation();
 	</script>
 
-	<script type="text/ng-template" id="setup.html">
-
-		<h4>Ordena las siguientes caracteristicas según la importancia para ti</h4>
-
-		<ul id="sortable" class="order-filter">
-		  <li class="ui-state-default" id="fee"><i class="icon-list"></i> Precio cada mes</li>
-		  <li class="ui-state-default" id="minutes"><i class="icon-list"></i> Minutos de telefonia</li>
-		  <li class="ui-state-default" id="messages"><i class="icon-list"></i> Cuantos mensajes puedo enviar</li>
-		  <li class="ui-state-default" id="internet"><i class="icon-list"></i> Internet movil incluido</li>
-		  <li class="ui-state-default" id="free-numbers"><i class="icon-list"></i> Numeros gratis</li>
-		  <li class="ui-state-default" id="company"><i class="icon-list"></i> Elegir la compañia que brinda el servicio</li>
-		</ul>
-
-		<a ng-click="next()" href="" class="button">Siguiente</a>
+	<script type="text/ng-template" id="company.html">
+		<div class="question" id="step-1">
+			<h3><answer options="['si', 'no']" bind="answer" text="Si ó no"></answer> me interesa elegir compañias que me brindaran el servicio.</h3>
+		</div>
 	</script>
 
-	<script type="text/ng-template" id="minutes.html">
-
-		<h4>¿Cuantas llamadas necesitas hacer al dia?</h4>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="0" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Muy pocas (0 - 1 al dia)
-			</div>
+	<script type="text/ng-template" id="calls.html">
+		<div class="question" id="step-1">
+			<h3>normalmente llamo <answer options="[{text: 'pocas', hint: 'de 1 a 3'},{text: 'algunas', hint: 'de 4 a 6'}, {text: 'bastantes', hint: 'de 7 a 15'}, {text: 'muchas', hint: 'mas de 15'}]" bind="answer"></answer> veces al día.</h3>
 		</div>
-		</div>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="1" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Algunas (2 - 5 al dia)
-			</div>
-		</div>
-		</div>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="2" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Moderadamente (6 - 10 al dia)
-			</div>
-		</div>
-		</div>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="3" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Muchas (mas de 10 al dia)
-			</div>
-		</div>
-		</div>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="4" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Prefiero elegir un rango de minutos al mes
-			</div>
-		</div>
-		</div>
-		<br />
-		<a ng-click="next()" href="" class="button">Siguiente</a>
 	</script>
 
 	<script type="text/ng-template" id="messages.html">
-
-		<h4>¿Cuantos SMS mandas diariamente?</h4>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="0" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Muy pocas (0 - 3 al dia)
-			</div>
+		<div class="question" id="step-1">
+			<h3>normalmente mando <answer options="[{text: 'pocos', hint: 'de 1 a 4'},{text: 'algunos', hint: 'de 5 a 10'}, {text: 'bastantes', hint: 'de 10 a 20'}, {text: 'muchos', hint: 'mas de 20'}]" bind="answer"></answer> mensajes al día.</h3>
 		</div>
-		</div>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="1" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Algunas (4 - 10 al dia)
-			</div>
-		</div>
-		</div>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="2" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Moderadamente (11 - 20 al dia)
-			</div>
-		</div>
-		</div>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="3" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Muchas (mas de 20 al dia)
-			</div>
-		</div>
-		</div>
-
-		<div class="filter-option">
-		<div class="row">
-			<div class="large-2 columns">
-				<input type="radio" name="day" value="4" ng-model="daycalls" />
-			</div>
-			<div class="large-10 columns">
-				Prefiero elegir un rango de minutos al mes
-			</div>
-		</div>
-		</div>
-		<br />
-		<a ng-click="next()" href="" class="button">Siguiente</a>
 	</script>
+
+	<script type="text/ng-template" id="companies.html">
+		<div class="question" id="step-1">
+			<h3>las compañias que quiero que me brinden servicio son <answer options="['si', 'no']" bind="answer" text=""></answer></h3>
+		</div>
+	</script>
+
+	<?php print HTML::script("http://code.jquery.com/ui/1.10.3/jquery-ui.js") ?>
 </body>
 </html>
