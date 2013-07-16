@@ -21,6 +21,7 @@ Route::get('/', 'HomeController@showCategories');
 Route::get('/show/{category}', 'HomeController@showCategory');
 Route::get('/show-comparison/{category}/{slug}', 'HomeController@showComparison');
 Route::get('/assist', 'AssistController@showFirstSetup');
+Route::post('/assist/choose', 'AssistController@magicChoose');
 
 Route::get('asset/script/{asset}', 'AssetController@showScript');
 Route::get('asset/{asset}', 'AssetController@showAsset');

@@ -26,37 +26,18 @@
 		border-radius: 4px;
 	}
 	a.button.blue { background: #1D90D0; }
+	a.button.red { background: #ED4545; }
+	a.button.green { background: #74AE2E; }
+
+	section.body { background: #202020; color: #FFF; }
 
 	.question {
 		margin-top: 200px;
 	}
 
-	.question .fill-inline {
-		display: inline;
-		font-size: inherit;
-		background: transparent;
-		border: 0;
-		border-bottom: 1px dashed #C0C0C0;
-		width: 100px;
-		box-shadow: none;
-		padding: 0px 20px;
-	}
-
-	.question .fill-inline::-webkit-input-placeholder {
-		color: #777777;
-	}
-
-	.question .fill-inline:focus {
-		border: 0;
-		border-radius: 3px;
-		outline: 0;
-		box-shadow: none;
-		background: #FFF;
-		color: #A4A4A4;
-	}
-
-	.question .fill-inline:focus::-webkit-input-placeholder {
-		color: #A4A4A4;
+	.question h4 {
+		color: #FFF;
+		font-weight: 300;
 	}
 
 	.answer-options {
@@ -88,6 +69,43 @@
 	  line-height:16px;
 	  overflow:hidden;
 	}
+
+	.fill {
+		background: #FFF;
+		border-radius: 4px;
+		display: inline;
+		height: 50px;
+		width: 60px;
+		padding: 10px 20px;
+	}
+
+	.type {
+		color: rgb(119, 119, 119);
+		font: inherit;
+		font-size: 22px;
+	}
+
+	.bigBox {
+		margin-top: 40px;
+		position: relative;
+		background: #FFF;
+		border-radius: 5px;
+		padding: 1.25em;
+		color: #AEB5B8;
+	}
+
+	.bigBox .arrow {
+		position: absolute;
+		width: 0;
+		height: 0;
+		border-color: transparent;
+		border-style: solid;
+		border-bottom-color: #FFF;
+		border-width: 0 9px 9px;
+		margin-left: -9px;
+		top: -9px;
+		left: 30px;
+	}
 	</style>
 
 	<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400' rel='stylesheet' type='text/css'>
@@ -100,51 +118,116 @@
 	<?php print HTML::script("asset/script/perfectscrollbar.js"); ?>
 
 	<script type="text/javascript">
+	AssistCtrl = function($scope, steps) {
+
+		$scope.text = steps.text;
+
+		$scope.answer = function() {
+
+			$scope.text += ', y quiero que sean: ';
+		}
+	}
+
+	StepsCtrl = function($scope, steps) {
+
+	}
+
 	CompanyCtrl = function($scope, $location, steps)
 	{
-		$scope.$watch("answer", function() {
-			if ($scope.answer == 'si' || $scope.answer == 'sí' || $scope.answer == 'yes')
+		steps.text = 'me int';
+
+		$scope.answer = function(a) {
+
+			if (a == 1)
 			{
-				$location.path('/companies');
+				$location.path('/companies')
 			}
 
-			if ($scope.answer == 'no' || $scope.answer == 'nop' || $scope.answer == 'nope')
+			if (a == 2)
 			{
-				$location.path('/calls');
+				$location.path('/calls')
 			}
-		})
+		}
 	};
 
 	CompaniesCtrl = function($scope, $location, steps) 
 	{
+		$scope.companies = steps.companies;
 
+		$scope.next = function() {
+
+			$location.path('/calls');
+		}
 	}
 
 	CallsCtrl = function($scope, $location, steps) 
 	{
-		$scope.$watch("answer", function() {
-			if ($scope.answer == 'pocas')
-			{
-				$location.path('/messages');
-			}
-			else if ($scope.answer == 'algunas')
-			{
-				$location.path('/messages');
-			}
-			else if ($scope.answer == 'bastantes')
-			{
-				$location.path('/messages');
-			}
-			else if ($scope.answer == 'muchas')
-			{
-				$location.path('/messages');
-			}
-		})
+		$scope.answer = function(a) {
+
+			steps.daycalls = a;
+
+			$location.path('/messages');
+		}
 	}
 
 	MessagesCtrl = function($scope, $location, steps) 
 	{
+		$scope.answer = function(a) {
 
+			steps.messages = a;
+
+			$location.path('/tocompanies');
+		}
+	}
+
+	TocompaniesCtrl = function($scope, $location, steps)
+	{
+		$scope.companies = steps.tocompanies;
+
+		$scope.next = function() {
+
+			steps.tocompanies = $scope.companies;
+
+			$location.path('/fee');
+		}
+	}
+
+	FeeCtrl = function($scope, $location, steps)
+	{
+		$(function() {
+			$( "#slider" ).slider({
+		      range: true,
+		      min: 0,
+		      max: 3000,
+		      values: [ 75, 300 ],
+		      slide: function( event, ui ) {
+
+		      	steps.fee.from = ui.values[0];
+		      	steps.fee.to = ui.values[1];
+
+		      	$("#from").text(ui.values[0]);
+		    	$("#to").text(ui.values[1]);
+		      }
+		    });
+
+		    $("#from").text($( "#slider" ).slider("values", 0));
+		    $("#to").text($( "#slider" ).slider("values", 1));
+		});
+
+		$scope.next = function() {
+
+			$location.path('/done');
+		}
+	}
+
+	DoneCtrl = function($scope, $location, $http, steps) 
+	{
+		console.log(steps);
+
+		$http.post('/assist/choose', steps).success(function(data) {
+
+			location.href = data;
+		});
 	}
 
 	app = angular.module("Comparison", [])
@@ -155,7 +238,10 @@
 			when('/company', {templateUrl: 'company.html', controller: CompanyCtrl}).
 			when('/companies', {templateUrl: 'companies.html', controller: CompaniesCtrl}).
 			when('/calls', {templateUrl: 'calls.html', controller: CallsCtrl}).
-			when('/messages', {templateUrl: 'messages.html', controller: CallsCtrl}).
+			when('/messages', {templateUrl: 'messages.html', controller: MessagesCtrl}).
+			when('/tocompanies', {templateUrl: 'tocompanies.html', controller: TocompaniesCtrl}).
+			when('/fee', {templateUrl: 'fee.html', controller: FeeCtrl}).
+			when('/done', {templateUrl: 'done.html', controller: DoneCtrl}).
 			otherwise({redirectTo: '/company'});
 	});
 
@@ -166,7 +252,6 @@
 	app.factory('steps', function() {
 		return {
 			step: 0,
-			order: [],
 			done: {},
 			daycalls: 0,
 			messages: 0,
@@ -177,13 +262,62 @@
 				unefon: true,
 				iusacell: true
 			},
+			tocompanies: {
+				telcel: false,
+				movistar: false,
+				nextel: false,
+				unefon: false,
+				iusacell: false
+			},
 			fee: {
 				from: 0,
 				to: 0
-			}
+			},
+			text: 'me interesa elegir las compañias que me brindaran servicio'
 		}
 	});
 
+	app.directive('typewrite', function() {
+
+		return {
+			restrict: 'E',
+			scope: {
+				link: '='
+			},
+			template: '{{ text }}',
+			link: function(scope, element, attrs) {
+
+				
+			},
+			controller: function($scope, $element, $attrs, $transclude, $timeout) {
+
+				var index = 0;
+
+				$scope.text = '';
+
+				$scope.update = function() {
+
+					$scope.text += $scope.link[index];
+
+					index++;
+
+					if(index >= $scope.link.length-1){
+
+        				return;
+    				}
+
+					$timeout(function() { $scope.update(); }, 50);
+				}
+
+				$scope.update();
+
+				$scope.$watch("link", function() {
+
+					$scope.update();
+				})
+			}
+		}
+	});
 	app.directive('answer', function() {
 		return {
 			restrict: 'E',
@@ -306,8 +440,14 @@
 	</header>
 	<section class="body">
 		<div class="row">
-			<div class="large-12 columns" ng-view ng-animate="{enter: 'view-enter', leave: 'view-leave'}">
+			<div class="large-12 columns">
+				<h3>Planes de telefonia</h3>
+			</div>
+		</div>
 
+		<div class="row">
+			<div class="large-10 large-offset-2 columns" ng-animate="{enter: 'view-enter', leave: 'view-leave'}" ng-view>
+				
 			</div>
  		</div>
 	</section>
@@ -351,28 +491,226 @@
 	</script>
 
 	<script type="text/ng-template" id="company.html">
-		<div class="question" id="step-1">
-			<h3><answer options="['si', 'no']" bind="answer" text="Si ó no"></answer> me interesa elegir compañias que me brindaran el servicio.</h3>
+		<div class="row question" style="margin-top:200px">
+			<div class="large-12 columns">
+				<h4>¿Te interesa elegir las compañias que te brindaran servicio?</h4>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-3 large-offset-6 columns" align="right">
+				<a href="" ng-click="answer(2)" class="button red">NO</a> <a href="" ng-click="answer(1)" class="button green">SI</a>
+			</div>
 		</div>
 	</script>
 
 	<script type="text/ng-template" id="calls.html">
-		<div class="question" id="step-1">
-			<h3>normalmente llamo <answer options="[{text: 'pocas', hint: 'de 1 a 3'},{text: 'algunas', hint: 'de 4 a 6'}, {text: 'bastantes', hint: 'de 7 a 15'}, {text: 'muchas', hint: 'mas de 15'}]" bind="answer"></answer> veces al día.</h3>
+		<div class="row question" style="margin-top:80px">
+			<div class="large-12 columns">
+				<h4>¿Cuantas llamadas realizas al dia?</h4>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-2 columns" align="left">
+				<a href="" ng-click="answer(1)" class="button green">Pocas</a>
+			</div>
+			<div class="large-10 columns" align="left">
+				de 1 a 3
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-2 columns" align="left">
+				<a href="" ng-click="answer(2)" class="button green">Algunas</a>
+			</div>
+			<div class="large-10 columns" align="left">
+				de 4 a 6
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-2 columns" align="left">
+				<a href="" ng-click="answer(3)" class="button green">Bastantes</a>
+			</div>
+			<div class="large-10 columns" align="left">
+				de 7 a 15
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-2 columns" align="left">
+				<a href="" ng-click="answer(4)" class="button green">Muchas</a>
+			</div>
+			<div class="large-10 columns" align="left">
+				mas de 15
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns" align="left">
+				<a href="" ng-click="answer(1)" class="button green">Otro rango</a>
+			</div>
 		</div>
 	</script>
 
 	<script type="text/ng-template" id="messages.html">
-		<div class="question" id="step-1">
-			<h3>normalmente mando <answer options="[{text: 'pocos', hint: 'de 1 a 4'},{text: 'algunos', hint: 'de 5 a 10'}, {text: 'bastantes', hint: 'de 10 a 20'}, {text: 'muchos', hint: 'mas de 20'}]" bind="answer"></answer> mensajes al día.</h3>
+		<div class="row question" style="margin-top:80px">
+			<div class="large-12 columns">
+				<h4>¿Cuantas mensajes mandas al dia?</h4>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-2 columns" align="left">
+				<a href="" ng-click="answer(1)" class="button green">Pocos</a>
+			</div>
+			<div class="large-10 columns" align="left">
+				de 1 a 4
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-2 columns" align="left">
+				<a href="" ng-click="answer(2)" class="button green">Algunos</a>
+			</div>
+			<div class="large-10 columns" align="left">
+				de 5 a 10
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-2 columns" align="left">
+				<a href="" ng-click="answer(3)" class="button green">Bastantes</a>
+			</div>
+			<div class="large-10 columns" align="left">
+				de 10 a 20
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-2 columns" align="left">
+				<a href="" ng-click="answer(4)" class="button green">Muchos</a>
+			</div>
+			<div class="large-10 columns" align="left">
+				mas de 20
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-12 columns" align="left">
+				<a href="" ng-click="answer(1)" class="button green">Otro rango</a>
+			</div>
 		</div>
 	</script>
 
 	<script type="text/ng-template" id="companies.html">
-		<div class="question" id="step-1">
-			<h3>las compañias que quiero que me brinden servicio son <answer options="['si', 'no']" bind="answer" text=""></answer></h3>
+		<div class="row question" style="margin-top:80px">
+			<div class="large-12 columns">
+				<h4>¿Que compañias quieres que te brinden servicio?</h4>
+			</div>
+		</div>
+
+		<div class="row question">
+			<div class="large-3 large-offset-6 columns" align="left">
+				<p>
+					<input type="checkbox" ng-model="companies.telcel" checked /> Telcel
+				</p>
+
+				<p>
+					<input type="checkbox" ng-model="companies.movistar" checked /> Movistar
+				</p>
+
+				<p>
+					<input type="checkbox" ng-model="companies.iusacell" checked /> Iusacell
+				</p>
+
+				<p>
+					<input type="checkbox" ng-model="companies.nextel" checked /> Nextel
+				</p>
+
+				<p>
+					<input type="checkbox" ng-model="companies.unefon" checked /> Unefon
+				</p>
+			</div>
+		</div>
+
+		<div class="row question">
+			<div class="large-3 large-offset-6 columns" align="left">
+				<a href="" ng-click="next()" class="button green">SIGUIENTE</a>
+			</div>
 		</div>
 	</script>
+
+	<script type="text/ng-template" id="tocompanies.html">
+		<div class="row question" style="margin-top:80px">
+			<div class="large-12 columns">
+				<h4>¿Sabes a que compañias marcas con mayor frecuencia?</h4>
+			</div>
+		</div>
+
+		<div class="row question">
+			<div class="large-3 large-offset-6 columns" align="left">
+				<p>
+					<input type="checkbox" ng-model="companies.telcel" /> Telcel
+				</p>
+
+				<p>
+					<input type="checkbox" ng-model="companies.movistar" /> Movistar
+				</p>
+
+				<p>
+					<input type="checkbox" ng-model="companies.iusacell" /> Iusacell
+				</p>
+
+				<p>
+					<input type="checkbox" ng-model="companies.nextel" /> Nextel
+				</p>
+
+				<p>
+					<input type="checkbox" ng-model="companies.unefon" /> Unefon
+				</p>
+			</div>
+		</div>
+
+		<div class="row question">
+			<div class="large-3 large-offset-6 columns" align="left">
+				<a href="" ng-click="next()" class="button green">SIGUIENTE</a>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="fee.html">
+		<div class="row question" style="margin-top:100px">
+			<div class="large-12 columns">
+				<h4>¿Cuanto dinero tienes planeado gastar cada mes?</h4>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 50px;margin-bottom:50px">
+			<div class="large-6 columns" align="left">
+				$<span id="from"></span>
+			</div>
+
+			<div class="large-6 columns" align="right">
+				$<span id="to"></span>
+			</div>
+		</div>
+
+		<div class="row" style="margin-top: 50px;margin-bottom:50px">
+			<div class="large-12 columns">
+				<div id="slider"></div>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="large-3 large-offset-9 columns" align="right">
+				<a href="" ng-click="next()" class="button green">SIGUIENTE</a>
+			</div>
+		</div>
+	</script>
+
+	<script type="text/ng-template" id="done.html">&nbsp;</script>
 
 	<?php print HTML::script("http://code.jquery.com/ui/1.10.3/jquery-ui.js") ?>
 </body>

@@ -62,6 +62,22 @@ class CellplanPostgres extends Eloquent implements ProductInterface, CellplanInt
 
 	}
 
+	public function getRecomended($messages, $fee)
+	{
+		$query = self::where('messages', '>', $messages['from']);
+
+		if ($messages['to'] !== 0)
+		{
+			$query->where('messages', '<=', $messages['to']);
+		}
+
+		$query->where('fee', '>', $fee['from']);
+		$query->where('fee', '<=', $fee['to']);
+		$query->take(5);
+
+		return $query->get();
+	} 
+
 	public function getCount()
 	{
 		return self::remember(30)->count();
