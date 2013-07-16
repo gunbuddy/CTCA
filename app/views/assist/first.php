@@ -199,7 +199,8 @@
 		      range: true,
 		      min: 0,
 		      max: 3000,
-		      values: [ 75, 300 ],
+		      values: [ 50, 300 ],
+		      step: 50
 		      slide: function( event, ui ) {
 
 		      	steps.fee.from = ui.values[0];
@@ -209,6 +210,9 @@
 		    	$("#to").text(ui.values[1]);
 		      }
 		    });
+
+			steps.fee.from = $( "#slider" ).slider("values", 0);
+		    steps.fee.to = $( "#slider" ).slider("values", 1);
 
 		    $("#from").text($( "#slider" ).slider("values", 0));
 		    $("#to").text($( "#slider" ).slider("values", 1));
