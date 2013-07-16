@@ -200,7 +200,7 @@
 		      min: 0,
 		      max: 3000,
 		      values: [ 50, 300 ],
-		      step: 50
+		      step: 50,
 		      slide: function( event, ui ) {
 
 		      	steps.fee.from = ui.values[0];
