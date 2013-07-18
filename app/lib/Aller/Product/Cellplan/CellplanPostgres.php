@@ -2,12 +2,13 @@
 
 namespace Aller\Product\Cellplan;
 
-use \Aller\Product\ProductInterface;
-use \Aller\Product\Cellplan\CellplanInterface;
-use \Aller\Product\Cellplan\CellplanEntity;
-use Eloquent;
+use Aller\Product\ProductInterface;
+use Aller\Product\Cellplan\CellplanInterface;
+use Aller\Product\Cellplan\CellplanEntity;
+use Cellplan;
+use Company;
 
-class CellplanPostgres extends Eloquent implements ProductInterface, CellplanInterface {
+class CellplanPostgres implements ProductInterface, CellplanInterface {
 	
 	public $table = 'cellplans';
 	public $template = 'list-cellplan.html';
@@ -15,20 +16,20 @@ class CellplanPostgres extends Eloquent implements ProductInterface, CellplanInt
 
 	public function getAll() 
 	{
-		return self::with('company')->orderBy('fee', 'asc')->where('fee', '>', 0)->where('billing', 'monthly')->get();
+		return Cellplan::with('company')->orderBy('fee', 'asc')->where('fee', '>', 0)->where('billing', 'monthly')->get();
 	}
 
 	public function getList($list)
 	{
 		if (!is_array($list)) return false;
 
-		return self::whereIn('id', $list)->get();
+		return Cellplan::whereIn('id', $list)->get();
 	}
 
 	public function getPaged($take, $skip, $filters)
 	{
 		// Some query mysql fancy stuff
-		$query = self::with('company')->skip($skip)->take($take)->orderBy('fee', 'asc')->where('fee', '>', 0);
+		$query = Cellplan::with('company')->skip($skip)->take($take)->orderBy('fee', 'asc')->where('fee', '>', 0);
 
 		// Filters
 		foreach ($filters as $filter_id => $filter)
@@ -50,7 +51,7 @@ class CellplanPostgres extends Eloquent implements ProductInterface, CellplanInt
 
 	public function getOne($id)
 	{
-		$query = self::with('company')->find($id);
+		$query = Cellplan::with('company')->find($id);
 
 		$query->networks = unserialize($query->networks);
 
@@ -64,29 +65,33 @@ class CellplanPostgres extends Eloquent implements ProductInterface, CellplanInt
 
 	public function getRecomended($messages, $fee)
 	{
-		$query = self::where('messages', '>', $messages['from']);
+		$all = $this->getAll();
+		$list = array();
 
-		if ($messages['to'] !== 0)
+		foreach ($all as $one)
 		{
-			$query->where('messages', '<=', $messages['to']);
+			$entity = new CellplanEntity($one, $this);
+
+			if (! $entity->matchFee($fee))
+			{
+				continue;
+			}
+
+			$list[] = $entity;
 		}
 
-		$query->where('fee', '>', $fee['from']);
-		$query->where('fee', '<=', $fee['to']);
-		$query->take(5);
-
-		return $query->get();
+		return $list;
 	} 
 
 	public function getCount()
 	{
-		return self::remember(30)->count();
+		return Cellplan::remember(30)->count();
 	}
 
 	public function createOne($repository)
 	{
 
-		$make = new self;
+		$make = new Cellplan;
 
 		$make->name = $repository->name;
 		$make->company_id = $repository->company;
@@ -144,8 +149,10 @@ class CellplanPostgres extends Eloquent implements ProductInterface, CellplanInt
 		return true;
 	}
 
-	public function company()
+	public function getCompanies()
 	{
-		return $this->belongsTo('Company');
+		$companies = Company::where('belongs_to', '=', 'cellplan')->remember(120)->get();
+
+		return $companies;
 	}
 } 

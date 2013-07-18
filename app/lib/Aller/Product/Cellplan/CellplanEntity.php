@@ -3,107 +3,106 @@
 namespace Aller\Product\Cellplan;
 
 class CellplanEntity {
-		
-	public $name;
-	public $fee;
-	public $payment;
-	public $billing;
-	public $company;
-	public $networks;
-
-	public $minutes_tolocal;
-	public $minutes_toany;
-	public $minutes_tosame;
-	public $minutes_toother;
-
-	public $seconds_tolocal;
-	public $seconds_toany;
-	public $seconds_tosame;
-	public $seconds_toother;
-
-	public $balance_tonational;
-	public $balance_tolocal;
-	public $balance_tosame;
-	public $balance_toother;
-
-	public $free_numbers_same;
-	public $free_numbers_other;
-
+	
+	public $minutes;
 	public $messages;
+	public $rating;
 	public $internet;
-	public $radio;
+	public $fee;
 
-	public $additional_minute_any_national;
-	public $additional_minute_any_local;
-	public $additional_minute_tosame;
-	public $additional_minute_toother;
-	public $additional_minute_tolocal;
+	public $name;
+	public $company;
 
-	public $additional_second_any_national;
-	public $additional_second_any_local;
-	public $additional_second_tosame;
-	public $additional_second_toother;
-	public $additional_second_tolocal;
-
-	public $additional_message;
-	public $additional_internet_kb;
-	public $additional_internet_mb;
-	public $additional_mms;
-	public $additional_information;
-	public $promotions;
-
-	public function import_clousures()
+	public function __construct($entity, $cellplan)
 	{
-		return array(
-			'payment' => function($string) {
+		$this->companies = $cellplan->getCompanies();
 
-				// Set the value
-				return ($string == 'Minuto') ? 'minute' : 'second';
-			},
-			'fee' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'networks' => function($string) { return serialize(array('network4g' => true, 'network3g' => true, 'network2g' => true)); },
-			'messages' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'minutes_tolocal' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'minutes_toany'   => function($string) {   return ($string == 'N/A') ? 0 : $string; },
-			'minutes_tosame'  => function($string) {  return ($string == 'N/A') ? 0 : ($string == 'Ilimitados' ? -1 : (int)$string); },
-			'minutes_toother' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'seconds_tolocal' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'seconds_toany'   => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'seconds_tosame'  => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'seconds_toother' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'balance_tonational' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'balance_tolocal' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'balance_tosame'  => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'balance_toother' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'free_numbers_same'  => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'free_numbers_other' => function($string) { return ($string == 'N/A') ? 0 : $string; },
+		// Month fee
+		$this->fee       = $entity->fee;
+	}
 
-			'internet' => function($string) { 
+	public function priority()
+	{
 
-				if ($string == 'Ilimitado') {
-					return -1;
+	}
+
+	public function matchCalls($day, $outbound)
+	{
+		$calls = 0;
+
+		// Use random calls for the days
+		for ($i=0; $i < 25; $i++) { 
+			
+			$calls += mt_rand($day['from'], $day['to']);
+		}
+
+		// Lets say every call has a duration of 5 minutes
+		$minutes_usage = $calls * 5;
+
+		$undirectional = false;
+
+		foreach ($this->companies as $company)
+		{
+			if ($outbound[$company->id] == true)
+			{
+				$undirectional = true;
+
+				break;
+			}
+		}
+
+		if ($undirectional == false)
+		{
+			if ($this->minutes['tosame'] == -1 OR $this->minutes['toothers'] == -1 OR $this->minutes['toany'] == -1 OR $this->minutes['tolocal'] == -1)
+			{
+				return true;
+			}
+
+			$minutes = $this->minutes['tosame'] + $this->minutes['toothers'] + $this->minutes['toany'] + $this->minutes['tolocal'];
+
+			if ($minutes-100 > $minutes_usage AND $minutes+100 <= $minutes_usage)
+			{
+				return true;
+			}
+
+			return false;
+		}
+		else
+		{
+			$same = false;
+			$other = 0;
+
+			foreach ($this->companies as $company)
+			{
+				if ($outbound[$company->id] == true && $this->company->id == $company->id)
+				{
+					$same = true;
 				}
+				else if ($outbound[$company->id] == true && $this->company->id != $company->id)
+				{
+					$other++;
+				}
+			}
 
-				$e = explode(' ', $string);
-				$n = (int)$e[0];
-				if ($e[1] == 'GB') $n = $n * 1024;
-				return (int)$n; 
-			},
-			'radio' => function($string) { return ($string == 'Si') ? true : false; },
-			'additional_minute_any_national'  => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_minute_any_local' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_minute_tosame' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_minute_toother' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_minute_tolocal'  => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_second_any_national' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_second_any_local'  => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_second_tosame' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_second_toother' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_second_tolocal' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_message' => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_internet_kb'  => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_internet_mb'  => function($string) { return ($string == 'N/A') ? 0 : $string; },
-			'additional_mms'  => function($string) { return ($string == 'N/A') ? 0 : $string; },
-		);
+			if ($same == true AND $other == 0 AND ($this->minutes['tolocal'] == -1 OR $this->minutes['tosame'] >= $minutes_usage OR $this->minutes['toany'] >= $minutes_usage)) return true;
+
+			return false;
+		}
+	}
+
+	public function matchInternet($internet)
+	{
+
+	}
+
+	public function matchFee($fee)
+	{
+
+		if ($this->fee > $fee['from'] && $this->fee <= $fee['to'])
+		{
+			return true;
+		}
+
+		return false;
 	}
 }

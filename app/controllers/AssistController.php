@@ -7,6 +7,18 @@ class AssistController extends BaseController {
 		return View::make('assist.first');
 	}
 
+	public function test()
+	{
+		$fee = array('from' => 100, 'to' => 300);
+		$messages = array('from' => 1, 'to' => 4);
+
+		$aller = Aller\Product\Earth::getProvider("cellplan");
+
+		$dump = $aller->getRecomended($messages, $fee);
+
+		return $dump;
+
+	}
 	public function magicChoose()
 	{
 		// Get the API instance

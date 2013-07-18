@@ -450,7 +450,7 @@
 		</div>
 
 		<div class="row">
-			<div class="large-10 large-offset-2 columns" ng-animate="{enter: 'view-enter', leave: 'view-leave'}" ng-view>
+			<div class="large-10 large-offset-2 columns" ng-view>
 				
 			</div>
  		</div>
