@@ -32,6 +32,11 @@ Route::post('/tunnel/products/{category}', 'ProductsController@showProducts');
 
 Route::get('/{category}/{id}-{slug}', 'ProductsController@showProduct');
 
+Route::post('queue/receive', function()
+{
+    return Queue::marshal();
+});
+
 /** Backend routes **/
 Route::group(array('prefix' => 'backend'), function(){
 

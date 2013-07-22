@@ -47,10 +47,57 @@ class ImportCommand extends Command {
 		$excel  = $reader->load($path);
 
 		// Get some information about the sheet
-		$module       = $this->ask('What module belongs to these data?');
-		$sheetNumber  = (int)$this->ask('What is the data sheet?');
+		$sheetNumber  = 0;
 		$columnStart  = strtoupper($this->ask('Where does the data starts? (column coordinate)'));
 		$columnEnd    = strtoupper($this->ask('Where does the data ends? (column coordinate)'));
+
+		// Lets create a tree of column coordinates
+		$tree    = array($columnStart);
+		$current = $columnStart;
+
+		while ($current != $columnEnd) 
+		{
+		    $tree[] = ++$current;
+		}
+
+		// Get the sheet
+		$sheet = $excel->getSheet(($sheetNumber > 0 ? $sheetNumber-1 : $sheetNumber)); 
+
+		while(true)
+		{
+			$field      = $this->ask('type the field: ');
+			$coordinate = explode(',', $this->ask('on coordinate: '));
+
+			foreach ($tree as $item)
+			{
+				$cellplan = Cellplan::where('name', '=', $sheet->getCell($item . '4')->getValue())->first();
+
+				if (!$cellplan){
+					die("Fatal error on " . $sheet->getCell($item . '4')->getValue());
+				}
+
+				foreach(explode(',', $field) as $field_i => $field_v)
+				{
+					$property_coordinate = $item . $coordinate[$field_i];
+					$property_value = $sheet->getCell($property_coordinate)->getValue();
+
+					if ($property_value == 'N/A')
+					{
+						$property_value = 0;
+					} else if ($property_value == 'Ilimitados')
+					{
+						$property_value = -1;
+					}
+
+					$cellplan->{$field_v} = $property_value;
+				}
+
+				
+				$cellplan->save();
+
+				echo $cellplan->id . " done\n";
+			}
+		}
 
 		// Get the sheet
 		$sheet = $excel->getSheet(($sheetNumber > 0 ? $sheetNumber-1 : $sheetNumber)); 
