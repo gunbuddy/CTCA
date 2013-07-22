@@ -116,7 +116,6 @@ return array(
 		'Aller\Product\ProductServiceProvider',
 		'Aller\Backend\BackendServiceProvider',
 		'Cartalyst\Sentry\SentryServiceProvider',
-		'Aller\API\ApiServiceProvider',
 	),
 
 	/*
