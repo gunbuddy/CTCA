@@ -30,6 +30,8 @@ Route::get('asset/{asset}', 'AssetController@showAsset');
 // Front-end API
 Route::post('/tunnel/products/{category}', 'ProductsController@showProducts');
 
+Route::get('/{category}/{id}-{slug}', 'ProductsController@showProduct');
+
 /** Backend routes **/
 Route::group(array('prefix' => 'backend'), function(){
 

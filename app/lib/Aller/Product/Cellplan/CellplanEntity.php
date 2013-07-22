@@ -12,6 +12,7 @@ class CellplanEntity {
 
 	public $name;
 	public $company;
+	public $id;
 
 	public function __construct($entity, $cellplan)
 	{
@@ -19,6 +20,24 @@ class CellplanEntity {
 
 		// Month fee
 		$this->fee       = $entity->fee;
+
+		// Name
+		$this->name      = $entity->name;
+		$this->id        = $entity->id;
+		$this->company   = $entity->company;
+
+		// Plan rates and stuff
+		$this->internet  = $entity->internet;
+		$this->messages  = $entity->messages;
+		$this->rating    = 10;
+		$this->minutes   = array(
+			'tosame'  => $entity->minutes_tosame,
+			'toother' => $entity->minutes_toother,
+			'toany'   => $entity->minutes_toany,
+			'tolocal' => $entity->minutes_tolocal,
+		);
+
+		$this->id = $entity->id;
 	}
 
 	public function priority()
@@ -30,6 +49,8 @@ class CellplanEntity {
 	{
 		$calls = 0;
 
+		$from  = $day['from'] * 25;
+		
 		// Use random calls for the days
 		for ($i=0; $i < 25; $i++) { 
 			
@@ -93,6 +114,26 @@ class CellplanEntity {
 	public function matchInternet($internet)
 	{
 
+	}
+
+	public function matchMessages($messages)
+	{
+		$usage = array('from' => 0, 'to' => 0);
+
+		// Use random calls for the days
+		for ($i=0; $i < 25; $i++) { 
+			
+			$usage['from'] += $messages['from'];
+			$usage['to']   += $messages['to'];
+		}
+
+
+		if ($this->messages > $usage['from'] && $this->messages <= $usage['to'])
+		{
+			return true;
+		}
+
+		return false;
 	}
 
 	public function matchFee($fee)

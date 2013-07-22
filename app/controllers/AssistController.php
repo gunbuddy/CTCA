@@ -10,7 +10,9 @@ class AssistController extends BaseController {
 	public function test()
 	{
 		$fee = array('from' => 100, 'to' => 300);
-		$messages = array('from' => 1, 'to' => 4);
+		$messages = array('from' => 0, 'to' => 4);
+		$calls = array('from' => 0, 'to' => 4);
+		$outbound = array(1 => false, 2 => false, 3 => false, 4 => false, 5 => false);
 
 		$aller = Aller\Product\Earth::getProvider("cellplan");
 

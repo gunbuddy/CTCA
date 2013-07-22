@@ -77,6 +77,11 @@ class CellplanPostgres implements ProductInterface, CellplanInterface {
 				continue;
 			}
 
+			if (! $entity->matchMessages($messages))
+			{
+				continue;
+			}
+
 			$list[] = $entity;
 		}
 
@@ -151,8 +156,8 @@ class CellplanPostgres implements ProductInterface, CellplanInterface {
 
 	public function getCompanies()
 	{
-		$companies = Company::where('belongs_to', '=', 'cellplan')->remember(120)->get();
-
+		#$companies = Company::where('belongs_to', '=', 'cellplan')->remember(120)->get();
+		$companies = array();
 		return $companies;
 	}
 } 

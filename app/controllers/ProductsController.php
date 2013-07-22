@@ -54,4 +54,16 @@ class ProductsController extends BaseController {
 			return $products;
 		}
 	}
+
+	public function showProduct($category, $id, $slug)
+	{	
+
+		// Get the provider for the category
+		$aller = Aller\Product\Earth::getProvider($category);
+
+		// Get the product
+		$product = $aller->getOne($id);
+
+		return View::make('product.summary')->with('product', $product);
+	}
 }
